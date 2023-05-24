@@ -1,5 +1,3 @@
-using System;
-
 namespace SuperShop.Web.Models
 {
     public class ErrorViewModel
