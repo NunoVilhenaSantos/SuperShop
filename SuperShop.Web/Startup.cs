@@ -34,18 +34,23 @@ namespace SuperShop.Web
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             //});
 
-            //services
-            //    .AddAuthentication("CookieAuth")
-            //    .AddCookie("CookieAuth", config =>
-            //    {
-            //        config.Cookie.Name = "SuperShop.Cookie";
-            //        config.LoginPath = "/Home/Authenticate";
-            //    });
+            services
+                .AddAuthentication("CookieAuth")
+                .AddCookie("CookieAuth", config =>
+                {
+                    config.Cookie.Name = "SuperShop.Cookie";
+                    config.LoginPath = "/Home/Authenticate";
+                });
+
 
             services.AddTransient<SeedDb>();
-            //services.AddScoped<SeedDb, SeedDb>();
+
+            services.AddScoped<IRepository, Repository>();
+            //services.AddScoped<IRepository, MockRepository>();
+
             services.AddControllersWithViews();
         }
+
 
         // This method gets called by the runtime.
         // Use this method to configure the HTTP request pipeline.
