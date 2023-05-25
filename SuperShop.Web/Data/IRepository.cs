@@ -1,6 +1,6 @@
-﻿using SuperShop.Web.Data.Entity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using SuperShop.Web.Data.Entity;
 
 namespace SuperShop.Web.Data
 {

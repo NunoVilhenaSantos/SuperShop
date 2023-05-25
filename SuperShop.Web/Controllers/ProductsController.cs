@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data;
@@ -24,7 +23,7 @@ namespace SuperShop.Web.Controllers
         public IActionResult Index()
         {
             //return View(await _context.Products.ToListAsync());
-            return View( _repository.GetProducts());
+            return View(_repository.GetProducts());
         }
 
         // GET: Products/Details/5
@@ -78,9 +77,9 @@ namespace SuperShop.Web.Controllers
 
             //var product = await _context.Products.FindAsync(id);
             var product = _repository.GetProduct(id.Value);
-            
+
             if (product == null) return RedirectToAction(nameof(Index));
-            
+
             return View(product);
         }
 
@@ -142,7 +141,6 @@ namespace SuperShop.Web.Controllers
         }
 
 
-
         // GET: Products/Delete/5
         //public async Task<IActionResult> Delete(int? id)
         public IActionResult Delete(int? id)
@@ -175,7 +173,7 @@ namespace SuperShop.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = _repository.GetProduct(id);
-            
+
             _repository.DeleteProduct(product);
 
             await _repository.SaveAllAsync();

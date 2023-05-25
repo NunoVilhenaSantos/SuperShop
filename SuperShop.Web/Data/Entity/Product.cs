@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SuperShop.Web.Data.Entity
 {
-    public class Product
+    public class Product : IEntity
     {
-        [Key] public int Id { get; set; }
-
-
         [Required]
         [MaxLength(50,
             ErrorMessage =
@@ -50,5 +47,7 @@ namespace SuperShop.Web.Data.Entity
         [DisplayFormat(DataFormatString = "{0:N2}",
             ApplyFormatInEditMode = false)]
         public double Stock { get; set; }
+
+        [Key] public int Id { get; set; }
     }
 }

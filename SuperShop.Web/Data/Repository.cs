@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SuperShop.Web.Data.Entity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SuperShop.Web.Data.Entity;
 
 namespace SuperShop.Web.Data
 {
@@ -17,7 +16,7 @@ namespace SuperShop.Web.Data
         }
 
         /// <summary>
-        /// obtém uma lista de produtos
+        ///     obtém uma lista de produtos
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Product> GetProducts()
@@ -26,7 +25,7 @@ namespace SuperShop.Web.Data
         }
 
         /// <summary>
-        /// obtém um produto pelo id
+        ///     obtém um produto pelo id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -37,21 +36,18 @@ namespace SuperShop.Web.Data
 
 
         /// <summary>
-        /// adiciona um produto na lista via id
+        ///     adiciona um produto na lista via id
         /// </summary>
         /// <param name="id"></param>
         public void AddProduct(int id)
         {
             var product = GetProduct(id);
-            if (product != null)
-            {
-                _dataContext.Products.Add(product);
-            }
+            if (product != null) _dataContext.Products.Add(product);
         }
 
 
         /// <summary>
-        /// adiciona um produto na lista via product
+        ///     adiciona um produto na lista via product
         /// </summary>
         /// <param name="product"></param>
         public void AddProduct(Product product)
@@ -61,69 +57,49 @@ namespace SuperShop.Web.Data
         }
 
         /// <summary>
-        /// atualiza um produto na lista via id
+        ///     atualiza um produto na lista via id
         /// </summary>
         /// <param name="id"></param>
         public void UpdateProduct(int id)
         {
             var product = GetProduct(id);
-            if (product != null)
-            {
-                _dataContext.Products.Update(product);
-            }
+            if (product != null) _dataContext.Products.Update(product);
         }
 
         /// <summary>
-        /// atualiza um produto na lista via product
+        ///     atualiza um produto na lista via product
         /// </summary>
         /// <param name="product"></param>
         public void UpdateProduct(Product product)
         {
-
-            if (product != null)
-            {
-                _dataContext.Products.Update(product);
-            }
+            if (product != null) _dataContext.Products.Update(product);
         }
 
 
         /// <summary>
-        /// apaga o produto da lista via id
+        ///     apaga o produto da lista via id
         /// </summary>
         /// <param name="id"></param>
         public void DeleteProduct(int id)
         {
             var product = GetProduct(id);
 
-            if (product != null)
-            {
-                _dataContext.Products.Remove(product);
-            }
-
+            if (product != null) _dataContext.Products.Remove(product);
         }
 
 
-
-
         /// <summary>
-        /// apaga o produto da lista via product
+        ///     apaga o produto da lista via product
         /// </summary>
         /// <param name="id"></param>
         public void DeleteProduct(Product product)
         {
-
-
-            if (product != null)
-            {
-                _dataContext.Products.Remove(product);
-            }
-
+            if (product != null) _dataContext.Products.Remove(product);
         }
 
 
-
         /// <summary>
-        /// verifica se existe um produto na lista via id
+        ///     verifica se existe um produto na lista via id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -133,10 +109,8 @@ namespace SuperShop.Web.Data
         }
 
 
-
-
         /// <summary>
-        /// guarda tudo se houver alterações para guardar
+        ///     guarda tudo se houver alterações para guardar
         /// </summary>
         /// <returns></returns>
         public async Task<bool> SaveAllAsync()
