@@ -30,6 +30,7 @@ namespace SuperShop.Web.Controllers
             var product =
                 await _context.Products
                     .FirstOrDefaultAsync(m => m.Id == id);
+
             if (product == null) return NotFound();
 
             return View(product);

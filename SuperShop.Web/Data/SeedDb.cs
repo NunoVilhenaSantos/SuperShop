@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data.Entity;
 
 namespace SuperShop.Web.Data
@@ -33,6 +34,8 @@ namespace SuperShop.Web.Data
             //await CheckCompanyAsync();
             //await CheckUserAsync();
             //await CheckProductsAsync();
+
+            await _dataContext.SaveChangesAsync();
         }
 
         private void AddProducts(string name)
