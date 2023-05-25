@@ -9,7 +9,9 @@ namespace SuperShop.Web.Data.Entity
 
 
         [Required]
-        [MaxLength(50, ErrorMessage="The field {0} can contain {1} characters of length")]
+        [MaxLength(50,
+            ErrorMessage =
+                "The field {0} can contain {1} characters of length")]
         public string Name { get; set; }
 
 
@@ -37,8 +39,8 @@ namespace SuperShop.Web.Data.Entity
         //         : $"https://supermarketapi.azurewebsites.net{ImageThumbnailUrl.Substring(1)}";
 
 
-
-        [Display(Name = "Last Purchase")]        public DateTime? LastPurchase { get; set; }
+        [Display(Name = "Last Purchase")]
+        public DateTime? LastPurchase { get; set; }
 
         [Display(Name = "Last Sale")] public DateTime? LastSale { get; set; }
 
