@@ -15,6 +15,7 @@ namespace SuperShop.Web.Migrations
         {
             
             #pragma warning disable 612, 618
+            
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
@@ -28,7 +29,8 @@ namespace SuperShop.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", 
+                        .HasAnnotation(
+                            "SqlServer:ValueGenerationStrategy", 
                             SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ImageUrl")

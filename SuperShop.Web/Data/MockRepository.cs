@@ -5,7 +5,7 @@ using SuperShop.Web.Data.Entity;
 
 namespace SuperShop.Web.Data
 {
-    public class MockRepository : IRepository
+    public class MockRepository : IGenericRepository<Product>
     {
         void IRepository.AddProduct(int id)
         {

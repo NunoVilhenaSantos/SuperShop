@@ -36,17 +36,19 @@ namespace SuperShop.Web
 
             services
                 .AddAuthentication("CookieAuth")
-                .AddCookie("CookieAuth", config =>
-                {
-                    config.Cookie.Name = "SuperShop.Cookie";
-                    config.LoginPath = "/Home/Authenticate";
-                });
+                .AddCookie("CookieAuth",
+                    config =>
+                    {
+                        config.Cookie.Name = "SuperShop.Cookie";
+                        config.LoginPath = "/Home/Authenticate";
+                    });
 
 
             services.AddTransient<SeedDb>();
 
-            services.AddScoped<IRepository, Repository>();
+            //services.AddScoped<IRepository, Repository>();
             //services.AddScoped<IRepository, MockRepository>();
+            services.AddScoped<IProductsRepository, ProductRepository>();
 
             services.AddControllersWithViews();
         }
