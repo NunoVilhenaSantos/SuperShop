@@ -7,7 +7,11 @@ namespace SuperShop.Web.Data.Entity
     {
         [Key] public int Id { get; set; }
 
+
+        [Required]
+        [MaxLength(50, ErrorMessage="The field {0} can contain {1} characters of length")]
         public string Name { get; set; }
+
 
         // public string Description { get; set; }
         // public string ProductId { get; set; } = string.Empty;
@@ -33,10 +37,10 @@ namespace SuperShop.Web.Data.Entity
         //         : $"https://supermarketapi.azurewebsites.net{ImageThumbnailUrl.Substring(1)}";
 
 
-        [Display(Name = "Last Purchase")]
-        public DateTime LastPurchase { get; set; }
 
-        [Display(Name = "Last Sale")] public DateTime LastSale { get; set; }
+        [Display(Name = "Last Purchase")]        public DateTime? LastPurchase { get; set; }
+
+        [Display(Name = "Last Sale")] public DateTime? LastSale { get; set; }
 
         [Display(Name = "Is Available")] public bool IsAvailable { get; set; }
 
