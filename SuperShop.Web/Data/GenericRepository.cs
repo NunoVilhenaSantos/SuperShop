@@ -10,7 +10,7 @@ namespace SuperShop.Web.Data
     {
         private readonly DataContext _dataContext;
 
-        public GenericRepository(DataContext dataContext)
+        protected GenericRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
