@@ -4,19 +4,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data;
 using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Helpers;
 
 namespace SuperShop.Web.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly IProductsRepository _productsRepository;
+        private readonly IUserHelper _userHelper;
+
         // private readonly IRepository _repository;
         // private readonly DataContext _context;
 
 
-        public ProductsController(IProductsRepository productsRepository)
+        public ProductsController(
+            IProductsRepository productsRepository, IUserHelper userHelper)
         {
             _productsRepository = productsRepository;
+            _userHelper = userHelper;
             // _repository = repository;
         }
 
@@ -27,7 +32,8 @@ namespace SuperShop.Web.Controllers
         {
             // return View(await _context.Products.ToListAsync());
             // return View(_repository.GetProducts());
-            return View(_productsRepository.GetAll().OrderBy(p => p.Name));
+            return View(
+                _productsRepository.GetAll().OrderBy(p => p.Name));
         }
 
         // GET: Products/Details/5
@@ -69,6 +75,8 @@ namespace SuperShop.Web.Controllers
 
             // _repository.AddProduct(product);
             // await _repository.SaveAllAsync();
+            product.User = 
+                await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
             await _productsRepository.CreateAsync(product);
 
@@ -137,6 +145,10 @@ namespace SuperShop.Web.Controllers
             try
             {
                 // _repository.UpdateProduct(product);
+                // TODO: Pending to improve
+                product.User =
+                    await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
                 await _productsRepository.UpdateAsync(product);
                 // await _repository.SaveAllAsync();
             }
