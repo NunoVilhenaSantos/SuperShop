@@ -49,5 +49,8 @@ namespace SuperShop.Web.Data.Entity
         public double Stock { get; set; }
 
         [Key] public int Id { get; set; }
+
+
+        public User User { get; set; }
     }
 }

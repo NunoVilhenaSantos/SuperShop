@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data.Entity;
 
 namespace SuperShop.Web.Data
 {
-    public class DataContext : DbContext
+
+    // public class DataContext : DbContext
+
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) :
             base(options)
@@ -11,6 +15,10 @@ namespace SuperShop.Web.Data
             //DbContextOptions
         }
 
+
+
         public DbSet<Product> Products { get; set; }
+
+
     }
 }

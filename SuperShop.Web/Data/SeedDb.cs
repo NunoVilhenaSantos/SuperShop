@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using SuperShop.Web.Data.Entity;
 
 namespace SuperShop.Web.Data
@@ -8,11 +9,13 @@ namespace SuperShop.Web.Data
     public class SeedDb
     {
         private readonly DataContext _dataContext;
+        private readonly UserManager<User> _userManager;
         private readonly Random _random;
 
-        public SeedDb(DataContext dataContext)
+        public SeedDb(DataContext dataContext, UserManager<User> userManager)
         {
             _dataContext = dataContext;
+            _userManager = userManager;
             _random = new Random();
         }
 
@@ -22,10 +25,10 @@ namespace SuperShop.Web.Data
 
             if (!_dataContext.Products.Any())
             {
-                AddProducts("Sapatos");
-                AddProducts("Ratos");
-                AddProducts("Ratazanas");
-                AddProducts("Unhas");
+                AddProducts("Sapatos", _userManager);
+                AddProducts("Ratos", _userManager);
+                AddProducts("Ratazanas", _userManager);
+                AddProducts("Unhas", _userManager);
             }
 
             //await CheckCountriesAsync();
@@ -37,14 +40,15 @@ namespace SuperShop.Web.Data
             await _dataContext.SaveChangesAsync();
         }
 
-        private void AddProducts(string name)
+        private void AddProducts(string name, UserManager<User> _userManager)
         {
             _dataContext.Products.Add(
                 new Product
                 {
                     Name = name, IsAvailable = true,
                     Price = _random.Next(100),
-                    Stock = _random.Next(10000)
+                    Stock = _random.Next(10000),
+                    User = _userManager.Users.FirstOrDefault(),
                 });
         }
     }
