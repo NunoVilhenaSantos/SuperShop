@@ -31,33 +31,33 @@ namespace SuperShop.Web.Data
         }
 
 
-        public async Task<T> CreateAsync(T entity)
+        public async Task CreateAsync(T entity)
         {
             await _dataContext.Set<T>().AddAsync(entity);
 
             await SaveAllAsync();
 
-            return entity;
+            // return entity;
         }
 
 
-        public async Task<T> UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _dataContext.Set<T>().Update(entity);
 
             await SaveAllAsync();
 
-            return entity;
+            // return entity;
         }
 
 
-        public async Task<T> DeleteAsync(T entity)
+        public async Task DeleteAsync(T entity)
         {
             _dataContext.Set<T>().Remove(entity);
 
             await SaveAllAsync();
 
-            return entity;
+            // return entity;
         }
 
 

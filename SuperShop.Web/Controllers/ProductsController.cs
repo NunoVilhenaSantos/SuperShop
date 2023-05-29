@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data;
@@ -26,7 +27,7 @@ namespace SuperShop.Web.Controllers
         {
             // return View(await _context.Products.ToListAsync());
             // return View(_repository.GetProducts());
-            return View(_productsRepository.GetAll());
+            return View(_productsRepository.GetAll().OrderBy(p => p.Name));
         }
 
         // GET: Products/Details/5
