@@ -66,12 +66,12 @@ namespace SuperShop.Web
 
 
             services.AddTransient<SeedDb>();
-        
+
             services.AddScoped<IUserHelper, UserHelper>();
 
             //services.AddScoped<IRepository, Repository>();
             //services.AddScoped<IRepository, MockRepository>();
-        
+
             services.AddScoped<IProductsRepository, ProductRepository>();
 
             services.AddControllersWithViews();

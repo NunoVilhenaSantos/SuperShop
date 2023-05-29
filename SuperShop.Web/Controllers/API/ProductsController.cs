@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SuperShop.Web.Data;
 using SuperShop.Web.Helpers;
@@ -13,8 +8,8 @@ namespace SuperShop.Web.Controllers.API
     [ApiController]
     public class ProductsController : Controller
     {
-        private readonly IUserHelper _userHelper;
         private readonly IProductsRepository _productsRepository;
+        private readonly IUserHelper _userHelper;
 
         public ProductsController(
             IProductsRepository productsRepository, IUserHelper userHelper)
