@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SuperShop.Web.Data.Entity
 {
@@ -18,6 +19,7 @@ namespace SuperShop.Web.Data.Entity
 
         [DisplayFormat(DataFormatString = "{0:C2}",
             ApplyFormatInEditMode = false)]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
 
 

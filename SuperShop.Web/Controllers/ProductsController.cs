@@ -212,6 +212,7 @@ namespace SuperShop.Web.Controllers
             product.User =
                 await _userHelper.GetUserByEmailAsync(
                     "nunovilhenasantos@msn.com");
+            
             // product.User = 
             //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 

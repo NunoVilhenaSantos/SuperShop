@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SuperShop.Web.Data;
 using SuperShop.Web.Helpers;
@@ -26,9 +21,9 @@ namespace SuperShop.Web.Controllers.API
 
         // GET: api/Products
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetProducts()
         {
-            var products = _productsRepository.GetAll();
+            // var products = _productsRepository.GetAll();
 
             // foreach (var p in products)
             // {
@@ -40,27 +35,27 @@ namespace SuperShop.Web.Controllers.API
         }
 
         // GET: api/Products/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("id", Name = "Get")]
+        public string GetProduct(int id)
         {
             return "value";
         }
 
         // POST: api/Products
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void PostProduct([FromBody] string value, int id)
         {
         }
 
         // PUT: api/Products/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("id")]
+        public void PutProduct(int id, [FromBody] string value)
         {
         }
 
         // DELETE: api/Products/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("id")]
+        public void DeleteProduct(int id)
         {
         }
     }

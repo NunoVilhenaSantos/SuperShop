@@ -66,13 +66,16 @@ namespace SuperShop.Web
 
 
             services.AddTransient<SeedDb>();
-        
+
             services.AddScoped<IUserHelper, UserHelper>();
 
             //services.AddScoped<IRepository, Repository>();
             //services.AddScoped<IRepository, MockRepository>();
-        
+
             services.AddScoped<IProductsRepository, ProductRepository>();
+
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
 
             services.AddControllersWithViews();
         }
@@ -82,6 +85,9 @@ namespace SuperShop.Web
         // Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseDeveloperExceptionPage();
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

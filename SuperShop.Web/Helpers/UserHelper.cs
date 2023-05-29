@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using SuperShop.Web.Data.Entity;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using SuperShop.Web.Data.Entity;
 
 namespace SuperShop.Web.Helpers
 {
@@ -9,16 +10,14 @@ namespace SuperShop.Web.Helpers
         private readonly UserManager<User> _userManager;
 
 
-
         public UserHelper(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
 
 
-
-
-        public async Task<IdentityResult> AddUserAsync(User user, string password)
+        public async Task<IdentityResult> AddUserAsync(User user,
+            string password)
         {
             return await _userManager.CreateAsync(user, password);
 
@@ -26,15 +25,10 @@ namespace SuperShop.Web.Helpers
         }
 
 
-
-
-
         public Task CheckRoleAsync(string roleName)
         {
-
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
-
 
 
         public async Task<User> GetUserByEmailAsync(string email)
@@ -45,17 +39,10 @@ namespace SuperShop.Web.Helpers
         }
 
 
-
-
         public async Task<User> GetUserByIdAsync(string id)
         {
             return await _userManager.FindByIdAsync(id);
             // throw new System.NotImplementedException();
         }
-
-
-
-
-
     }
 }
