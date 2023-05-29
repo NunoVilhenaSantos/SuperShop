@@ -7,7 +7,13 @@ namespace SuperShop.Web.Helpers
     {
         Task<Data.Entity.User> GetUserByEmailAsync(string email);
 
-        Task<IdentityResult> AddUserAsync(Data.Entity.User user, string password);
+
+        Task<Data.Entity.User> GetUserByIdAsync(string id);
+
+
+        Task<IdentityResult> AddUserAsync(
+            Data.Entity.User user, string password);
+
 
         Task CheckRoleAsync(string roleName);
     }

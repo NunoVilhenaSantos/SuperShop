@@ -8,10 +8,14 @@ namespace SuperShop.Web.Helpers
     {
         private readonly UserManager<User> _userManager;
 
+
+
         public UserHelper(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
+
+
 
 
         public async Task<IdentityResult> AddUserAsync(User user, string password)
@@ -20,6 +24,8 @@ namespace SuperShop.Web.Helpers
 
             // throw new System.NotImplementedException();
         }
+
+
 
 
 
@@ -37,5 +43,19 @@ namespace SuperShop.Web.Helpers
 
             // throw new System.NotImplementedException();
         }
+
+
+
+
+        public async Task<User> GetUserByIdAsync(string id)
+        {
+            return await _userManager.FindByIdAsync(id);
+            // throw new System.NotImplementedException();
+        }
+
+
+
+
+
     }
 }

@@ -22,6 +22,7 @@ namespace SuperShop.Web.Controllers
         {
             _productsRepository = productsRepository;
             _userHelper = userHelper;
+
             // _repository = repository;
         }
 
@@ -75,8 +76,13 @@ namespace SuperShop.Web.Controllers
 
             // _repository.AddProduct(product);
             // await _repository.SaveAllAsync();
-            product.User = 
-                await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            // TODO: Pending to improve
+            product.User =
+                await _userHelper.GetUserByEmailAsync(
+                    "nunovilhenasantos@msn.com");
+            // product.User = 
+            //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
             await _productsRepository.CreateAsync(product);
 
@@ -147,7 +153,11 @@ namespace SuperShop.Web.Controllers
                 // _repository.UpdateProduct(product);
                 // TODO: Pending to improve
                 product.User =
-                    await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                    await _userHelper.GetUserByEmailAsync(
+                        "nunovilhenasantos@msn.com");
+                // product.User = 
+                //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
 
                 await _productsRepository.UpdateAsync(product);
                 // await _repository.SaveAllAsync();
@@ -198,11 +208,17 @@ namespace SuperShop.Web.Controllers
             // var product = _repository.GetProduct(id);
             var product = await _productsRepository.GetByIdAsync(id);
 
+            // TODO: Pending to improve
+            product.User =
+                await _userHelper.GetUserByEmailAsync(
+                    "nunovilhenasantos@msn.com");
+            // product.User = 
+            //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
             // _repository.DeleteProduct(product);
             await _productsRepository.DeleteAsync(product);
 
             // await _repository.SaveAllAsync();
-
             return RedirectToAction(nameof(Index));
         }
 

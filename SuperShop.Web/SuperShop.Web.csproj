@@ -23,4 +23,8 @@
         <Compile Remove="Data\MockRepository.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Controllers\API\" />
+    </ItemGroup>
+
 </Project>
