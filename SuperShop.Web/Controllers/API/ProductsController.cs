@@ -8,8 +8,8 @@ namespace SuperShop.Web.Controllers.API
     [ApiController]
     public class ProductsController : Controller
     {
-        private readonly IUserHelper _userHelper;
         private readonly IProductsRepository _productsRepository;
+        private readonly IUserHelper _userHelper;
 
         public ProductsController(
             IProductsRepository productsRepository, IUserHelper userHelper)
