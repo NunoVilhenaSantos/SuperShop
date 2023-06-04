@@ -1,4 +1,5 @@
-﻿@model SuperShop.Web.Data.Entity.Product
+﻿@* @model SuperShop.Web.Data.Entity.Product *@
+@model SuperShop.Web.Models.ProductViewModal
 
 @{
     ViewData["Title"] = "Edit";
@@ -14,52 +15,67 @@
 <hr/>
 <div class="container-fluid">
     <div class="row">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id"/>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control"/>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control"/>
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control"/>
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastPurchase" class="control-label"></label>
-                <input asp-for="LastPurchase" class="form-control"/>
-                <span asp-validation-for="LastPurchase" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastSale" class="control-label"></label>
-                <input asp-for="LastSale" class="form-control"/>
-                <span asp-validation-for="LastSale" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsAvailable"/>
-                    @Html.DisplayNameFor(model => model.IsAvailable)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Stock" class="control-label"></label>
-                <input asp-for="Stock" class="form-control"/>
-                <span asp-validation-for="Stock" class="text-danger"></span>
-            </div>
-            <br/>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </form>
 
+        <div class="col-auto">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Url.Content(Model.ImageUrl)"
+                     class="img-thumbnail" width="250" height="auto" alt="Image"/>
+            }
+        </div>
+
+        <div class="col">
+            <div class="row">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id"/>
+                    <input type="hidden" asp-for="ImageUrl"/>
+
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control"/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control"/>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ImageFile" class="control-label"></label>
+                        <input asp-for="ImageFile" class="form-control" type="file"/>
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastPurchase" class="control-label"></label>
+                        <input asp-for="LastPurchase" class="form-control"/>
+                        <span asp-validation-for="LastPurchase" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastSale" class="control-label"></label>
+                        <input asp-for="LastSale" class="form-control"/>
+                        <span asp-validation-for="LastSale" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsAvailable"/>
+                            @Html.DisplayNameFor(model => model.IsAvailable)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Stock" class="control-label"></label>
+                        <input asp-for="Stock" class="form-control"/>
+                        <span asp-validation-for="Stock" class="text-danger"></span>
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary"/>
+                        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 

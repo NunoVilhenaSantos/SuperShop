@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data;
 using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Helpers;
+using SuperShop.Web.Models;
 
 namespace SuperShop.Web.Controllers
 {
@@ -67,15 +70,34 @@ namespace SuperShop.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(
+            ProductViewModal productViewModal)
         {
-            if (!ModelState.IsValid) return View(product);
+            if (!ModelState.IsValid) return View(productViewModal);
 
-            // _context.Add(product);
-            // await _context.SaveChangesAsync();
 
-            // _repository.AddProduct(product);
-            // await _repository.SaveAllAsync();
+            var filePath = string.Empty;
+            if (productViewModal.ImageFile is {Length: > 0})
+            {
+                filePath = Directory.GetCurrentDirectory() +
+                           "\\wwwroot\\images\\Products\\" +
+                           productViewModal.ImageFile.FileName;
+
+                await using var stream =
+                    new FileStream(
+                        filePath, FileMode.Create, FileAccess.ReadWrite);
+                await productViewModal.ImageFile.CopyToAsync(stream);
+
+                // path = await _imageHelper.UploadImageAsync(
+                //     productViewModal.ImageFile);
+
+                filePath = "~/images/Products/" +
+                           productViewModal.ImageFile.FileName;
+                productViewModal.ImageUrl = filePath;
+            }
+
+
+            var product = ToProduct(productViewModal, filePath);
 
             // TODO: Pending to improve
             product.User =
@@ -87,6 +109,23 @@ namespace SuperShop.Web.Controllers
             await _productsRepository.CreateAsync(product);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        private static Product ToProduct(
+            ProductViewModal productViewModal, string filePath)
+        {
+            return new Product
+            {
+                Id = productViewModal.Id,
+                ImageUrl = filePath,
+                IsAvailable = productViewModal.IsAvailable,
+                LastPurchase = productViewModal.LastPurchase,
+                LastSale = productViewModal.LastSale,
+                Name = productViewModal.Name,
+                Price = productViewModal.Price,
+                Stock = productViewModal.Stock,
+                User = productViewModal.User
+            };
         }
 
 
@@ -103,38 +142,29 @@ namespace SuperShop.Web.Controllers
 
             if (product == null) return RedirectToAction(nameof(Index));
 
-            return View(product);
+            var productViewModal = ToProductViewModal(product);
+
+            return View(productViewModal);
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks,
-        // enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id,
-        //    [Bind("Id,Name,Price,ImageUrl," +
-        //          "LastPurchase,LastSale,IsAvailable,Stock")]
-        //    Product product)
-        //{
-        //    if (id != product.Id) return NotFound();
+        private object ToProductViewModal(Product product)
+        {
+            return new ProductViewModal
+            {
+                Id = product.Id,
+                ImageUrl = product.ImageUrl,
+                // ImageFile = product.ImageUrl,
+                IsAvailable = product.IsAvailable,
+                LastPurchase = product.LastPurchase,
+                LastSale = product.LastSale,
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock,
+                User = product.User
+            };
+            throw new NotImplementedException();
+        }
 
-        //    if (!ModelState.IsValid) return View(product);
-
-        //    try
-        //    {
-        //        _context.Update(product);
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ProductExists(product.Id))
-        //            return NotFound();
-        //        throw;
-        //    }
-
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         // POST: Products/Edit/5
         // To protect from overposting attacks,
@@ -142,15 +172,38 @@ namespace SuperShop.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product product)
+        public async Task<IActionResult> Edit(
+            int id, ProductViewModal productViewModal)
         {
-            if (id != product.Id) return NotFound();
+            if (id != productViewModal.Id) return NotFound();
 
-            if (!ModelState.IsValid) return View(product);
+            if (!ModelState.IsValid) return View(productViewModal);
 
             try
             {
-                // _repository.UpdateProduct(product);
+                var filePath = productViewModal.ImageUrl;
+
+                if (productViewModal.ImageFile is {Length: > 0})
+                {
+                    filePath = Directory.GetCurrentDirectory() +
+                               "\\wwwroot\\images\\Products\\" +
+                               productViewModal.ImageFile.FileName;
+
+                    await using var stream =
+                        new FileStream(
+                            filePath, FileMode.Create, FileAccess.ReadWrite);
+                    await productViewModal.ImageFile.CopyToAsync(stream);
+
+                    // path = await _imageHelper.UploadImageAsync(
+                    //     productViewModal.ImageFile);
+
+                    filePath = "~/images/Products/" +
+                               productViewModal.ImageFile.FileName;
+                    productViewModal.ImageUrl = filePath;
+                }
+
+                var product = ToProduct(productViewModal, filePath);
+
                 // TODO: Pending to improve
                 product.User =
                     await _userHelper.GetUserByEmailAsync(
@@ -158,13 +211,12 @@ namespace SuperShop.Web.Controllers
                 // product.User = 
                 //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
-
-                await _productsRepository.UpdateAsync(product);
+                await _productsRepository.UpdateAsync(productViewModal);
                 // await _repository.SaveAllAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await _productsRepository.ExistAsync(product.Id))
+                if (!await _productsRepository.ExistAsync(productViewModal.Id))
                     return NotFound();
                 throw;
             }
@@ -188,18 +240,6 @@ namespace SuperShop.Web.Controllers
         }
 
 
-        // POST: Products/Delete/5
-        //[HttpPost]
-        //[ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var product = await _context.Products.FindAsync(id);
-        //    _context.Products.Remove(product);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -212,7 +252,7 @@ namespace SuperShop.Web.Controllers
             product.User =
                 await _userHelper.GetUserByEmailAsync(
                     "nunovilhenasantos@msn.com");
-            
+
             // product.User = 
             //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 

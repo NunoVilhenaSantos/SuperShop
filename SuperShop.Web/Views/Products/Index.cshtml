@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<SuperShop.Web.Data.Entity.Product>
+@* @model IEnumerable<SuperShop.Web.Models.ProductViewModal>  *@
 
 @{
     ViewData["Title"] = "Products List";
@@ -22,6 +23,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ImageUrl)
@@ -53,6 +57,13 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ImageUrl)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@Url.Content(item.ImageUrl)"
+                             class="img-thumbnail" width="150" height="150" alt="Image"/>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LastPurchase)
