@@ -24,9 +24,10 @@ namespace SuperShop.Web.Data.Entity
 
 
         [Display(Name = "Image")] public string ImageUrl { get; set; }
-        // public string ImageFullUrl => string.IsNullOrEmpty(ImageUrl)
-        //     ? null
-        //     : $"https://supermarketapi.azurewebsites.net{ImageUrl.Substring(1)}";
+
+        public string ImageFullUrl => string.IsNullOrEmpty(ImageUrl)
+            ? null
+            : $"https://supermarketapi.azurewebsites.net{ImageUrl[1..]}";
 
 
         // [Display(Name = "Thumbnail")]
@@ -35,7 +36,7 @@ namespace SuperShop.Web.Data.Entity
         // public string ImageThumbnailFullUrl =>
         //     string.IsNullOrEmpty(ImageThumbnailUrl)
         //         ? null
-        //         : $"https://supermarketapi.azurewebsites.net{ImageThumbnailUrl.Substring(1)}";
+        //         : $"https://supermarketapi.azurewebsites.net{ImageThumbnailUrl[1..]}";
 
 
         [Display(Name = "Last Purchase")]

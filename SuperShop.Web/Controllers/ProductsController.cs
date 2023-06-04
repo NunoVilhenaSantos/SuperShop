@@ -75,27 +75,10 @@ namespace SuperShop.Web.Controllers
         {
             if (!ModelState.IsValid) return View(productViewModal);
 
+            var filePath = productViewModal.ImageUrl;
 
-            var filePath = string.Empty;
             if (productViewModal.ImageFile is {Length: > 0})
-            {
-                filePath = Directory.GetCurrentDirectory() +
-                           "\\wwwroot\\images\\Products\\" +
-                           productViewModal.ImageFile.FileName;
-
-                await using var stream =
-                    new FileStream(
-                        filePath, FileMode.Create, FileAccess.ReadWrite);
-                await productViewModal.ImageFile.CopyToAsync(stream);
-
-                // path = await _imageHelper.UploadImageAsync(
-                //     productViewModal.ImageFile);
-
-                filePath = "~/images/Products/" +
-                           productViewModal.ImageFile.FileName;
-                productViewModal.ImageUrl = filePath;
-            }
-
+                await ToImages(productViewModal, filePath);
 
             var product = ToProduct(productViewModal, filePath);
 
@@ -162,7 +145,6 @@ namespace SuperShop.Web.Controllers
                 Stock = product.Stock,
                 User = product.User
             };
-            throw new NotImplementedException();
         }
 
 
@@ -184,23 +166,7 @@ namespace SuperShop.Web.Controllers
                 var filePath = productViewModal.ImageUrl;
 
                 if (productViewModal.ImageFile is {Length: > 0})
-                {
-                    filePath = Directory.GetCurrentDirectory() +
-                               "\\wwwroot\\images\\Products\\" +
-                               productViewModal.ImageFile.FileName;
-
-                    await using var stream =
-                        new FileStream(
-                            filePath, FileMode.Create, FileAccess.ReadWrite);
-                    await productViewModal.ImageFile.CopyToAsync(stream);
-
-                    // path = await _imageHelper.UploadImageAsync(
-                    //     productViewModal.ImageFile);
-
-                    filePath = "~/images/Products/" +
-                               productViewModal.ImageFile.FileName;
-                    productViewModal.ImageUrl = filePath;
-                }
+                    await ToImages(productViewModal, filePath);
 
                 var product = ToProduct(productViewModal, filePath);
 
@@ -222,6 +188,36 @@ namespace SuperShop.Web.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+
+        private static async Task ToImages(
+            ProductViewModal productViewModal,
+            string filePath)
+        {
+            if (filePath == null)
+                throw new ArgumentNullException(nameof(filePath));
+
+            var guid = Guid.NewGuid().ToString();
+            var fileName = guid + ".jpg";
+
+            filePath = Directory.GetCurrentDirectory() +
+                       "\\wwwroot\\images\\Products\\" +
+                       fileName;
+
+            await using var stream =
+                new FileStream(
+                    filePath, FileMode.Create, FileAccess.ReadWrite);
+
+            await productViewModal.ImageFile.CopyToAsync(stream);
+
+            // path = await _imageHelper.UploadImageAsync(
+            //     productViewModal.ImageFile);
+
+            filePath = "~/images/Products/" +
+                       fileName;
+
+            productViewModal.ImageUrl = filePath;
         }
 
 

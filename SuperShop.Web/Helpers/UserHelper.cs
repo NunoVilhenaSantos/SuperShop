@@ -20,8 +20,6 @@ namespace SuperShop.Web.Helpers
             string password)
         {
             return await _userManager.CreateAsync(user, password);
-
-            // throw new System.NotImplementedException();
         }
 
 
@@ -34,15 +32,12 @@ namespace SuperShop.Web.Helpers
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);
-
-            // throw new System.NotImplementedException();
         }
 
 
         public async Task<User> GetUserByIdAsync(string id)
         {
             return await _userManager.FindByIdAsync(id);
-            // throw new System.NotImplementedException();
         }
     }
 }

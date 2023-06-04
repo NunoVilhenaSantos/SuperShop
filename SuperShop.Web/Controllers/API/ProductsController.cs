@@ -29,9 +29,10 @@ namespace SuperShop.Web.Controllers.API
             // {
             //     p.User = _userHelper.GetUserByIdAsync(p.User.Id).Result;
             // }
+            
             // return Ok(products);
 
-            return Ok(_productsRepository.GetAll());
+            return Ok(_productsRepository.GetAllWithUsers());
         }
 
         // GET: api/Products/5
