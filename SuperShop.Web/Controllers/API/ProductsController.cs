@@ -29,7 +29,7 @@ namespace SuperShop.Web.Controllers.API
             // {
             //     p.User = _userHelper.GetUserByIdAsync(p.User.Id).Result;
             // }
-            
+
             // return Ok(products);
 
             return Ok(_productsRepository.GetAllWithUsers());

@@ -13,18 +13,26 @@ namespace SuperShop.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly IProductsRepository _productsRepository;
+        #region Attributes
+
         private readonly IUserHelper _userHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
+        private readonly IProductsRepository _productsRepository;
 
         // private readonly IRepository _repository;
         // private readonly DataContext _context;
 
+        #endregion
 
-        public ProductsController(
-            IProductsRepository productsRepository, IUserHelper userHelper)
+        public ProductsController(IProductsRepository productsRepository,
+            IUserHelper userHelper, IImageHelper imageHelper,
+            IConverterHelper converterHelper)
         {
-            _productsRepository = productsRepository;
             _userHelper = userHelper;
+            _imageHelper = imageHelper;
+            _converterHelper = converterHelper;
+            _productsRepository = productsRepository;
 
             // _repository = repository;
         }
@@ -71,16 +79,18 @@ namespace SuperShop.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            ProductViewModal productViewModal)
+            ProductViewModel productViewModel)
         {
-            if (!ModelState.IsValid) return View(productViewModal);
+            if (!ModelState.IsValid) return View(productViewModel);
 
-            var filePath = productViewModal.ImageUrl;
+            var filePath = productViewModel.ImageUrl;
 
-            if (productViewModal.ImageFile is {Length: > 0})
-                await ToImages(productViewModal, filePath);
+            if (productViewModel.ImageFile is {Length: > 0})
+                filePath = await _imageHelper.UploadImageAsync(
+                    productViewModel.ImageFile, "products");
 
-            var product = ToProduct(productViewModal, filePath);
+            var product = _converterHelper.ToProduct(
+                productViewModel, filePath, true);
 
             // TODO: Pending to improve
             product.User =
@@ -92,23 +102,6 @@ namespace SuperShop.Web.Controllers
             await _productsRepository.CreateAsync(product);
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private static Product ToProduct(
-            ProductViewModal productViewModal, string filePath)
-        {
-            return new Product
-            {
-                Id = productViewModal.Id,
-                ImageUrl = filePath,
-                IsAvailable = productViewModal.IsAvailable,
-                LastPurchase = productViewModal.LastPurchase,
-                LastSale = productViewModal.LastSale,
-                Name = productViewModal.Name,
-                Price = productViewModal.Price,
-                Stock = productViewModal.Stock,
-                User = productViewModal.User
-            };
         }
 
 
@@ -125,26 +118,10 @@ namespace SuperShop.Web.Controllers
 
             if (product == null) return RedirectToAction(nameof(Index));
 
-            var productViewModal = ToProductViewModal(product);
+            var productViewModal =
+                _converterHelper.ToProductViewModel(product);
 
             return View(productViewModal);
-        }
-
-        private object ToProductViewModal(Product product)
-        {
-            return new ProductViewModal
-            {
-                Id = product.Id,
-                ImageUrl = product.ImageUrl,
-                // ImageFile = product.ImageUrl,
-                IsAvailable = product.IsAvailable,
-                LastPurchase = product.LastPurchase,
-                LastSale = product.LastSale,
-                Name = product.Name,
-                Price = product.Price,
-                Stock = product.Stock,
-                User = product.User
-            };
         }
 
 
@@ -155,20 +132,22 @@ namespace SuperShop.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
-            int id, ProductViewModal productViewModal)
+            int id, ProductViewModel productViewModel)
         {
-            if (id != productViewModal.Id) return NotFound();
+            if (id != productViewModel.Id) return NotFound();
 
-            if (!ModelState.IsValid) return View(productViewModal);
+            if (!ModelState.IsValid) return View(productViewModel);
 
             try
             {
-                var filePath = productViewModal.ImageUrl;
+                var filePath = productViewModel.ImageUrl;
 
-                if (productViewModal.ImageFile is {Length: > 0})
-                    await ToImages(productViewModal, filePath);
+                if (productViewModel.ImageFile is {Length: > 0})
+                    filePath = await _imageHelper.UploadImageAsync(
+                        productViewModel.ImageFile, "products");
 
-                var product = ToProduct(productViewModal, filePath);
+                var product = _converterHelper.ToProduct(
+                    productViewModel, filePath, false);
 
                 // TODO: Pending to improve
                 product.User =
@@ -177,47 +156,17 @@ namespace SuperShop.Web.Controllers
                 // product.User = 
                 //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
-                await _productsRepository.UpdateAsync(productViewModal);
+                await _productsRepository.UpdateAsync(product);
                 // await _repository.SaveAllAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await _productsRepository.ExistAsync(productViewModal.Id))
+                if (!await _productsRepository.ExistAsync(productViewModel.Id))
                     return NotFound();
                 throw;
             }
 
             return RedirectToAction(nameof(Index));
-        }
-
-
-        private static async Task ToImages(
-            ProductViewModal productViewModal,
-            string filePath)
-        {
-            if (filePath == null)
-                throw new ArgumentNullException(nameof(filePath));
-
-            var guid = Guid.NewGuid().ToString();
-            var fileName = guid + ".jpg";
-
-            filePath = Directory.GetCurrentDirectory() +
-                       "\\wwwroot\\images\\Products\\" +
-                       fileName;
-
-            await using var stream =
-                new FileStream(
-                    filePath, FileMode.Create, FileAccess.ReadWrite);
-
-            await productViewModal.ImageFile.CopyToAsync(stream);
-
-            // path = await _imageHelper.UploadImageAsync(
-            //     productViewModal.ImageFile);
-
-            filePath = "~/images/Products/" +
-                       fileName;
-
-            productViewModal.ImageUrl = filePath;
         }
 
 
