@@ -19,8 +19,13 @@
         <div class="col-auto">
             @if (!string.IsNullOrEmpty(Model.ImageUrl))
             {
-                <img src="@Url.Content(Model.ImageUrl)"
-                     class="img-thumbnail" width="250" height="auto" alt="Image"/>
+                <img alt="Image" class="img-thumbnail" height="auto" id="preview"
+                     src="@Url.Content(Model.ImageUrl)" width="250"/>
+            }
+            else
+            {
+                <img alt="Image" class="img-thumbnail" height="auto" id="preview"
+                     src="~/images/products/no-image-icon-1.png" width="250"/>
             }
         </div>
 
@@ -44,9 +49,11 @@
 
                     <div class="form-group">
                         <label asp-for="ImageFile" class="control-label"></label>
-                        <input asp-for="ImageFile" class="form-control" type="file"/>
+                        <input asp-for="ImageFile" class="form-control" id="imageInput"
+                               onchange="previewImage(event)" type="file"/>
                         <span asp-validation-for="ImageFile" class="text-danger"></span>
                     </div>
+
                     <div class="form-group">
                         <label asp-for="LastPurchase" class="control-label"></label>
                         <input asp-for="LastPurchase" class="form-control"/>
@@ -83,4 +90,18 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            
+            reader.onload = function() {
+                let preview = document.getElementById('preview');
+                preview.src = reader.result;
+            }
+            
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+
 }
