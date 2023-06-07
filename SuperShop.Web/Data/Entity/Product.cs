@@ -27,7 +27,7 @@ namespace SuperShop.Web.Data.Entity
 
         public string ImageFullUrl => string.IsNullOrEmpty(ImageUrl)
             ? null
-            : $"https://supermarketapi.azurewebsites.net{ImageUrl[1..]}";
+            : $"https://supershopwebtpsicet77.azurewebsites.net{ImageUrl[1..]}";
 
 
         // [Display(Name = "Thumbnail")]

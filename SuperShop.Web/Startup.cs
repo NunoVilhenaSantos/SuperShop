@@ -47,12 +47,12 @@ namespace SuperShop.Web
                 {
                     cfg.UseSqlServer(
                         Configuration.GetConnectionString(
-                            "DefaultConnection"));
+                            "SomeeConnection"));
                 });
 
             //services.AddDbContext<DataContext>(options =>
             //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            //    options.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
             //});
 
             services
@@ -70,7 +70,7 @@ namespace SuperShop.Web
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
-            
+
             //services.AddScoped<IRepository, Repository>();
             //services.AddScoped<IRepository, MockRepository>();
 
