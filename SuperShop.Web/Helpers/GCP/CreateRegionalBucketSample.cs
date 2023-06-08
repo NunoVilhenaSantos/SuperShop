@@ -23,21 +23,25 @@ namespace SuperShop.Web.Helpers.GCP
     public class CreateRegionalBucketSample
     {
         /// <summary>
-        /// Creates a storage bucket with region.
+        ///     Creates a storage bucket with region.
         /// </summary>
         /// <param name="projectId">The ID of the project to create the buckets in.</param>
-        /// <param name="location">The location of the bucket.
-        /// Object data for objects in the bucket resides in 
-        /// physical storage within this region. Defaults to US.</param>
+        /// <param name="location">
+        ///     The location of the bucket.
+        ///     Object data for objects in the bucket resides in
+        ///     physical storage within this region. Defaults to US.
+        /// </param>
         /// <param name="bucketName">The name of the bucket to create.</param>
-        /// <param name="storageClass">The bucket's default storage class,
-        /// used whenever no storageClass is specified for a newly-created object.
-        /// This defines how objects in the bucket are stored and
-        /// determines the SLA and the cost of storage.
-        /// Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE,
-        /// COLDLINE, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY.
-        /// If this value is not specified when the bucket is created,
-        /// it will default to STANDARD.</param>
+        /// <param name="storageClass">
+        ///     The bucket's default storage class,
+        ///     used whenever no storageClass is specified for a newly-created object.
+        ///     This defines how objects in the bucket are stored and
+        ///     determines the SLA and the cost of storage.
+        ///     Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE,
+        ///     COLDLINE, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY.
+        ///     If this value is not specified when the bucket is created,
+        ///     it will default to STANDARD.
+        /// </param>
         public Bucket CreateRegionalBucket(
             string projectId = "your-project-id",
             string bucketName = "your-unique-bucket-name",
@@ -46,7 +50,7 @@ namespace SuperShop.Web.Helpers.GCP
         {
             var storage = StorageClient.Create();
 
-            Bucket bucket = new Bucket
+            var bucket = new Bucket
             {
                 Location = location,
                 Name = bucketName,

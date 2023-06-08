@@ -1,11 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data;
-using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Models;
 
@@ -13,24 +10,14 @@ namespace SuperShop.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        #region Attributes
-
-        private readonly IUserHelper _userHelper;
-        private readonly IImageHelper _imageHelper;
-        private readonly IConverterHelper _converterHelper;
-        private readonly IProductsRepository _productsRepository;
-
-        // private readonly IRepository _repository;
-        // private readonly DataContext _context;
-
-        #endregion
-
         public ProductsController(IProductsRepository productsRepository,
             IUserHelper userHelper, IImageHelper imageHelper,
+            IStorageHelper storageHelper,
             IConverterHelper converterHelper)
         {
             _userHelper = userHelper;
             _imageHelper = imageHelper;
+            _storageHelper = storageHelper;
             _converterHelper = converterHelper;
             _productsRepository = productsRepository;
 
@@ -84,19 +71,27 @@ namespace SuperShop.Web.Controllers
             if (!ModelState.IsValid) return View(productViewModel);
 
             var filePath = productViewModel.ImageUrl;
+            var fileStorageId = productViewModel.ImageId;
 
             if (productViewModel.ImageFile is {Length: > 0})
+            {
                 filePath = await _imageHelper.UploadImageAsync(
                     productViewModel.ImageFile, "products");
 
+                fileStorageId = await _storageHelper.UploadStorageAsync(
+                    productViewModel.ImageFile, "products");
+            }
+
+            // TODO: Pending to improve
             var product = _converterHelper.ToProduct(
-                productViewModel, filePath, true);
+                productViewModel, filePath, fileStorageId, false);
+
 
             // TODO: Pending to improve
             product.User =
                 await _userHelper.GetUserByEmailAsync(
                     "nunovilhenasantos@msn.com");
-            // product.User = 
+            // product.User =
             //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
             await _productsRepository.CreateAsync(product);
@@ -141,20 +136,29 @@ namespace SuperShop.Web.Controllers
             try
             {
                 var filePath = productViewModel.ImageUrl;
+                var fileStorageId = productViewModel.ImageId;
 
                 if (productViewModel.ImageFile is {Length: > 0})
+                {
                     filePath = await _imageHelper.UploadImageAsync(
                         productViewModel.ImageFile, "products");
 
+                    fileStorageId = await _storageHelper.UploadStorageAsync(
+                        productViewModel.ImageFile, "products");
+                }
+
+                // TODO: Pending to improve
                 var product = _converterHelper.ToProduct(
-                    productViewModel, filePath, false);
+                    productViewModel, filePath, fileStorageId, false);
+
 
                 // TODO: Pending to improve
                 product.User =
                     await _userHelper.GetUserByEmailAsync(
                         "nunovilhenasantos@msn.com");
-                // product.User = 
+                // product.User =
                 //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
 
                 await _productsRepository.UpdateAsync(product);
                 // await _repository.SaveAllAsync();
@@ -198,7 +202,7 @@ namespace SuperShop.Web.Controllers
                 await _userHelper.GetUserByEmailAsync(
                     "nunovilhenasantos@msn.com");
 
-            // product.User = 
+            // product.User =
             //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
             // _repository.DeleteProduct(product);
@@ -207,6 +211,19 @@ namespace SuperShop.Web.Controllers
             // await _repository.SaveAllAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        #region Attributes
+
+        private readonly IUserHelper _userHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IStorageHelper _storageHelper;
+        private readonly IConverterHelper _converterHelper;
+        private readonly IProductsRepository _productsRepository;
+
+        // private readonly IRepository _repository;
+        // private readonly DataContext _context;
+
+        #endregion
 
 
         //private bool ProductExists(int id)

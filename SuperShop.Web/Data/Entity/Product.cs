@@ -26,8 +26,19 @@ namespace SuperShop.Web.Data.Entity
         [Display(Name = "Image")] public string ImageUrl { get; set; }
 
         public string ImageFullUrl => string.IsNullOrEmpty(ImageUrl)
-            ? null
-            : $"https://supershopwebtpsicet77.azurewebsites.net{ImageUrl[1..]}";
+            ? "https://supershopwebtpsicet77.azurewebsites.net/" +
+              "images/no-stamp-1.png"
+            : "https://supershopwebtpsicet77.azurewebsites.net/" +
+              $"{ImageUrl[1..]}";
+
+
+        [Display(Name = "Image ID")] public Guid ImageId { get; set; }
+
+        public string ImageFullIdUrl => ImageId == Guid.Empty
+            ? "https://supershopwebtpsicet77.azurewebsites.net/" +
+              "images/no-stamp-1.png"
+            : "https://supershopwebtpsicet77.blob.core.windows.net/" +
+              $"{GetType().Name.ToLower()}s/{ImageId}";
 
 
         // [Display(Name = "Thumbnail")]

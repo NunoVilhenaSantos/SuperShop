@@ -10,8 +10,8 @@ using SuperShop.Web.Data;
 namespace SuperShop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230529135217_AddUSers")]
-    partial class AddUSers
+    [Migration("20230607190719_ImagesStorage")]
+    partial class ImagesStorage
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -158,6 +158,9 @@ namespace SuperShop.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");

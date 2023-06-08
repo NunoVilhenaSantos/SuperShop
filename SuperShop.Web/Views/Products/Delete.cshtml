@@ -17,12 +17,17 @@
 
 <div class="container-fluid">
     <div class="row">
+
         <div class="col-auto">
             @if (!string.IsNullOrEmpty(Model.ImageUrl))
             {
                 <img src="@Url.Content(Model.ImageUrl)"
                      class="img-thumbnail" width="250" height="auto" alt="Image"/>
             }
+        </div>
+        <div class="col-auto">
+            <img src="@Url.Content(Model.ImageFullIdUrl)"
+                 class="img-thumbnail" width="250" height="auto" alt="Image"/>
         </div>
 
         <div class="col">

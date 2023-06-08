@@ -28,6 +28,18 @@
                      src="~/images/products/no-image-icon-1.png" width="250"/>
             }
         </div>
+        <div class="col-auto">
+            @if (!string.IsNullOrEmpty(Model.ImageFullIdUrl))
+            {
+                <img alt="Image" class="img-thumbnail" height="auto" id="preview"
+                     src="@Url.Content(Model.ImageFullIdUrl)" width="250"/>
+            }
+            else
+            {
+                <img alt="Image" class="img-thumbnail" height="auto" id="preview"
+                     src="~/images/products/no-image-icon-1.png" width="250"/>
+            }
+        </div>
 
         <div class="col">
             <div class="row">
@@ -35,6 +47,7 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id"/>
                     <input type="hidden" asp-for="ImageUrl"/>
+                    <input type="hidden" asp-for="ImageId"/>
 
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
@@ -94,12 +107,12 @@
     <script>
         function previewImage(event) {
             const reader = new FileReader();
-            
+
             reader.onload = function() {
                 let preview = document.getElementById('preview');
                 preview.src = reader.result;
             }
-            
+
             reader.readAsDataURL(event.target.files[0]);
         }
     </script>

@@ -1,4 +1,5 @@
-﻿using SuperShop.Web.Data.Entity;
+﻿using System;
+using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Models;
 
 namespace SuperShop.Web.Helpers
@@ -6,12 +7,13 @@ namespace SuperShop.Web.Helpers
     public class ConverterHelper : IConverterHelper
     {
         public Product ToProduct(ProductViewModel productViewModel,
-            string filePath, bool isNew)
+            string filePath, Guid fileStorage, bool isNew)
         {
             return new Product
             {
                 Id = isNew ? 0 : productViewModel.Id,
                 ImageUrl = filePath,
+                ImageId = fileStorage,
                 IsAvailable = productViewModel.IsAvailable,
                 LastPurchase = productViewModel.LastPurchase,
                 LastSale = productViewModel.LastSale,
@@ -22,6 +24,7 @@ namespace SuperShop.Web.Helpers
             };
         }
 
+
         public ProductViewModel ToProductViewModel(Product product)
         {
             return new ProductViewModel
@@ -29,6 +32,7 @@ namespace SuperShop.Web.Helpers
                 Id = product.Id,
                 ImageUrl = product.ImageUrl,
                 // ImageFile = product.ImageUrl,
+                ImageId = product.ImageId,
                 IsAvailable = product.IsAvailable,
                 LastPurchase = product.LastPurchase,
                 LastSale = product.LastSale,

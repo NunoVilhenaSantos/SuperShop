@@ -50,7 +50,8 @@ namespace SuperShop.Web.Data
                 };
 
                 //var result = await _userManager.CreateAsync(user, "Passw0rd");
-                var result = await _userHelper.AddUserAsync(user, "Passw0rd");
+                var result = await _userHelper
+                    .AddUserAsync(user, "Passw0rd");
 
                 if (result != IdentityResult.Success)
                 {

@@ -1,13 +1,15 @@
-﻿using SuperShop.Web.Data.Entity;
+﻿using System;
+using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Models;
 
 namespace SuperShop.Web.Helpers
 {
     public interface IConverterHelper
     {
-        Product ToProduct(Models.ProductViewModel productViewModel,
-            string filePath, bool isNew);
+        Product ToProduct(ProductViewModel productViewModel,
+            string filePath, Guid fileStorage, bool isNew);
 
 
-        Models.ProductViewModel ToProductViewModel(Product product);
+        ProductViewModel ToProductViewModel(Product product);
     }
 }
