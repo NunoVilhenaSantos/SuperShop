@@ -25,7 +25,7 @@ namespace SuperShop.Web.Helpers
 
             await using var stream =
                 new FileStream(
-                    filePath+fileName, FileMode.Create, FileAccess.ReadWrite);
+                    filePath + fileName, FileMode.Create, FileAccess.ReadWrite);
 
             await imageFile.CopyToAsync(stream);
 

@@ -9,8 +9,8 @@ namespace SuperShop.Web.Data
 {
     public class SeedDb
     {
-        private readonly Random _random;
         private readonly DataContext _dataContext;
+        private readonly Random _random;
         private readonly IUserHelper _userHelper;
 
         // private readonly UserManager<User> _userManager;
@@ -61,8 +61,6 @@ namespace SuperShop.Web.Data
 
                     throw new InvalidOperationException(
                         "Could not create the user in Seeder");
-
-                    return;
                 }
             }
 

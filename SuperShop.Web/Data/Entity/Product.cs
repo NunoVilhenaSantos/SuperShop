@@ -59,7 +59,6 @@ namespace SuperShop.Web.Data.Entity
               $"{GetType().Name.ToLower()}s/{ImageId}";
 
 
-
         // [Display(Name = "Thumbnail")]
         // public string ImageThumbnailUrl { get; set; }
         //

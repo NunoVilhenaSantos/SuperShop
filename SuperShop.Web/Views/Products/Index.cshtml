@@ -31,14 +31,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.ImageId)
             </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImageIdGcp)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImageIdAws)
-                </th>
-    
-                <th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageIdGcp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageIdAws)
+            </th>
+
+            <th>
                 @Html.DisplayNameFor(model => model.LastPurchase)
             </th>
             <th>
@@ -65,21 +65,21 @@
                 </td>
 
                 <td>
-                        <img src="@Url.Content(item.ImageUrl)"
-                             class="img-thumbnail" width="150" height="150" alt="Image"/>
+                    <img src="@Url.Content(item.ImageUrl)"
+                         class="img-thumbnail" width="150" height="150" alt="Image"/>
                 </td>
                 <td>
                     <img src="@Url.Content(item.ImageFullIdUrl)"
                          class="img-thumbnail" width="150" height="150" alt="Image"/>
                 </td>
-                    <td>
-                        <img src="@Url.Content(item.ImageFullIdGcpUrl)"
-                             class="img-thumbnail" width="150" height="150" alt="Image" />
-                    </td>
-                    <td>
-                        <img src="@Url.Content(item.ImageFullIdAwsUrl)"
-                             class="img-thumbnail" width="150" height="150" alt="Image" />
-                    </td>
+                <td>
+                    <img src="@Url.Content(item.ImageFullIdGcpUrl)"
+                         class="img-thumbnail" width="150" height="150" alt="Image"/>
+                </td>
+                <td>
+                    <img src="@Url.Content(item.ImageFullIdAwsUrl)"
+                         class="img-thumbnail" width="150" height="150" alt="Image"/>
+                </td>
 
                 <td>
                     @Html.DisplayFor(modelItem => item.LastPurchase)

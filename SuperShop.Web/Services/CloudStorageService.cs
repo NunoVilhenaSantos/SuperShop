@@ -1,34 +1,28 @@
-﻿
+﻿using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SuperShop.Web.Utils.ConfigOptions;
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Security.AccessControl;
-using System.Threading.Tasks;
 
 namespace SuperShop.Web.Services
 {
-
-
-
-
     public class CloudStorageService : ICloudStorageService
     {
+        private readonly GoogleCredential _googleCredentials;
+        private readonly ILogger<CloudStorageService> _logger;
 
 
         //private readonly IOptions<GCPConfigOptions> _options;
         private readonly GCPConfigOptions _options;
-        private readonly ILogger<CloudStorageService> _logger;
-        private readonly Google.Apis.Auth.OAuth2.GoogleCredential _googleCredentials;
 
 
-        public CloudStorageService( 
-            IOptions<Utils.ConfigOptions.GCPConfigOptions> options ,
+        public CloudStorageService(
+            IOptions<GCPConfigOptions> options,
             ILogger<CloudStorageService> logger)
         {
             _options = options.Value;
@@ -41,7 +35,8 @@ namespace SuperShop.Web.Services
 
             try
             {
-                _googleCredentials = GoogleCredential.FromFile(_options.GCPStorageAuthFile_Nuno);
+                _googleCredentials =
+                    GoogleCredential.FromFile(_options.GCPStorageAuthFile_Nuno);
 
                 //var environment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
@@ -57,13 +52,12 @@ namespace SuperShop.Web.Services
                 //    _googleCredentials = GoogleCredential.FromJson(_options.GCPStorageAuthFile_Nuno);
                 //}
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"{ex.Message}");
             }
         }
 
-        
 
         public async Task<bool> DeleteFileAsync(string fileNameToDelete)
         {
@@ -73,9 +67,11 @@ namespace SuperShop.Web.Services
                     $"Deleting File Async: {fileNameToDelete} into storage {_options.GCPStorageBucketName_Nuno}");
 
 
-                using (var storageClient = Google.Cloud.Storage.V1.StorageClient.Create(_googleCredentials))
+                using (var storageClient =
+                       StorageClient.Create(_googleCredentials))
                 {
-                    await storageClient.DeleteObjectAsync(_options.GCPStorageBucketName_Nuno, fileNameToDelete);
+                    await storageClient.DeleteObjectAsync(
+                        _options.GCPStorageBucketName_Nuno, fileNameToDelete);
 
                     _logger.LogInformation(
                         $"Deleted File Async: {fileNameToDelete} into storage {_options.GCPStorageBucketName_Nuno}");
@@ -83,7 +79,7 @@ namespace SuperShop.Web.Services
                     return true;
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"{ex.Message}");
                 return false;
@@ -92,55 +88,68 @@ namespace SuperShop.Web.Services
         }
 
         [Obsolete]
-        public async Task<string> GetSignedUrlAsync(string fileNameToRead, int timeOutInMinutes = 2)
+        public async Task<string> GetSignedUrlAsync(string fileNameToRead,
+            int timeOutInMinutes = 2)
         {
-            try 
+            try
             {
-                _logger.LogInformation($"Obtained signed url for the file {fileNameToRead} in the storage {_options.GCPStorageBucketName_Nuno}");
+                _logger.LogInformation(
+                    $"Obtained signed url for the file {fileNameToRead} in the storage {_options.GCPStorageBucketName_Nuno}");
 
-                UrlSigner urlSigner = UrlSigner.FromServiceAccountPath(_options.GCPStorageAuthFile_Nuno);
+                var urlSigner =
+                    UrlSigner.FromServiceAccountPath(_options
+                        .GCPStorageAuthFile_Nuno);
 
                 // V4 is the default signing version.
-                string signedUrl = await urlSigner.SignAsync(_options.GCPStorageBucketName_Nuno, fileNameToRead, TimeSpan.FromHours(1), HttpMethod.Get);
+                var signedUrl = await urlSigner.SignAsync(
+                    _options.GCPStorageBucketName_Nuno, fileNameToRead,
+                    TimeSpan.FromHours(1), HttpMethod.Get);
 
                 Console.WriteLine("Generated GET signed URL:");
                 Console.WriteLine(signedUrl);
-                Console.WriteLine("You can use this URL with any user agent, for example:");
+                Console.WriteLine(
+                    "You can use this URL with any user agent, for example:");
                 Console.WriteLine($"curl '{signedUrl}'");
-                
-                
-                _logger.LogInformation($"Obtained signed url for the file {fileNameToRead} in the storage {_options.GCPStorageBucketName_Nuno}");
-                
+
+
+                _logger.LogInformation(
+                    $"Obtained signed url for the file {fileNameToRead} in the storage {_options.GCPStorageBucketName_Nuno}");
+
                 return signedUrl;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"{ex.Message}");
-                return await Task.FromResult($"Error while obtaining signed url for the file {fileNameToRead} {ex.Message}");
+                return await Task.FromResult(
+                    $"Error while obtaining signed url for the file {fileNameToRead} {ex.Message}");
             }
         }
 
 
-        public async Task<string> UploadFileAsync(IFormFile fileToUpload, string fileNameToSave)
+        public async Task<string> UploadFileAsync(IFormFile fileToUpload,
+            string fileNameToSave)
         {
-
             try
             {
                 _logger.LogInformation(
                     $"Uploading File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_options.GCPStorageBucketName_Nuno}");
 
 
-                using(var memoryStream = new System.IO.MemoryStream())
+                using (var memoryStream = new MemoryStream())
                 {
                     await fileToUpload.CopyToAsync(memoryStream);
 
                     // create storage client using the credentials file.
-                    using (var storageClient = Google.Cloud.Storage.V1.StorageClient.Create(_googleCredentials))
+                    using (var storageClient =
+                           StorageClient.Create(_googleCredentials))
                     {
                         //var bucketName = _options.GCPStorageBucketName_Nuno;
 
-                        var storageObject = await storageClient.UploadObjectAsync(
-                            _options.GCPStorageBucketName_Nuno, fileNameToSave, fileToUpload.ContentType, memoryStream);
+                        var storageObject =
+                            await storageClient.UploadObjectAsync(
+                                _options.GCPStorageBucketName_Nuno,
+                                fileNameToSave, fileToUpload.ContentType,
+                                memoryStream);
 
                         _logger.LogInformation(
                             $"Uploaded File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_options.GCPStorageBucketName_Nuno}");
@@ -156,15 +165,15 @@ namespace SuperShop.Web.Services
                     //return await Task.FromResult(storageObject.MediaLink);
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"{ex.Message}");
 
                 //return $"Error while uploading file {fileNameToSave} {ex.Message}";
 
-                return await Task.FromResult($"Error while uploading file {fileNameToSave} {ex.Message}");
+                return await Task.FromResult(
+                    $"Error while uploading file {fileNameToSave} {ex.Message}");
             }
         }
-
     }
 }

@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using Azure;
-using Azure.Core;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using Google.Apis.Auth.OAuth2;
@@ -18,59 +17,19 @@ namespace SuperShop.Web.Helpers
 {
     public class StorageHelper : IStorageHelper
     {
-
-        #region Fields
-
-        private readonly IConfiguration _configuration;
-
-
-
-        #region Azure
-        private readonly string _azureBlobKey_1;
-        private readonly string _azureBlobKey_2;
-        private readonly AzureKeyCredential _azureKeyCredential;
-        private readonly AzureSasCredential _azureSasCredential;
-        #endregion
-
-
-
-        #region AWS
-        private string _awsStorageKey1;
-        private string _awsStorageKey2;
-        #endregion
-
-
-
-        #region GCP
-        // private readonly GCPConfigOptions _options;
-        private readonly ILogger<CloudStorageService> _logger;
-        //private readonly Google.Apis.Auth.OAuth2.GoogleCredential _googleCredentials;
-
-        private string _gcpStorageFileNuno;
-        private string _gcpStorageBucketNuno;
-        private GoogleCredential _googleCredentialsNuno;
-            
-        private string _gcpStorageFileJorge;
-        private string _gcpStorageBucketJorge;
-        private GoogleCredential _googleCredentialsJorge;
-        #endregion
-
-        #endregion
-
         public StorageHelper(
             IConfiguration configuration,
-            IOptions<Utils.ConfigOptions.GCPConfigOptions> options, ILogger<CloudStorageService> logger)
+            IOptions<GCPConfigOptions> options,
+            ILogger<CloudStorageService> logger)
         {
             _configuration = configuration;
 
-            
+
             _azureBlobKey_1 = _configuration["Storages:AzureBlobKey-1"];
             _azureBlobKey_2 = _configuration["Storages:AzureBlobKey-2"];
 
             _azureKeyCredential = new AzureKeyCredential(_azureBlobKey_1);
             _azureSasCredential = new AzureSasCredential(_azureBlobKey_2);
-
-
 
 
             _awsStorageKey1 = _configuration["Storages:AWSStorageKey1"];
@@ -91,21 +50,21 @@ namespace SuperShop.Web.Helpers
             //     "EndpointSuffix=core.windows.net");
 
 
-
             _gcpStorageFileNuno = _configuration["GCPStorageAuthFile_Nuno"];
             _gcpStorageBucketNuno = _configuration["GCPStorageBucketName_Nuno"];
-            _googleCredentialsNuno = GoogleCredential.FromFile(_gcpStorageFileNuno);
+            _googleCredentialsNuno =
+                GoogleCredential.FromFile(_gcpStorageFileNuno);
 
 
             _gcpStorageFileJorge = _configuration["GCPStorageAuthFile_Jorge"];
-            _gcpStorageBucketJorge = _configuration["GCPStorageBucketName_Jorge"];
-            _googleCredentialsNuno = GoogleCredential.FromFile(_gcpStorageFileJorge);
-
+            _gcpStorageBucketJorge =
+                _configuration["GCPStorageBucketName_Jorge"];
+            _googleCredentialsNuno =
+                GoogleCredential.FromFile(_gcpStorageFileJorge);
 
 
             // _options = options.Value;
             _logger = logger;
-
         }
 
 
@@ -130,6 +89,56 @@ namespace SuperShop.Web.Helpers
         {
             var stream = File.OpenRead(file);
             return await UploadStreamAsync(stream, bucketName);
+        }
+
+
+        public async Task<string> UploadFileAsyncToGCP(IFormFile fileToUpload,
+            string fileNameToSave)
+        {
+            try
+            {
+                _logger.LogInformation(
+                    $"Uploading File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_configuration["GCPStorageBucketName_Nuno"]}");
+
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    await fileToUpload.CopyToAsync(memoryStream);
+
+                    // create storage client using the credentials file.
+                    using (var storageClient =
+                           StorageClient.Create(_googleCredentialsNuno))
+                    {
+                        //var bucketName = _options.GCPStorageBucketName_Nuno;
+
+                        var storageObject =
+                            await storageClient.UploadObjectAsync(
+                                _gcpStorageBucketNuno, fileNameToSave,
+                                fileToUpload.ContentType, memoryStream);
+
+                        _logger.LogInformation(
+                            $"Uploaded File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_configuration[""]}");
+
+                        return await Task.FromResult(storageObject.MediaLink);
+                    }
+
+                    //var uploadFile = _googleCredentials.CreateScoped(scopes: _options.Scopes).UnderlyingCredential as Google.Apis.Auth.OAuth2.GoogleCredential;
+                    //var storageClient = Google.Cloud.Storage.V1.StorageClient.Create(uploadFile);
+                    //var bucketName = _options.BucketName;
+                    //var storageObject = storageClient.UploadObject(bucketName, fileNameToSave, null, memoryStream);
+
+                    //return await Task.FromResult(storageObject.MediaLink);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{ex.Message}");
+
+                //return $"Error while uploading file {fileNameToSave} {ex.Message}";
+
+                return await Task.FromResult(
+                    $"Error while uploading file {fileNameToSave} {ex.Message}");
+            }
         }
 
 
@@ -220,53 +229,45 @@ namespace SuperShop.Web.Helpers
             return Task.FromResult(true); // "Uploaded file to blob storage.";
         }
 
+        #region Fields
+
+        private readonly IConfiguration _configuration;
 
 
-        public async Task<string> UploadFileAsyncToGCP(IFormFile fileToUpload, string fileNameToSave)
-        {
+        #region Azure
 
-            try
-            {
-                _logger.LogInformation(
-                    $"Uploading File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_configuration["GCPStorageBucketName_Nuno"]}");
+        private readonly string _azureBlobKey_1;
+        private readonly string _azureBlobKey_2;
+        private readonly AzureKeyCredential _azureKeyCredential;
+        private readonly AzureSasCredential _azureSasCredential;
 
-
-                using (var memoryStream = new System.IO.MemoryStream())
-                {
-                    await fileToUpload.CopyToAsync(memoryStream);
-
-                    // create storage client using the credentials file.
-                    using (var storageClient = Google.Cloud.Storage.V1.StorageClient.Create(_googleCredentialsNuno))
-                    {
-                        //var bucketName = _options.GCPStorageBucketName_Nuno;
-
-                        var storageObject = await storageClient.UploadObjectAsync(
-                            _gcpStorageBucketNuno, fileNameToSave, fileToUpload.ContentType, memoryStream);
-
-                        _logger.LogInformation(
-                            $"Uploaded File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_configuration[""]}");
-
-                        return await Task.FromResult(storageObject.MediaLink);
-                    }
-
-                    //var uploadFile = _googleCredentials.CreateScoped(scopes: _options.Scopes).UnderlyingCredential as Google.Apis.Auth.OAuth2.GoogleCredential;
-                    //var storageClient = Google.Cloud.Storage.V1.StorageClient.Create(uploadFile);
-                    //var bucketName = _options.BucketName;
-                    //var storageObject = storageClient.UploadObject(bucketName, fileNameToSave, null, memoryStream);
-
-                    //return await Task.FromResult(storageObject.MediaLink);
-                }
-            }
-            catch (System.Exception ex)
-            {
-                _logger.LogError(ex, $"{ex.Message}");
-
-                //return $"Error while uploading file {fileNameToSave} {ex.Message}";
-
-                return await Task.FromResult($"Error while uploading file {fileNameToSave} {ex.Message}");
-            }
-        }
+        #endregion
 
 
+        #region AWS
+
+        private string _awsStorageKey1;
+        private string _awsStorageKey2;
+
+        #endregion
+
+
+        #region GCP
+
+        // private readonly GCPConfigOptions _options;
+        private readonly ILogger<CloudStorageService> _logger;
+        //private readonly Google.Apis.Auth.OAuth2.GoogleCredential _googleCredentials;
+
+        private readonly string _gcpStorageFileNuno;
+        private readonly string _gcpStorageBucketNuno;
+        private readonly GoogleCredential _googleCredentialsNuno;
+
+        private readonly string _gcpStorageFileJorge;
+        private string _gcpStorageBucketJorge;
+        private GoogleCredential _googleCredentialsJorge;
+
+        #endregion
+
+        #endregion
     }
 }
