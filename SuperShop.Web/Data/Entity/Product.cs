@@ -27,7 +27,7 @@ namespace SuperShop.Web.Data.Entity
 
         public string ImageFullUrl => string.IsNullOrEmpty(ImageUrl)
             ? "https://supershopwebtpsicet77.azurewebsites.net/" +
-              "images/no-stamp-1.png"
+              "images/placeholders/no-picture/product/no-image-icon-1.png"
             : "https://supershopwebtpsicet77.azurewebsites.net/" +
               $"{ImageUrl[1..]}";
 
@@ -36,9 +36,28 @@ namespace SuperShop.Web.Data.Entity
 
         public string ImageFullIdUrl => ImageId == Guid.Empty
             ? "https://supershopwebtpsicet77.azurewebsites.net/" +
-              "images/no-stamp-1.png"
+              "images/placeholders/no-picture/product/no-stamp-1.png"
             : "https://supershopwebtpsicet77.blob.core.windows.net/" +
               $"{GetType().Name.ToLower()}s/{ImageId}";
+
+
+        [Display(Name = "Image GCP")] public string ImageIdGcp { get; set; }
+
+        public string ImageFullIdGcpUrl => string.IsNullOrEmpty(ImageUrl)
+            ? "https://supershopwebtpsicet77.azurewebsites.net/" +
+              "images/placeholders/no-picture/product/no-stamp-3.png"
+            : "https://supershopwebtpsicet77.azurewebsites.net/" +
+              $"images/{GetType().Name.ToLower()}s/{ImageId}";
+
+
+        [Display(Name = "Image AWS")] public Guid ImageIdAws { get; set; }
+
+        public string ImageFullIdAwsUrl => ImageId == Guid.Empty
+            ? "https://supershopwebtpsicet77.azurewebsites.net/" +
+              "images/placeholders/no-picture/product/no-image-icon-2.png"
+            : "https://supershopwebtpsicet77.blob.core.windows.net/" +
+              $"{GetType().Name.ToLower()}s/{ImageId}";
+
 
 
         // [Display(Name = "Thumbnail")]

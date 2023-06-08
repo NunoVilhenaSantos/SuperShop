@@ -17,28 +17,22 @@
     <div class="row">
 
         <div class="col-auto">
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img alt="Image" class="img-thumbnail" height="auto" id="preview"
-                     src="@Url.Content(Model.ImageUrl)" width="250"/>
-            }
-            else
-            {
-                <img alt="Image" class="img-thumbnail" height="auto" id="preview"
-                     src="~/images/products/no-image-icon-1.png" width="250"/>
-            }
+            <br>Local <br />
+            <img src="@Url.Content(Model.ImageUrl)"
+                 class="img-thumbnail" width="250" height="auto" alt="Image" id="preview" />
+            <br><br />
+            <br>Azure <br />
+            <img src="@Url.Content(Model.ImageFullIdUrl)"
+                 class="img-thumbnail" width="250" height="auto" alt="Image" />
         </div>
         <div class="col-auto">
-            @if (!string.IsNullOrEmpty(Model.ImageFullIdUrl))
-            {
-                <img alt="Image" class="img-thumbnail" height="auto" id="preview"
-                     src="@Url.Content(Model.ImageFullIdUrl)" width="250"/>
-            }
-            else
-            {
-                <img alt="Image" class="img-thumbnail" height="auto" id="preview"
-                     src="~/images/products/no-image-icon-1.png" width="250"/>
-            }
+            <br>GCP <br />
+            <img src="@Url.Content(Model.ImageFullIdGcpUrl)"
+                 class="img-thumbnail" width="250" height="auto" alt="Image" />
+            <br><br />
+            <br>AWS <br />
+            <img src="@Url.Content(Model.ImageFullIdAwsUrl)"
+                 class="img-thumbnail" width="250" height="auto" alt="Image" />
         </div>
 
         <div class="col">
@@ -104,7 +98,7 @@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
-    <script>
+    @*<script>
         function previewImage(event) {
             const reader = new FileReader();
 
@@ -115,6 +109,6 @@
 
             reader.readAsDataURL(event.target.files[0]);
         }
-    </script>
+    </script>*@
 
 }

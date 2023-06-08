@@ -16,15 +16,23 @@
     <div class="row">
 
         <div class="col-auto">
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
+            <br>Local <br/>
                 <img src="@Url.Content(Model.ImageUrl)"
-                     class="img-thumbnail" width="250" height="auto" alt="Image"/>
-            }
+                 class="img-thumbnail" width="250" height="auto" alt="Image" />
+            <br><br />
+            <br>Azure <br />
+            <img src="@Url.Content(Model.ImageFullIdUrl)"
+                 class="img-thumbnail" width="250" height="auto" alt="Image" />
         </div>
         <div class="col-auto">
-            <img src="@Url.Content(Model.ImageFullIdUrl)"
-                 class="img-thumbnail" width="250" height="auto" alt="Image"/>
+
+            <br>GCP <br />
+            <img src="@Url.Content(Model.ImageFullIdGcpUrl)"
+                 class="img-thumbnail" width="250" height="auto" alt="Image" />
+            <br><br />
+            <br>AWS <br />
+            <img src="@Url.Content(Model.ImageFullIdAwsUrl)"
+                 class="img-thumbnail" width="250" height="auto" alt="Image" />
         </div>
 
         <div class="col">

@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using SuperShop.Web.Data;
 using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Helpers;
+using SuperShop.Web.Services;
+using SuperShop.Web.Utils.ConfigOptions;
 
 namespace SuperShop.Web
 {
@@ -76,6 +78,11 @@ namespace SuperShop.Web
             //services.AddScoped<IRepository, MockRepository>();
 
             services.AddScoped<IProductsRepository, ProductRepository>();
+
+            //services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<GCPConfigOptions>();
+            services.AddScoped<AWSConfigOptions>();
+            services.AddScoped<ICloudStorageService, CloudStorageService>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddControllersWithViews();

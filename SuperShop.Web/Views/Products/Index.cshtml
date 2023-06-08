@@ -24,13 +24,21 @@
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.ImageUrl)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ImageId)
             </th>
-            <th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImageIdGcp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImageIdAws)
+                </th>
+    
+                <th>
                 @Html.DisplayNameFor(model => model.LastPurchase)
             </th>
             <th>
@@ -57,17 +65,21 @@
                 </td>
 
                 <td>
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
                         <img src="@Url.Content(item.ImageUrl)"
                              class="img-thumbnail" width="150" height="150" alt="Image"/>
-                    }
                 </td>
                 <td>
-                    @* @if (item.ImageId != Guid.Empty) *@
                     <img src="@Url.Content(item.ImageFullIdUrl)"
                          class="img-thumbnail" width="150" height="150" alt="Image"/>
                 </td>
+                    <td>
+                        <img src="@Url.Content(item.ImageFullIdGcpUrl)"
+                             class="img-thumbnail" width="150" height="150" alt="Image" />
+                    </td>
+                    <td>
+                        <img src="@Url.Content(item.ImageFullIdAwsUrl)"
+                             class="img-thumbnail" width="150" height="150" alt="Image" />
+                    </td>
 
                 <td>
                     @Html.DisplayFor(modelItem => item.LastPurchase)

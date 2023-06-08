@@ -11,15 +11,21 @@ namespace SuperShop.Web.Helpers
             IFormFile imageFile, string folder)
         {
             var guid = Guid.NewGuid().ToString();
-            var fileName = guid + ".jpg";
+            var fileName = guid + ".png";
+
+            //var filePath =
+            //    Directory.GetCurrentDirectory() +
+            //    $"\\wwwroot\\images\\{folder}\\{fileName}";
 
             var filePath =
                 Directory.GetCurrentDirectory() +
-                $"\\wwwroot\\images\\{folder}\\{fileName}";
+                $"\\wwwroot\\images\\{folder}\\";
+
+            Directory.CreateDirectory(filePath);
 
             await using var stream =
                 new FileStream(
-                    filePath, FileMode.Create, FileAccess.ReadWrite);
+                    filePath+fileName, FileMode.Create, FileAccess.ReadWrite);
 
             await imageFile.CopyToAsync(stream);
 
