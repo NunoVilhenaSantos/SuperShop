@@ -38,19 +38,19 @@ namespace SuperShop.Web.Services
                 _googleCredentials =
                     GoogleCredential.FromFile(_options.GCPStorageAuthFile_Nuno);
 
-                //var environment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                var environment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-                //if (environment == "Development")
-                //{
-                //    _googleCredentials = GoogleCredential.FromFile(_options.GCPStorageAuthFile_Nuno);
-                //}
-                //else
-                //{
-                //    // _googleCredentials = GoogleCredential.GetApplicationDefault();
+                if (environment == "Development")
+                {
+                    _googleCredentials = GoogleCredential.FromFile(_options.GCPStorageAuthFile_Nuno);
+                }
+                else
+                {
+                    _googleCredentials = GoogleCredential.GetApplicationDefault();
 
-                //    // store the json file in secrets.
-                //    _googleCredentials = GoogleCredential.FromJson(_options.GCPStorageAuthFile_Nuno);
-                //}
+                    // store the json file in secrets.
+                    _googleCredentials = GoogleCredential.FromJson(_options.GCPStorageAuthFile_Nuno);
+                }
             }
             catch (Exception ex)
             {

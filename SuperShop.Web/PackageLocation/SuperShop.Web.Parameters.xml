@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+    <parameter name="IIS Web Application Name" description="" value="IisPath" tags="IisApp">
+        <parameterEntry kind="ProviderPath" scope="IisApp"
+                        match="^C:\\Users\\nunov\\RiderProjects\\SuperShop\\SuperShop\.Web\\bin\\Release\\net5\.0\\publish\\$"/>
+    </parameter>
+</parameters>

@@ -12,15 +12,29 @@ namespace SuperShop.Web.Helpers
             return new Product
             {
                 Id = isNew ? 0 : productViewModel.Id,
-                ImageUrl = filePath,
-                ImageId = fileStorage,
-                IsAvailable = productViewModel.IsAvailable,
-                LastPurchase = productViewModel.LastPurchase,
-                LastSale = productViewModel.LastSale,
                 Name = productViewModel.Name,
                 Price = productViewModel.Price,
+
+                ImageUrl = filePath,
+                // Property or indexer 'property' cannot be assigned to -- it is read only
+                // ImageFullUrl = string.Empty,
+                ImageId = fileStorage,
+                // Property or indexer 'property' cannot be assigned to -- it is read only
+                // ImageFullIdUrl = string.Empty,
+                ImageIdGcp = fileStorage,
+                // Property or indexer 'property' cannot be assigned to -- it is read only
+                // ImageFullIdGcpUrl = string.Empty,
+                ImageIdAws = fileStorage,
+                // Property or indexer 'property' cannot be assigned to -- it is read only
+                // ImageFullIdAwsUrl = string.Empty,
+                
+                LastPurchase = productViewModel.LastPurchase,
+                LastSale = productViewModel.LastSale,
+                IsAvailable = productViewModel.IsAvailable,
                 Stock = productViewModel.Stock,
                 User = productViewModel.User
+
+                                   
             };
         }
 
@@ -30,14 +44,25 @@ namespace SuperShop.Web.Helpers
             return new ProductViewModel
             {
                 Id = product.Id,
-                ImageUrl = product.ImageUrl,
-                // ImageFile = product.ImageUrl,
-                ImageId = product.ImageId,
-                IsAvailable = product.IsAvailable,
-                LastPurchase = product.LastPurchase,
-                LastSale = product.LastSale,
                 Name = product.Name,
                 Price = product.Price,
+
+                ImageUrl = product.ImageUrl,
+                // Property or indexer 'property' cannot be assigned to -- it is read only
+                // ImageFullUrl = string.Empty,
+                ImageId = product.ImageId,
+                // Property or indexer 'property' cannot be assigned to -- it is read only
+                // ImageFullIdUrl = string.Empty,
+                ImageIdGcp = product.ImageId,
+                // Property or indexer 'property' cannot be assigned to -- it is read only
+                // ImageFullIdGcpUrl = string.Empty,
+                ImageIdAws = product.ImageId,
+                // Property or indexer 'property' cannot be assigned to -- it is read only
+                // ImageFullIdAwsUrl = string.Empty,
+
+                LastPurchase = product.LastPurchase,
+                LastSale = product.LastSale,
+                IsAvailable = product.IsAvailable,
                 Stock = product.Stock,
                 User = product.User
             };

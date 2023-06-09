@@ -52,10 +52,22 @@ namespace SuperShop.Web
                             "SomeeConnection"));
                 });
 
+
             //services.AddDbContext<DataContext>(options =>
             //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString(
+            //            "AzureConnectionNuno"));
             //});
+
+
+            //services.AddDbContext<DataContext>(options =>
+            //{
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString(
+            //            "AzureConnectionRuben"));
+            //});
+
 
             services
                 .AddAuthentication("CookieAuth")

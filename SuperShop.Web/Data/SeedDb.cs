@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Helpers;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SuperShop.Web.Data
 {
@@ -90,13 +91,42 @@ namespace SuperShop.Web.Data
 
         private void AddProducts(string name, User user)
         {
+            DateTime currentDate = DateTime.Now;
+
+            Random random = new Random();
+
+            // Generate random TimeSpan for LastPurchase and LastSale within a range of 30 days
+            TimeSpan purchaseTimeSpan = TimeSpan.FromDays(random.Next(30));
+            TimeSpan saleTimeSpan = TimeSpan.FromDays(random.Next(30));
+
+            DateTime randomPurchaseDate = currentDate.Subtract(purchaseTimeSpan);
+            DateTime randomSaleDate = currentDate.Subtract(saleTimeSpan);
+
             _dataContext.Products.Add(
                 new Product
                 {
-                    Name = name, IsAvailable = true,
+                    // Id = id,
+                    Name = name,
                     Price = _random.Next(100),
+                    
+                    ImageUrl= string.Empty,
+                    // Property or indexer 'property' cannot be assigned to -- it is read only
+                    // ImageFullUrl = string.Empty,
+                    ImageId = Guid.Empty,
+                    // Property or indexer 'property' cannot be assigned to -- it is read only
+                    // ImageFullIdUrl = string.Empty,
+                    ImageIdGcp = Guid.Empty,
+                    // Property or indexer 'property' cannot be assigned to -- it is read only
+                    // ImageFullIdGcpUrl = string.Empty,
+                    ImageIdAws = Guid.Empty,
+                    // Property or indexer 'property' cannot be assigned to -- it is read only
+                    // ImageFullIdAwsUrl = string.Empty,
+
+                    LastPurchase = randomPurchaseDate,
+                    LastSale = randomSaleDate,
+                    IsAvailable = true,
                     Stock = _random.Next(10000),
-                    User = user
+                    User = user,
                 });
         }
     }

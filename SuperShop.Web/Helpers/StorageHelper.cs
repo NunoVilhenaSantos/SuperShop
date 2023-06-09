@@ -25,15 +25,22 @@ namespace SuperShop.Web.Helpers
             _configuration = configuration;
 
 
-            _azureBlobKey_1 = _configuration["Storages:AzureBlobKey-1"];
-            _azureBlobKey_2 = _configuration["Storages:AzureBlobKey-2"];
+            _azureBlobKey_1 = _configuration["Storages:AzureBlobKeyNuno"];
+            _azureBlobKey_2 = _configuration["Storages:AzureBlobKeyRuben"];
 
-            _azureKeyCredential = new AzureKeyCredential(_azureBlobKey_1);
-            _azureSasCredential = new AzureSasCredential(_azureBlobKey_2);
+            // "AzureBlobKeyNuno": "",
+            // "AzureBlobKeyRuben": "",
+            // "AzureBlobKeyLicinio": "",
+            // "AzureBlobKeyJorge": "",
+            // "AzureBlobKeyJoel": "",
+            // "AzureBlobKey-6": ""
+            
+            //_azureKeyCredential = new AzureKeyCredential(_azureBlobKey_1);
+            //_azureSasCredential = new AzureSasCredential(_azureBlobKey_2);
 
 
-            _awsStorageKey1 = _configuration["Storages:AWSStorageKey1"];
-            _awsStorageKey2 = _configuration["Storages:AWSStorageKey2"];
+            //_awsStorageKey1 = _configuration["Storages:AWSStorageKey1"];
+            //_awsStorageKey2 = _configuration["Storages:AWSStorageKey2"];
 
 
             // Retrieve the connection string for use with the application.
@@ -151,7 +158,7 @@ namespace SuperShop.Web.Helpers
             // Get a reference to a container named "sample-container" and then create it
             var blobContainerClient =
                 new BlobContainerClient(
-                    _configuration["Storages:AzureBlobKey-1"],
+                    _configuration["Storages:AzureBlobKeyNuno"],
                     bucketName);
 
 
@@ -166,6 +173,7 @@ namespace SuperShop.Web.Helpers
 
             // Create the container if it doesn't exist
             if (!containerExists) await blobContainerClient.CreateAsync();
+
             // Perform any additional setup or
             // configuration for the container if needed
             // Upload local file
