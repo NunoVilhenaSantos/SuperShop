@@ -1,12 +1,11 @@
-﻿namespace SuperShop.Web.Data.Entity
+﻿namespace SuperShop.Web.Data.Entity;
+
+public interface IEntity
 {
-    public interface IEntity
-    {
-        int Id { get; set; }
+    int Id { get; set; }
 
-        // string Name { get; set; }
+    // string Name { get; set; }
 
 
-        // bool WasDeleted { get; set; }
-    }
+    // bool WasDeleted { get; set; }
 }

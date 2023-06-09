@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using SuperShop.Web.Data.Entity;
 
-namespace SuperShop.Web.Models
+namespace SuperShop.Web.Models;
+
+public class ProductViewModel : Product
 {
-    public class ProductViewModel : Product
-    {
-        [DisplayName("Image")] public IFormFile ImageFile { get; set; }
-    }
+    [DisplayName("Image")] public IFormFile ImageFile { get; set; }
 }

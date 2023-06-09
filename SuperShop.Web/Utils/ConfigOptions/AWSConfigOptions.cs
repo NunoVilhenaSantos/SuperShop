@@ -1,6 +1,5 @@
-﻿namespace SuperShop.Web.Utils.ConfigOptions
+﻿namespace SuperShop.Web.Utils.ConfigOptions;
+
+public class AWSConfigOptions
 {
-    public class AWSConfigOptions
-    {
-    }
 }

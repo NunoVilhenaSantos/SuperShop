@@ -3,75 +3,74 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data.Entity;
 
-namespace SuperShop.Web.Data
+namespace SuperShop.Web.Data;
+
+public class GenericRepository<T> : IGenericRepository<T>
+    where T : class, IEntity
 {
-    public class GenericRepository<T> : IGenericRepository<T>
-        where T : class, IEntity
+    private readonly DataContext _dataContext;
+
+    protected GenericRepository(DataContext dataContext)
     {
-        private readonly DataContext _dataContext;
-
-        protected GenericRepository(DataContext dataContext)
-        {
-            _dataContext = dataContext;
-        }
+        _dataContext = dataContext;
+    }
 
 
-        public IQueryable<T> GetAll()
-        {
-            return _dataContext.Set<T>()
-                .AsNoTracking().AsQueryable();
-        }
+    public IQueryable<T> GetAll()
+    {
+        return _dataContext.Set<T>()
+            .AsNoTracking().AsQueryable();
+    }
 
 
-        public async Task<T> GetByIdAsync(int id)
-        {
-            return await _dataContext.Set<T>()
-                .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Id == id);
-        }
+    public async Task<T> GetByIdAsync(int id)
+    {
+        return await _dataContext.Set<T>()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Id == id);
+    }
 
 
-        public async Task CreateAsync(T entity)
-        {
-            await _dataContext.Set<T>().AddAsync(entity);
+    public async Task CreateAsync(T entity)
+    {
+        await _dataContext.Set<T>().AddAsync(entity);
 
-            await SaveAllAsync();
+        await SaveAllAsync();
 
-            // return entity;
-        }
-
-
-        public async Task UpdateAsync(T entity)
-        {
-            _dataContext.Set<T>().Update(entity);
-
-            await SaveAllAsync();
-
-            // return entity;
-        }
+        // return entity;
+    }
 
 
-        public async Task DeleteAsync(T entity)
-        {
-            _dataContext.Set<T>().Remove(entity);
+    public async Task UpdateAsync(T entity)
+    {
+        _dataContext.Set<T>().Update(entity);
 
-            await SaveAllAsync();
+        await SaveAllAsync();
 
-            // return entity;
-        }
-
-
-        public async Task<bool> ExistAsync(int id)
-        {
-            return await _dataContext.Set<T>()
-                .AsNoTracking()
-                .AnyAsync(e => e.Id == id);
-        }
+        // return entity;
+    }
 
 
-        private async Task<bool> SaveAllAsync()
-        {
-            return await _dataContext.SaveChangesAsync() > 0;
-        }
+    public async Task DeleteAsync(T entity)
+    {
+        _dataContext.Set<T>().Remove(entity);
+
+        await SaveAllAsync();
+
+        // return entity;
+    }
+
+
+    public async Task<bool> ExistAsync(int id)
+    {
+        return await _dataContext.Set<T>()
+            .AsNoTracking()
+            .AnyAsync(e => e.Id == id);
+    }
+
+
+    private async Task<bool> SaveAllAsync()
+    {
+        return await _dataContext.SaveChangesAsync() > 0;
     }
 }

@@ -17,16 +17,15 @@
 using System;
 using Google.Cloud.Storage.V1;
 
-namespace SuperShop.Web.Helpers.GCP
+namespace SuperShop.Web.Helpers.GCP;
+
+public class DeleteBucketSample
 {
-    public class DeleteBucketSample
+    public void DeleteBucket(string bucketName = "your-unique-bucket-name")
     {
-        public void DeleteBucket(string bucketName = "your-unique-bucket-name")
-        {
-            var storage = StorageClient.Create();
-            storage.DeleteBucket(bucketName);
-            Console.WriteLine($"The bucket {bucketName} was deleted.");
-        }
+        var storage = StorageClient.Create();
+        storage.DeleteBucket(bucketName);
+        Console.WriteLine($"The bucket {bucketName} was deleted.");
     }
 }
 // [END storage_delete_bucket]

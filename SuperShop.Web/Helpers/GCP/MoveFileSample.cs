@@ -17,24 +17,23 @@
 using System;
 using Google.Cloud.Storage.V1;
 
-namespace SuperShop.Web.Helpers.GCP
+namespace SuperShop.Web.Helpers.GCP;
+
+public class MoveFileSample
 {
-    public class MoveFileSample
+    public void MoveFile(
+        string sourceBucketName = "your-unique-bucket-name",
+        string sourceObjectName = "your-object-name",
+        string targetBucketName = "target-object-bucket",
+        string targetObjectName = "target-object-name")
     {
-        public void MoveFile(
-            string sourceBucketName = "your-unique-bucket-name",
-            string sourceObjectName = "your-object-name",
-            string targetBucketName = "target-object-bucket",
-            string targetObjectName = "target-object-name")
-        {
-            var storage = StorageClient.Create();
-            storage.CopyObject(sourceBucketName, sourceObjectName,
-                targetBucketName,
-                targetObjectName);
-            storage.DeleteObject(sourceBucketName, sourceObjectName);
-            Console.WriteLine(
-                $"Moved {sourceObjectName} to {targetObjectName}.");
-        }
+        var storage = StorageClient.Create();
+        storage.CopyObject(sourceBucketName, sourceObjectName,
+            targetBucketName,
+            targetObjectName);
+        storage.DeleteObject(sourceBucketName, sourceObjectName);
+        Console.WriteLine(
+            $"Moved {sourceObjectName} to {targetObjectName}.");
     }
 }
 // [END storage_move_file]

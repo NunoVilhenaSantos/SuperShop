@@ -4,47 +4,46 @@ using System.Linq;
 using System.Threading.Tasks;
 using SuperShop.Web.Data.Entity;
 
-namespace SuperShop.Web.Data
+namespace SuperShop.Web.Data;
+
+public class MockRepository : IGenericRepository<Product>
 {
-    public class MockRepository : IGenericRepository<Product>
+    public IQueryable<Product> GetAll()
     {
-        public IQueryable<Product> GetAll()
+        var products = new List<Product>
         {
-            var products = new List<Product>
-            {
-                new() {Id = 1, Name = "Product 1", Price = 10},
-                new() {Id = 2, Name = "Product 2", Price = 20},
-                new() {Id = 3, Name = "Product 3", Price = 30},
-                new() {Id = 4, Name = "Product 4", Price = 40},
-                new() {Id = 5, Name = "Product 5", Price = 50}
-            };
+            new() {Id = 1, Name = "Product 1", Price = 10},
+            new() {Id = 2, Name = "Product 2", Price = 20},
+            new() {Id = 3, Name = "Product 3", Price = 30},
+            new() {Id = 4, Name = "Product 4", Price = 40},
+            new() {Id = 5, Name = "Product 5", Price = 50}
+        };
 
-            return products.AsQueryable();
-        }
+        return products.AsQueryable();
+    }
 
-        public async Task<Product> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+    public async Task<Product> GetByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 
-        public async Task CreateAsync(Product entity)
-        {
-            throw new NotImplementedException();
-        }
+    public async Task CreateAsync(Product entity)
+    {
+        throw new NotImplementedException();
+    }
 
-        public async Task UpdateAsync(Product entity)
-        {
-            throw new NotImplementedException();
-        }
+    public async Task UpdateAsync(Product entity)
+    {
+        throw new NotImplementedException();
+    }
 
-        public async Task DeleteAsync(Product entity)
-        {
-            throw new NotImplementedException();
-        }
+    public async Task DeleteAsync(Product entity)
+    {
+        throw new NotImplementedException();
+    }
 
-        public async Task<bool> ExistAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+    public async Task<bool> ExistAsync(int id)
+    {
+        throw new NotImplementedException();
     }
 }

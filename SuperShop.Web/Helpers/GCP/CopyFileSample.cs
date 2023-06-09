@@ -17,25 +17,24 @@
 using System;
 using Google.Cloud.Storage.V1;
 
-namespace SuperShop.Web.Helpers.GCP
-{
-    public class CopyFileSample
-    {
-        public void CopyFile(
-            string sourceBucketName = "source-bucket-name",
-            string sourceObjectName = "source-file",
-            string destBucketName = "destination-bucket-name",
-            string destObjectName = "destination-file-name")
-        {
-            var storage = StorageClient.Create();
-            storage.CopyObject(sourceBucketName, sourceObjectName,
-                destBucketName,
-                destObjectName);
+namespace SuperShop.Web.Helpers.GCP;
 
-            Console.WriteLine(
-                $"Copied {sourceBucketName}/{sourceObjectName} to " +
-                $"{destBucketName}/{destObjectName}.");
-        }
+public class CopyFileSample
+{
+    public void CopyFile(
+        string sourceBucketName = "source-bucket-name",
+        string sourceObjectName = "source-file",
+        string destBucketName = "destination-bucket-name",
+        string destObjectName = "destination-file-name")
+    {
+        var storage = StorageClient.Create();
+        storage.CopyObject(sourceBucketName, sourceObjectName,
+            destBucketName,
+            destObjectName);
+
+        Console.WriteLine(
+            $"Copied {sourceBucketName}/{sourceObjectName} to " +
+            $"{destBucketName}/{destObjectName}.");
     }
 }
 // [END storage_copy_file]

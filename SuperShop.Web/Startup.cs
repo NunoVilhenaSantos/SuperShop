@@ -11,128 +11,127 @@ using SuperShop.Web.Helpers;
 using SuperShop.Web.Services;
 using SuperShop.Web.Utils.ConfigOptions;
 
-namespace SuperShop.Web
+namespace SuperShop.Web;
+
+public class Startup
 {
-    public class Startup
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        Configuration = configuration;
+    }
 
-        private IConfiguration Configuration { get; }
+    private IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime.
-        // Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddIdentity<User, IdentityRole>(
-                cfg =>
+    // This method gets called by the runtime.
+    // Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddIdentity<User, IdentityRole>(
+            cfg =>
+            {
+                cfg.User.RequireUniqueEmail = true;
+
+                cfg.Password.RequireDigit = false;
+                cfg.Password.RequiredLength = 6;
+                cfg.Password.RequiredUniqueChars = 0;
+                cfg.Password.RequireUppercase = false;
+                cfg.Password.RequireLowercase = false;
+                cfg.Password.RequireNonAlphanumeric = false;
+
+                cfg.SignIn.RequireConfirmedEmail = false;
+                cfg.SignIn.RequireConfirmedAccount = false;
+                cfg.SignIn.RequireConfirmedPhoneNumber = false;
+            }).AddEntityFrameworkStores<DataContext>();
+
+
+        services.AddDbContext<DataContext>(
+            cfg =>
+            {
+                cfg.UseSqlServer(
+                    Configuration.GetConnectionString(
+                        "SomeeConnection"));
+            });
+
+
+        //services.AddDbContext<DataContext>(options =>
+        //{
+        //    options.UseSqlServer(
+        //        Configuration.GetConnectionString(
+        //            "AzureConnectionNuno"));
+        //});
+
+
+        //services.AddDbContext<DataContext>(options =>
+        //{
+        //    options.UseSqlServer(
+        //        Configuration.GetConnectionString(
+        //            "AzureConnectionRuben"));
+        //});
+
+
+        services
+            .AddAuthentication("CookieAuth")
+            .AddCookie("CookieAuth",
+                config =>
                 {
-                    cfg.User.RequireUniqueEmail = true;
-
-                    cfg.Password.RequireDigit = false;
-                    cfg.Password.RequiredLength = 6;
-                    cfg.Password.RequiredUniqueChars = 0;
-                    cfg.Password.RequireUppercase = false;
-                    cfg.Password.RequireLowercase = false;
-                    cfg.Password.RequireNonAlphanumeric = false;
-
-                    cfg.SignIn.RequireConfirmedEmail = false;
-                    cfg.SignIn.RequireConfirmedAccount = false;
-                    cfg.SignIn.RequireConfirmedPhoneNumber = false;
-                }).AddEntityFrameworkStores<DataContext>();
-
-
-            services.AddDbContext<DataContext>(
-                cfg =>
-                {
-                    cfg.UseSqlServer(
-                        Configuration.GetConnectionString(
-                            "SomeeConnection"));
+                    config.Cookie.Name = "SuperShop.Cookie";
+                    config.LoginPath = "/Home/Authenticate";
                 });
 
 
-            //services.AddDbContext<DataContext>(options =>
-            //{
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString(
-            //            "AzureConnectionNuno"));
-            //});
+        services.AddTransient<SeedDb>();
+
+        services.AddScoped<IUserHelper, UserHelper>();
+        services.AddScoped<IImageHelper, ImageHelper>();
+        services.AddScoped<IStorageHelper, StorageHelper>();
+        services.AddScoped<IConverterHelper, ConverterHelper>();
+
+        //services.AddScoped<IRepository, Repository>();
+        //services.AddScoped<IRepository, MockRepository>();
+
+        services.AddScoped<IProductsRepository, ProductRepository>();
+
+        //services.AddScoped<ICountryRepository, CountryRepository>();
+        services.AddScoped<GCPConfigOptions>();
+        services.AddScoped<AWSConfigOptions>();
+        services.AddScoped<ICloudStorageService, CloudStorageService>();
+
+        services.AddControllersWithViews();
+    }
 
 
-            //services.AddDbContext<DataContext>(options =>
-            //{
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString(
-            //            "AzureConnectionRuben"));
-            //});
+    // This method gets called by the runtime.
+    // Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        app.UseDeveloperExceptionPage();
 
 
-            services
-                .AddAuthentication("CookieAuth")
-                .AddCookie("CookieAuth",
-                    config =>
-                    {
-                        config.Cookie.Name = "SuperShop.Cookie";
-                        config.LoginPath = "/Home/Authenticate";
-                    });
-
-
-            services.AddTransient<SeedDb>();
-
-            services.AddScoped<IUserHelper, UserHelper>();
-            services.AddScoped<IImageHelper, ImageHelper>();
-            services.AddScoped<IStorageHelper, StorageHelper>();
-            services.AddScoped<IConverterHelper, ConverterHelper>();
-
-            //services.AddScoped<IRepository, Repository>();
-            //services.AddScoped<IRepository, MockRepository>();
-
-            services.AddScoped<IProductsRepository, ProductRepository>();
-
-            //services.AddScoped<ICountryRepository, CountryRepository>();
-            services.AddScoped<GCPConfigOptions>();
-            services.AddScoped<AWSConfigOptions>();
-            services.AddScoped<ICloudStorageService, CloudStorageService>();
-
-            services.AddControllersWithViews();
-        }
-
-
-        // This method gets called by the runtime.
-        // Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
-
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days.
-                // You may want to change this for production scenarios,
-                // see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-            app.UseAuthentication(); // Must be before UseAuthorization
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    "default",
-                    "{controller=Home}/{action=Index}/{id?}");
-            });
         }
+        else
+        {
+            app.UseExceptionHandler("/Home/Error");
+            // The default HSTS value is 30 days.
+            // You may want to change this for production scenarios,
+            // see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+        app.UseAuthentication(); // Must be before UseAuthorization
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+                "default",
+                "{controller=Home}/{action=Index}/{id?}");
+        });
     }
 }

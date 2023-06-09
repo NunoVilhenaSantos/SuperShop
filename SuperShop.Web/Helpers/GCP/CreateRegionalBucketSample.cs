@@ -18,51 +18,50 @@ using System;
 using Google.Apis.Storage.v1.Data;
 using Google.Cloud.Storage.V1;
 
-namespace SuperShop.Web.Helpers.GCP
+namespace SuperShop.Web.Helpers.GCP;
+
+public class CreateRegionalBucketSample
 {
-    public class CreateRegionalBucketSample
+    /// <summary>
+    ///     Creates a storage bucket with region.
+    /// </summary>
+    /// <param name="projectId">The ID of the project to create the buckets in.</param>
+    /// <param name="location">
+    ///     The location of the bucket.
+    ///     Object data for objects in the bucket resides in
+    ///     physical storage within this region. Defaults to US.
+    /// </param>
+    /// <param name="bucketName">The name of the bucket to create.</param>
+    /// <param name="storageClass">
+    ///     The bucket's default storage class,
+    ///     used whenever no storageClass is specified for a newly-created object.
+    ///     This defines how objects in the bucket are stored and
+    ///     determines the SLA and the cost of storage.
+    ///     Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE,
+    ///     COLDLINE, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY.
+    ///     If this value is not specified when the bucket is created,
+    ///     it will default to STANDARD.
+    /// </param>
+    public Bucket CreateRegionalBucket(
+        string projectId = "your-project-id",
+        string bucketName = "your-unique-bucket-name",
+        string location = "us-west1",
+        string storageClass = "REGIONAL")
     {
-        /// <summary>
-        ///     Creates a storage bucket with region.
-        /// </summary>
-        /// <param name="projectId">The ID of the project to create the buckets in.</param>
-        /// <param name="location">
-        ///     The location of the bucket.
-        ///     Object data for objects in the bucket resides in
-        ///     physical storage within this region. Defaults to US.
-        /// </param>
-        /// <param name="bucketName">The name of the bucket to create.</param>
-        /// <param name="storageClass">
-        ///     The bucket's default storage class,
-        ///     used whenever no storageClass is specified for a newly-created object.
-        ///     This defines how objects in the bucket are stored and
-        ///     determines the SLA and the cost of storage.
-        ///     Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE,
-        ///     COLDLINE, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY.
-        ///     If this value is not specified when the bucket is created,
-        ///     it will default to STANDARD.
-        /// </param>
-        public Bucket CreateRegionalBucket(
-            string projectId = "your-project-id",
-            string bucketName = "your-unique-bucket-name",
-            string location = "us-west1",
-            string storageClass = "REGIONAL")
+        var storage = StorageClient.Create();
+
+        var bucket = new Bucket
         {
-            var storage = StorageClient.Create();
+            Location = location,
+            Name = bucketName,
+            StorageClass = storageClass
+        };
 
-            var bucket = new Bucket
-            {
-                Location = location,
-                Name = bucketName,
-                StorageClass = storageClass
-            };
+        var newlyCreatedBucket = storage.CreateBucket(projectId, bucket);
 
-            var newlyCreatedBucket = storage.CreateBucket(projectId, bucket);
+        Console.WriteLine($"Created {bucketName}.");
 
-            Console.WriteLine($"Created {bucketName}.");
-
-            return newlyCreatedBucket;
-        }
+        return newlyCreatedBucket;
     }
 }
 // [END storage_create_bucket_class_location]

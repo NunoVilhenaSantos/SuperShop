@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace SuperShop.Web.Helpers
+namespace SuperShop.Web.Helpers;
+
+public interface IImageHelper
 {
-    public interface IImageHelper
-    {
-        Task<string> UploadImageAsync(IFormFile imageFile, string folder);
-    }
+    Task<string> UploadImageAsync(IFormFile imageFile, string folder);
 }
