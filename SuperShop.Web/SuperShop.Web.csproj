@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>abcb71f5-d541-40f1-9c64-4bf45375102e</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -40,13 +41,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Data\MockRepository.cs"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <Folder Include="Controllers\API\"/>
         <Folder Include="Helpers\GCP\"/>
         <Folder Include="docs\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="app.yaml">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>

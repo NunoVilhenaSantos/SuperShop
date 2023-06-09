@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using SuperShop.Web.Data.Entity;
 
@@ -7,32 +8,7 @@ namespace SuperShop.Web.Data
 {
     public class MockRepository : IGenericRepository<Product>
     {
-        void IRepository.AddProduct(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IRepository.AddProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IRepository.DeleteProduct(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IRepository.DeleteProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        Product IRepository.GetProduct(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Product> IRepository.GetProducts()
+        public IQueryable<Product> GetAll()
         {
             var products = new List<Product>
             {
@@ -43,25 +19,30 @@ namespace SuperShop.Web.Data
                 new() {Id = 5, Name = "Product 5", Price = 50}
             };
 
-            return products;
+            return products.AsQueryable();
         }
 
-        bool IRepository.ProductExists(int id)
+        public async Task<Product> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        Task<bool> IRepository.SaveAllAsync()
+        public async Task CreateAsync(Product entity)
         {
             throw new NotImplementedException();
         }
 
-        void IRepository.UpdateProduct(int id)
+        public async Task UpdateAsync(Product entity)
         {
             throw new NotImplementedException();
         }
 
-        void IRepository.UpdateProduct(Product product)
+        public async Task DeleteAsync(Product entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> ExistAsync(int id)
         {
             throw new NotImplementedException();
         }
