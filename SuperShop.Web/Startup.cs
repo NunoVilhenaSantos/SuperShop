@@ -96,7 +96,6 @@ namespace SuperShop.Web
             services.AddScoped<AWSConfigOptions>();
             services.AddScoped<ICloudStorageService, CloudStorageService>();
 
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
         }
 
