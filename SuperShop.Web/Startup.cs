@@ -43,6 +43,12 @@ public class Startup
                 cfg.SignIn.RequireConfirmedPhoneNumber = false;
             }).AddEntityFrameworkStores<DataContext>();
 
+        // este � o por defeito, mas j� existe o de cima
+        //services.AddDefaultIdentity<IdentityUser>(
+        //        options =>
+        //            options.SignIn.RequireConfirmedAccount = true)
+        //    .AddEntityFrameworkStores<DataContext>();
+
 
         services.AddDbContext<DataContext>(
             cfg =>
@@ -51,6 +57,9 @@ public class Startup
                     Configuration.GetConnectionString(
                         "SomeeConnection"));
             });
+
+        services.AddMvcCore();
+        services.AddRazorPages();
 
 
         //services.AddDbContext<DataContext>(options =>
@@ -124,8 +133,11 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
+
         app.UseAuthentication(); // Must be before UseAuthorization
         app.UseAuthorization();
+
+        // app.MapRazorPages();
 
         app.UseEndpoints(endpoints =>
         {

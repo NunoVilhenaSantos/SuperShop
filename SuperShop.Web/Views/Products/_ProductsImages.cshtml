@@ -1,0 +1,75 @@
+﻿@if ((string) ViewData["Title"] == "Create")
+{
+    <div class="col-auto">
+        Local <br/>
+        <img src="~/images/placeholders/no-picture/product/no-image-icon-1.png"
+             class="img-thumbnail preview" width="250" height="auto" alt="Image"/>
+        <br/>Azure <br/>
+        <img src="~/images/placeholders/no-picture/product/no-image-icon-1.png"
+             class="img-thumbnail preview" width="250" height="auto" alt="Image"/>
+    </div>
+
+
+    <div class="col-auto">
+        GCP <br/>
+        <img src="~/images/placeholders/no-picture/product/no-image-icon-1.png"
+             class="img-thumbnail preview" width="250" height="auto" alt="Image"/>
+        <br/>AWS <br/>
+        <img src="~/images/placeholders/no-picture/product/no-image-icon-1.png"
+             class="img-thumbnail preview" width="250" height="auto" alt="Image"/>
+    </div>
+}
+else
+{
+    <div class="col-auto">
+        Local <br/>
+        <img src="@Url.Content(Model.ImageFullUrl)"
+             class="img-thumbnail preview" width="250" height="auto" alt="Image"/>
+        <br/>Azure <br/>
+        <img src="@Url.Content(Model.ImageFullIdUrl)"
+             class="img-thumbnail preview" width="250" height="auto" alt="Image"/>
+    </div>
+
+    <div class="col-auto">
+        GCP <br/>
+        <img src="@Url.Content(Model.ImageFullIdGcpUrl)"
+             class="img-thumbnail preview" width="250" height="auto" alt="Image"/>
+        <br/>AWS <br/>
+        <img src="@Url.Content(Model.ImageFullIdAwsUrl)"
+             class="img-thumbnail preview" width="250" height="auto" alt="Image"/>
+    </div>
+}
+
+
+
+
+@*
+    <script>
+         function previewImage(event) {
+             let reader = new FileReader();
+
+             reader.onload = function () {
+                 let preview = document.getElementById('preview');
+                 preview.src = reader.result;
+             }
+
+             reader.readAsDataURL(event.target.files[0]);
+         }
+ </script>
+    *@
+
+
+<script>
+    function previewImages(event) {
+        let reader = new FileReader();
+
+        reader.onload = function () {
+            let previews = document.getElementsByClassName('preview');
+            for (let i = 0; i < previews.length; i++) {
+                previews[i].src = reader.result;
+            }
+        }
+
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>

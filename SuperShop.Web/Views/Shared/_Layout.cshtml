@@ -52,6 +52,8 @@
                     </div>
                 </div>
 
+                <partial name="_LoginPartial"/>
+
                 <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavAltMarkup"
                         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,18 +117,39 @@
         });
     </script>
 
+
+@*
+    <script>
+         function previewImage(event) {
+             let reader = new FileReader();
+
+             reader.onload = function () {
+                 let preview = document.getElementById('preview');
+                 preview.src = reader.result;
+             }
+
+             reader.readAsDataURL(event.target.files[0]);
+         }
+ </script>
+    *@
+
+@*
 <script>
-        function previewImage(event) {
-            const reader = new FileReader();
+    function previewImages(event) {
+        let reader = new FileReader();
 
-            reader.onload = function () {
-                let preview = document.getElementById('preview');
-                preview.src = reader.result;
+        reader.onload = function() {
+            let previews = document.getElementsByClassName('preview');
+            for (let i = 0; i < previews.length; i++) {
+                previews[i].src = reader.result;
             }
-
-            reader.readAsDataURL(event.target.files[0]);
         }
-    </script>
+
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+    *@
+
 
 
 @await RenderSectionAsync("Scripts", false)

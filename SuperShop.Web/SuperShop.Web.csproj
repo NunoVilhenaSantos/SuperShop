@@ -6,41 +6,43 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Identity" Version="1.9.0"/>
-        <PackageReference Include="Azure.Storage.Blobs" Version="12.16.0"/>
-        <PackageReference Include="Azure.Storage.Blobs.Batch" Version="12.13.0"/>
-        <PackageReference Include="Azure.Storage.Common" Version="12.15.0"/>
-        <PackageReference Include="Azure.Storage.Files.DataLake" Version="12.14.0"/>
-        <PackageReference Include="Azure.Storage.Files.Shares" Version="12.14.0"/>
-        <PackageReference Include="Azure.Storage.Queues" Version="12.14.0"/>
-        <PackageReference Include="Google.Cloud.Storage.V1" Version="4.6.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16"/>
-        <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.16"/>
-        <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="6.0.16"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.16"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.16"/>
+        <PackageReference Include="Azure.Identity" Version="1.9.0" />
+        <PackageReference Include="Azure.Storage.Blobs" Version="12.16.0" />
+        <PackageReference Include="Azure.Storage.Blobs.Batch" Version="12.13.0" />
+        <PackageReference Include="Azure.Storage.Common" Version="12.15.0" />
+        <PackageReference Include="Azure.Storage.Files.DataLake" Version="12.14.0" />
+        <PackageReference Include="Azure.Storage.Files.Shares" Version="12.14.0" />
+        <PackageReference Include="Azure.Storage.Queues" Version="12.14.0" />
+        <PackageReference Include="Google.Cloud.Storage.V1" Version="4.6.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.16" />
+        <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.16" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="6.0.16" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.16" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.16" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.16">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8"/>
-        <PackageReference Include="Serilog" Version="2.12.0"/>
-        <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0"/>
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0"/>
-        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
-        <PackageReference Include="System.IO.Abstractions" Version="19.2.29"/>
-        <PackageReference Include="TestableIO.System.IO.Abstractions" Version="19.2.29"/>
-        <PackageReference Include="TestableIO.System.IO.Abstractions.Extensions" Version="1.0.42"/>
-        <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="19.2.29"/>
-        <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="19.2.29"/>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8" />
+        <PackageReference Include="Serilog" Version="2.12.0" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+        <PackageReference Include="System.IO.Abstractions" Version="19.2.29" />
+        <PackageReference Include="TestableIO.System.IO.Abstractions" Version="19.2.29" />
+        <PackageReference Include="TestableIO.System.IO.Abstractions.Extensions" Version="1.0.42" />
+        <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="19.2.29" />
+        <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="19.2.29" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Context\"/>
-        <Folder Include="Controllers\API\"/>
-        <Folder Include="Entities\"/>
-        <Folder Include="Helpers\GCP\"/>
-        <Folder Include="docs\"/>
+        <Folder Include="Context\" />
+        <Folder Include="Controllers\API\" />
+        <Folder Include="Entities\" />
+        <Folder Include="Helpers\GCP\" />
+        <Folder Include="docs\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -50,7 +52,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="wwwroot\images\placeholders\no-picture\person\Placeholder-no-text-person-2.webp"/>
+        <None Include="wwwroot\images\placeholders\no-picture\person\Placeholder-no-text-person-2.webp" />
     </ItemGroup>
 
 </Project>
