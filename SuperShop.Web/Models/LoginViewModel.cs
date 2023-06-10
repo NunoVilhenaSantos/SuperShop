@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SuperShop.Web.Models;
 
@@ -12,5 +13,7 @@ public class LoginViewModel
     public string Password { get; set; }
 
 
+    [Required]
+    [DisplayName("Remember Me?")]
     public bool RememberMe { get; set; }
 }

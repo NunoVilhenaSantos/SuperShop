@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SuperShop.Web.Models;
@@ -9,13 +10,22 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
+
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
     }
 
+
     public IActionResult Index()
     {
+        return View();
+    }
+
+    public ActionResult About()
+    {
+        var currentTime = DateTime.Now.ToLongTimeString();
+        ViewBag.Message = "The current time is " + currentTime;
         return View();
     }
 
@@ -24,8 +34,10 @@ public class HomeController : Controller
         return View();
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None,
-        NoStore = true)]
+
+    [ResponseCache(
+        Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)
+    ]
     public IActionResult Error()
     {
         return View(new ErrorViewModel
