@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@using System.Diagnostics
+<!doctype html>
 
 <html lang="pt" data-bs-theme="dark">
 
@@ -80,7 +81,7 @@
                     @* <a class="nav-link disabled">Disabled</a> *@
 
                     @{
-                        System.Diagnostics.Debug.Assert(User.Identity != null, "User.Identity != null");
+                        Debug.Assert(User.Identity != null, "User.Identity != null");
                     }
                     @if (User.Identity.IsAuthenticated)
                     {

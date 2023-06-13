@@ -36,7 +36,6 @@ public class AccountController : Controller
             var result = await _userHelper.LoginAsync(model);
 
             if (result.Succeeded)
-            {
                 //
                 // Caso tente acessar outra view diferente do
                 // Login sou direcionado para a view Login,
@@ -49,20 +48,15 @@ public class AccountController : Controller
                 return Request.Query.Keys.Contains("ReturnUrl")
                     ? Redirect(Request.Query["ReturnUrl"].First())
                     : RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                ModelState.AddModelError(
-                    string.Empty, "Failed to login!");
-                return View(model);
-            }
-        }
-        else
-        {
+
             ModelState.AddModelError(
                 string.Empty, "Failed to login!");
             return View(model);
         }
+
+        ModelState.AddModelError(
+            string.Empty, "Failed to login!");
+        return View(model);
     }
 
     // public IActionResult Index()
@@ -78,11 +72,11 @@ public class AccountController : Controller
 
     public IActionResult ChangeUser()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public IActionResult Register()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 }

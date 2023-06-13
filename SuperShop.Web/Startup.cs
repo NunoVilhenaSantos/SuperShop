@@ -10,11 +10,6 @@ using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Services;
 using SuperShop.Web.Utils.ConfigOptions;
-using System;
-using Microsoft.Extensions.Azure;
-using Azure.Storage.Queues;
-using Azure.Storage.Blobs;
-using Azure.Core.Extensions;
 
 namespace SuperShop.Web;
 
