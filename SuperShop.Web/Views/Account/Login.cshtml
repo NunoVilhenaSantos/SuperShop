@@ -12,14 +12,14 @@
 
     <div class="col">
 
-        <div class="row">
+        @* <div class="row"> *@
 
-            <form asp-action="post">
+            <form method="post">
 
                 <div asp-validation-summary="ModelOnly" class="text-warning"></div>
-                <input type="hidden" asp-for="Username"/>
-                <input type="hidden" asp-for="Password"/>
-                <input type="hidden" asp-for="RememberMe"/>
+                @* <input type="hidden" asp-for="Username"/> *@
+                @* <input type="hidden" asp-for="Password"/> *@
+                @* <input type="hidden" asp-for="RememberMe"/> *@
 
 
                 <div class="form-group">
@@ -30,7 +30,7 @@
 
                 <div class="form-group">
                     <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control"/>
+                    <input asp-for="Password" class="form-control" type="password"/>
                     <span asp-validation-for="Password" class="text-warning"></span>
                 </div>
 
@@ -39,36 +39,20 @@
                         <input class="form-check-input" asp-for="RememberMe"/>
                         @Html.DisplayNameFor(model => model.RememberMe)
                     </label>
-                    <label asp-for="RememberMe" class="form-check-label">Remember Me?</label>
-                    <input asp-for="RememberMe" type="checkbox" class="form-check-input"/>
+                    @* <label asp-for="RememberMe" class="form-check-label">Remember Me?</label> *@
+                    <input asp-for="RememberMe" class="form-check-input" type="checkbox"/>
                     <span asp-validation-for="RememberMe" class="text-warning"></span>
                 </div>
 
-
-                @*
+                <br/>
                 <div class="form-group">
-                    <label asp-for="RememberMe" class="control-label"></label>
-                    <input asp-for="RememberMe" class="form-control"/>
-                    <span asp-validation-for="RememberMe" class="text-warning"></span>
+                    <input type="submit" class="btn btn-success" value="Login"/>
+                    <a asp-action="Register" class="btn btn-primary">Register New User</a>
                 </div>
-
-                <div class="form-group">
-                    <label asp-for="LastSale" class="control-label"></label>
-                    <input asp-for="LastSale" class="form-control"/>
-                    <span asp-validation-for="LastSale" class="text-warning"></span>
-                </div>
-
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="IsAvailable"/>
-                        @Html.DisplayNameFor(model => model.IsAvailable)
-                    </label>
-                </div>
-                *@
 
             </form>
 
-        </div>
+        @* </div> *@
 
     </div>
 

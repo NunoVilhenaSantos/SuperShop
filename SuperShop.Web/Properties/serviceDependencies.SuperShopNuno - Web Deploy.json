@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/SuperShopNuno/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsSomeeConnection_BABAB62235",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/supershopdbservernuno/databases/SuperShopNuno_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:SomeeConnection",
+      "dynamicId": null
+    }
+  }
+}

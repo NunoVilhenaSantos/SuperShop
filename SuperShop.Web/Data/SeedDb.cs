@@ -45,7 +45,7 @@ public class SeedDb
                 FirstName = "Nuno",
                 LastName = "Santos",
                 Email = "nunovilhenasantos@msn.com",
-                UserName = "nunovilhenasantos",
+                UserName = "nunovilhenasantos@msn.com",
                 PhoneNumber = "211333555"
             };
 
@@ -94,7 +94,8 @@ public class SeedDb
 
         var random = new Random();
 
-        // Generate random TimeSpan for LastPurchase and LastSale within a range of 30 days
+        // Generate random TimeSpan for
+        // LastPurchase and LastSale within a range of 30 days
         var purchaseTimeSpan = TimeSpan.FromDays(random.Next(30));
         var saleTimeSpan = TimeSpan.FromDays(random.Next(30));
 

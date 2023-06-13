@@ -28,6 +28,7 @@ public class StorageHelper : IStorageHelper
         _azureBlobKey_1 = _configuration["Storages:AzureBlobKeyNuno"];
         _azureBlobKey_2 = _configuration["Storages:AzureBlobKeyRuben"];
 
+
         // "AzureBlobKeyNuno": "",
         // "AzureBlobKeyRuben": "",
         // "AzureBlobKeyLicinio": "",
@@ -105,7 +106,9 @@ public class StorageHelper : IStorageHelper
         try
         {
             _logger.LogInformation(
-                $"Uploading File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_configuration["GCPStorageBucketName_Nuno"]}");
+                $"Uploading File Async: {fileToUpload.FileName} to " +
+                $"{fileNameToSave} into storage " +
+                $"{_configuration["GCPStorageBucketName_Nuno"]}");
 
 
             using (var memoryStream = new MemoryStream())
@@ -124,7 +127,9 @@ public class StorageHelper : IStorageHelper
                             fileToUpload.ContentType, memoryStream);
 
                     _logger.LogInformation(
-                        $"Uploaded File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_configuration[""]}");
+                        $"Uploaded File Async: " +
+                        $"{fileToUpload.FileName} to " +
+                        $"{fileNameToSave} into storage {_configuration[""]}");
 
                     return await Task.FromResult(storageObject.MediaLink);
                 }
@@ -155,14 +160,16 @@ public class StorageHelper : IStorageHelper
         var name = Guid.NewGuid();
 
 
-        // Get a reference to a container named "sample-container" and then create it
+        // Get a reference to a container named "sample-container"
+        // and then create it
         var blobContainerClient =
             new BlobContainerClient(
                 _configuration["Storages:AzureBlobKeyNuno"],
                 bucketName);
 
 
-        // Get a reference to a blob named "sample-file" in a container named "sample-container"
+        // Get a reference to a blob named "sample-file"
+        // in a container named "sample-container"
         var blobClient =
             blobContainerClient.GetBlobClient(name.ToString());
 

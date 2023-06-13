@@ -1,19 +1,25 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using SuperShop.Web.Data;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace SuperShop.Web.Controllers;
 
+// [Authorize]
 public class ProductsController : Controller
 {
-    public ProductsController(IProductsRepository productsRepository,
-        IUserHelper userHelper, IImageHelper imageHelper,
+    public ProductsController(
+        IUserHelper userHelper,
+        IImageHelper imageHelper,
         IStorageHelper storageHelper,
-        IConverterHelper converterHelper)
+        IConverterHelper converterHelper,
+        IProductsRepository productsRepository
+    )
     {
         _userHelper = userHelper;
         _imageHelper = imageHelper;
@@ -52,6 +58,7 @@ public class ProductsController : Controller
     }
 
 
+    [Authorize]
     // GET: Products/Create
     public IActionResult Create()
     {
@@ -100,6 +107,7 @@ public class ProductsController : Controller
     }
 
 
+    [Authorize]
     // GET: Products/Edit/5
     //public async Task<IActionResult> Edit(int? id)
     public async Task<IActionResult> Edit(int? id)
@@ -174,6 +182,7 @@ public class ProductsController : Controller
     }
 
 
+    [Authorize]
     // GET: Products/Delete/5
     //public async Task<IActionResult> Delete(int? id)
     public async Task<IActionResult> Delete(int? id)

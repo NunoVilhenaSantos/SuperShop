@@ -8,8 +8,8 @@ namespace SuperShop.Web.Helpers;
 
 public class UserHelper : IUserHelper
 {
-    private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
 
 
     public UserHelper(
@@ -20,8 +20,20 @@ public class UserHelper : IUserHelper
     }
 
 
-    public async Task<IdentityResult> AddUserAsync(User user,
-        string password)
+    public async Task<User> GetUserByEmailAsync(string email)
+    {
+        return await _userManager.FindByEmailAsync(email);
+    }
+
+
+    public async Task<User> GetUserByIdAsync(string id)
+    {
+        return await _userManager.FindByIdAsync(id);
+    }
+
+
+    public async Task<IdentityResult> AddUserAsync(
+        User user, string password)
     {
         return await _userManager.CreateAsync(user, password);
     }
@@ -44,17 +56,5 @@ public class UserHelper : IUserHelper
     public async Task LogOutAsync()
     {
         await _signInManager.SignOutAsync();
-    }
-
-
-    public async Task<User> GetUserByEmailAsync(string email)
-    {
-        return await _userManager.FindByEmailAsync(email);
-    }
-
-
-    public async Task<User> GetUserByIdAsync(string id)
-    {
-        return await _userManager.FindByIdAsync(id);
     }
 }
