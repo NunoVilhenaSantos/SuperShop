@@ -43,6 +43,7 @@ public class Startup
                 cfg.SignIn.RequireConfirmedPhoneNumber = false;
             }).AddEntityFrameworkStores<DataContext>();
 
+
         // este é o por defeito, mas já existe o de cima
         //services.AddDefaultIdentity<IdentityUser>(
         //        options =>
@@ -60,33 +61,33 @@ public class Startup
 
                 cfg.UseSqlServer(
                     Configuration.GetConnectionString(
-                        "AzureConnectionNuno"));
-
-                cfg.UseSqlServer(
-                    Configuration.GetConnectionString("AzureConnectionNuno"),
+                        "AzureConnectionNuno"),
                     options => options.EnableRetryOnFailure());
             });
 
+
+        // services.AddDbContext<DataContext>(
+        //     cfg =>
+        //     {
+        //         cfg.UseSqlServer(
+        //             Configuration.GetConnectionString(
+        //                 "AzureConnectionNuno"),
+        //             options => options.EnableRetryOnFailure());
+        //     });
+
+
+        // services.AddDbContext<DataContext>(
+        //     cfg =>
+        //     {
+        //         cfg.UseSqlServer(
+        //             Configuration.GetConnectionString(
+        //                 "AzureConnectionRuben"),
+        //             options => options.EnableRetryOnFailure());
+        //     });
+
+
         services.AddMvcCore();
         services.AddRazorPages();
-
-
-        //services.AddDbContext<DataContext>(options =>
-        //{
-        //    options.UseSqlServer(
-        //        Configuration.GetConnectionString(
-        //            "AzureConnectionNuno"),
-        //            options => options.EnableRetryOnFailure());
-        //});
-
-
-        //services.AddDbContext<DataContext>(options =>
-        //{
-        //    options.UseSqlServer(
-        //        Configuration.GetConnectionString(
-        //            "AzureConnectionRuben"),
-        //            options => options.EnableRetryOnFailure());
-        //});
 
 
         services

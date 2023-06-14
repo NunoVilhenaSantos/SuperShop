@@ -132,16 +132,16 @@ public class AccountController : Controller
 
 
     [HttpGet]
-    public IActionResult ChangeUser()
+    public async Task<IActionResult> ChangeUser()
     {
-        var user = _userHelper.GetUserByEmailAsync(User.Identity?.Name);
+        var user = await _userHelper.GetUserByEmailAsync(User.Identity?.Name);
 
         if (user == null) return View();
 
         var model = new ChangeUserViewModel
         {
-            FirstName = user.Result.FirstName,
-            LastName = user.Result.LastName
+            FirstName = user.FirstName,
+            LastName = user.LastName
             // Address = user.Result.Address,
             // PhoneNumber = user.Result.PhoneNumber,
             // UserName = user.Result.UserName,
@@ -157,21 +157,23 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = _userHelper.GetUserByEmailAsync(User.Identity?.Name);
+            var user =
+                await _userHelper.GetUserByEmailAsync(User.Identity?.Name);
 
             if (user == null) return View();
 
-            user.Result.FirstName = model.FirstName;
-            user.Result.LastName = model.LastName;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
             // user.Result.Address,
             // user.Result.PhoneNumber,
             // user.Result.UserName,
             // user.Result.Email,
 
-            var response = await _userHelper.UpdateUserAsync(user.Result);
+            var response = await _userHelper.UpdateUserAsync(user);
 
             if (response.Succeeded)
             {
+                await _userHelper.AddUserToRoleAsync(user, "Customer");
                 ViewBag.UserMessage = "User updated!";
             }
             else
@@ -204,35 +206,33 @@ public class AccountController : Controller
     public async Task<IActionResult> ChangePassword(
         ChangePasswordViewModel model)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid) return View(model);
+
+        var user = await _userHelper.GetUserByEmailAsync(User.Identity?.Name);
+
+        if (user == null) return View();
+
+        var response = await _userHelper.ChangePasswordAsync(
+            user, model.OldPassword, model.NewPassword);
+
+        if (response.Succeeded)
         {
-            var user = _userHelper.GetUserByEmailAsync(User.Identity?.Name);
-
-            if (user == null) return View();
-
-            var response = await _userHelper.ChangePasswordAsync(
-                user.Result, model.OldPassword, model.NewPassword);
-
-            if (response.Succeeded)
-            {
-                ViewBag.UserMessage = "User alterado!";
-                return RedirectToAction("ChangeUser");
-            }
-
-            var errorMessage =
-                response.Errors.FirstOrDefault()?.Description;
-            if (errorMessage != null)
-                ModelState.AddModelError(
-                    string.Empty, errorMessage);
-            ModelState.AddModelError(
-                string.Empty, "User not found.");
-
-
-            return View(model);
+            ViewBag.UserMessage = "User alterado!";
+            return RedirectToAction("ChangeUser");
         }
+
+        var errorMessage =
+            response.Errors.FirstOrDefault()?.Description;
+        if (errorMessage != null)
+            ModelState.AddModelError(
+                string.Empty, errorMessage);
+        ModelState.AddModelError(
+            string.Empty, "User not found.");
+
+
+        return View(model);
 
         // ModelState.AddModelError(
         //     string.Empty, "Failed to login!");
-        return View(model);
     }
 }

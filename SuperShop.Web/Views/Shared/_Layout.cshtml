@@ -71,6 +71,42 @@
                         Products
                     </a>
 
+                    @* Verifica se o User está autenticado e se é o Admin!! *@
+                    @* cria um dropdown com as opções de Users e Roles *@
+                    @{
+                        Debug.Assert(User.Identity != null, "User.Identity != null");
+                    }
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <div class="dropdown">
+
+                            <a class="nav-link dropdown-toggle @(currentAction == "Index" && currentController == "Home" ? "active" : "")"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="" asp-action="">Users</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="" asp-action="">Roles</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
                 </div>
 
             </div>
