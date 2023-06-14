@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "storage1": {
+      "ignored": "true",
+      "type": "storage",
+      "connectionId": "Storages:AzureBlobKeyNuno"
+    },
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/SuperShopNuno/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsAzureConnectionNuno_40952BCE00",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/supershopdbservernuno/databases/SuperShopNuno_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:AzureConnectionNuno",
+      "dynamicId": null
+    }
+  }
+}
