@@ -50,7 +50,7 @@ public class Product : IEntity
     public string ImageFullIdGcpUrl => ImageId == Guid.Empty
         ? "https://supershopcet77.azurewebsites.net/images/noimage.png"
         : "https://supershopnunostorage.blob.core.windows.net/products/" +
-           ImageId;
+          ImageId;
 
 
     [Display(Name = "Image AWS")] public Guid ImageIdAws { get; set; }

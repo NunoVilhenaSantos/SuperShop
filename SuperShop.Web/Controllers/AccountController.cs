@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +18,7 @@ public class AccountController : Controller
     }
 
 
+    // Aqui o utilizador é reencaminhado para a view de Login
     public IActionResult Login()
     {
         if (User.Identity is {IsAuthenticated: true})
@@ -60,7 +60,6 @@ public class AccountController : Controller
         return View(model);
     }
 
-    
 
     public async Task<IActionResult> LogOut()
     {
@@ -69,22 +68,11 @@ public class AccountController : Controller
     }
 
 
-
-
-    public IActionResult ChangeUser()
-    {
-        return View();
-    }
-
-
-
-
+    // aqui vai para a view RegisterNewUserViewModel
     public IActionResult Register()
     {
         return View();
     }
-
-
 
 
     // Aqui é que se valida as informações do usuário
@@ -106,7 +94,8 @@ public class AccountController : Controller
                 };
 
 
-                var result = await _userHelper.AddUserAsync(user, model.Password);
+                var result =
+                    await _userHelper.AddUserAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     var loginViewModel = new LoginViewModel
@@ -120,40 +109,130 @@ public class AccountController : Controller
                     var result2 = await _userHelper.LoginAsync(loginViewModel);
                     if (result2.Succeeded)
                         return RedirectToAction("Index", "Home");
-                    else
-                    {              
-                        ModelState.AddModelError(string.Empty, "The User couldn't be logged.");
-                        return View(model);
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "The User couldn't be created.");
+
+                    ModelState.AddModelError(string.Empty,
+                        "The User couldn't be logged.");
                     return View(model);
                 }
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "User already exists.");
+
+                ModelState.AddModelError(string.Empty,
+                    "The User couldn't be created.");
                 return View(model);
-                //return RedirectToAction("Login", "Account");
             }
 
-           
+            ModelState.AddModelError(string.Empty, "User already exists.");
+            return View(model);
+            //return RedirectToAction("Login", "Account");
         }
-        else
-        {
 
         ModelState.AddModelError(
             string.Empty, "Tem de preencher os campos!");
         return View(model);
-        }
-
-
-
     }
 
 
+    [HttpGet]
+    public IActionResult ChangeUser()
+    {
+        var user = _userHelper.GetUserByEmailAsync(User.Identity?.Name);
+
+        if (user == null) return View();
+
+        var model = new ChangeUserViewModel
+        {
+            FirstName = user.Result.FirstName,
+            LastName = user.Result.LastName
+            // Address = user.Result.Address,
+            // PhoneNumber = user.Result.PhoneNumber,
+            // UserName = user.Result.UserName,
+            // Email = user.Result.Email,
+        };
+
+        return View(model);
+    }
 
 
+    [HttpPost]
+    public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = _userHelper.GetUserByEmailAsync(User.Identity?.Name);
+
+            if (user == null) return View();
+
+            user.Result.FirstName = model.FirstName;
+            user.Result.LastName = model.LastName;
+            // user.Result.Address,
+            // user.Result.PhoneNumber,
+            // user.Result.UserName,
+            // user.Result.Email,
+
+            var response = await _userHelper.UpdateUserAsync(user.Result);
+
+            if (response.Succeeded)
+            {
+                ViewBag.UserMessage = "User updated!";
+            }
+            else
+            {
+                var errorMessage =
+                    response.Errors.FirstOrDefault()?.Description;
+                if (errorMessage != null)
+                    ModelState.AddModelError(string.Empty,
+                        errorMessage);
+            }
+
+
+            return View(model);
+        }
+
+        ModelState.AddModelError(
+            string.Empty, "Failed to login!");
+        return View();
+    }
+
+
+    [HttpGet]
+    public IActionResult ChangePassword()
+    {
+        return View();
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> ChangePassword(
+        ChangePasswordViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = _userHelper.GetUserByEmailAsync(User.Identity?.Name);
+
+            if (user == null) return View();
+
+            var response = await _userHelper.ChangePasswordAsync(
+                user.Result, model.OldPassword, model.NewPassword);
+
+            if (response.Succeeded)
+            {
+                ViewBag.UserMessage = "User alterado!";
+                return RedirectToAction("ChangeUser");
+            }
+
+            var errorMessage =
+                response.Errors.FirstOrDefault()?.Description;
+            if (errorMessage != null)
+                ModelState.AddModelError(
+                    string.Empty, errorMessage);
+            ModelState.AddModelError(
+                string.Empty, "User not found.");
+
+
+            return View(model);
+        }
+
+        // ModelState.AddModelError(
+        //     string.Empty, "Failed to login!");
+        return View(model);
+    }
 }

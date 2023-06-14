@@ -93,10 +93,9 @@ public class ProductsController : Controller
             productViewModel, filePath, fileStorageId, false);
 
 
-
         product.User =
-           await _userHelper.GetUserByEmailAsync(
-               "nunovilhenasantos@msn.com");
+            await _userHelper.GetUserByEmailAsync(
+                "nunovilhenasantos@msn.com");
         product.User =
             await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
@@ -159,7 +158,6 @@ public class ProductsController : Controller
                 productViewModel, filePath, fileStorageId, false);
 
 
-            
             product.User =
                 await _userHelper.GetUserByEmailAsync(
                     "nunovilhenasantos@msn.com");
@@ -205,12 +203,12 @@ public class ProductsController : Controller
         // var product = _repository.GetProduct(id);
         var product = await _productsRepository.GetByIdAsync(id);
 
-        
+
         product.User =
             await _userHelper.GetUserByEmailAsync(
                 "nunovilhenasantos@msn.com");
-         product.User =
-             await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+        product.User =
+            await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
         // _repository.DeleteProduct(product);
         await _productsRepository.DeleteAsync(product);
