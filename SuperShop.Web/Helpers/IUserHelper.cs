@@ -30,4 +30,14 @@ public interface IUserHelper
 
     Task<IdentityResult> ChangePasswordAsync(
         User user, string oldPassword, string newPassword);
+
+
+
+    Task AddUserToRoleAsync(User user, string roleName);
+
+
+    Task RemoveUserFromRoleAsync(User user, string roleName);
+
+
+    Task<bool> IsUserInRoleAsync(User user, string roleName);
 }

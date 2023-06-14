@@ -8,15 +8,19 @@ namespace SuperShop.Web.Helpers;
 
 public class UserHelper : IUserHelper
 {
-    private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
 
     public UserHelper(
-        UserManager<User> userManager, SignInManager<User> signInManager)
+        UserManager<User> userManager,
+        SignInManager<User> signInManager,
+        RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _roleManager = roleManager;
     }
 
 
@@ -39,10 +43,14 @@ public class UserHelper : IUserHelper
     }
 
 
-    public Task CheckRoleAsync(string roleName)
+    public async Task CheckRoleAsync(string roleName)
     {
-        throw new NotImplementedException();
+        var result = await _roleManager.RoleExistsAsync(roleName);
+        if (!result)
+            await _roleManager.CreateAsync(
+                new IdentityRole {Name = roleName});
     }
+
 
     public async Task<SignInResult> LoginAsync(LoginViewModel model)
     {
@@ -68,5 +76,22 @@ public class UserHelper : IUserHelper
     {
         return await _userManager.ChangePasswordAsync(
             user, oldPassword, newPassword);
+    }
+
+    public async Task AddUserToRoleAsync(User user, string roleName)
+    {
+        await _userManager.AddToRoleAsync(user, roleName);
+    }
+
+
+    public async Task RemoveUserFromRoleAsync(User user, string roleName)
+    {
+        await _userManager.RemoveFromRoleAsync(user, roleName);
+    }
+
+
+    public async Task<bool> IsUserInRoleAsync(User user, string roleName)
+    {
+        return await _userManager.IsInRoleAsync(user, roleName);
     }
 }

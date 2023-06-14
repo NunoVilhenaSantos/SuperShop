@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using SuperShop.Web.Data;
 
 namespace SuperShop.Web;
@@ -15,6 +17,7 @@ public class Program
         host.Run();
     }
 
+
     private static void RunSeeding(IHost host)
     {
         var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
@@ -25,6 +28,27 @@ public class Program
         var seeder = scope.ServiceProvider.GetService<SeedDb>();
         seeder.SeedAsync().Wait();
     }
+
+    // private static IHostBuilder CreateHostBuilder(string[] args) =>
+    //     Host.CreateDefaultBuilder(args)
+    //         .ConfigureWebHostDefaults(webBuilder =>
+    //         {
+    //             webBuilder.UseStartup<Startup>()
+    //                 .ConfigureLogging(logging =>
+    //                 {
+    //                     logging.AddAzureWebAppDiagnostics();
+    //
+    //                     logging.AddBlobServiceClient<>(options =>
+    //                     {
+    //                         options.SasToken = "<your_sas_token>";
+    //                     });
+    //
+    //                     logging.AddAzureBlobStorage(options =>
+    //                     {
+    //                         options.SasToken = "<your_sas_token>";
+    //                     });
+    //                 });
+    //         });
 
     private static IHostBuilder CreateHostBuilder(string[] args)
     {

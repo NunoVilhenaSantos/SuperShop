@@ -16,7 +16,7 @@ public class SeedDb
     // private readonly UserManager<User> _userManager;
 
 
-    //public SeedDb(DataContext dataContext, UserManager<User> userManager)
+    // public SeedDb(DataContext dataContext, UserManager<User> userManager)
     public SeedDb(DataContext dataContext, IUserHelper userHelper)
     {
         _random = new Random();
@@ -29,6 +29,12 @@ public class SeedDb
     public async Task SeedAsync()
     {
         await _dataContext.Database.EnsureCreatedAsync();
+
+
+        // adiciona roles ao sistema
+        await _userHelper.CheckRoleAsync("Admin");
+        await _userHelper.CheckRoleAsync("Customer");
+
 
         //var user =
         //    await _userManager.FindByEmailAsync(
@@ -62,7 +68,18 @@ public class SeedDb
                 throw new InvalidOperationException(
                     "Could not create the user in Seeder");
             }
+
+            // adiciona role ao user
+            await _userHelper.AddUserToRoleAsync(user, "Admin");
         }
+
+        // verifica se o user está na role
+        var isEnrolled =
+            await _userHelper.IsUserInRoleAsync(user, "Admin");
+
+        // tenta registar o user na role
+        if (!isEnrolled)
+            await _userHelper.AddUserToRoleAsync(user, "Admin");
 
         if (!_dataContext.Products.Any())
         {
