@@ -58,17 +58,17 @@ public class StorageHelper : IStorageHelper
         //     "EndpointSuffix=core.windows.net");
 
 
-        _gcpStorageFileNuno = _configuration["GCPStorageAuthFile_Nuno"];
-        _gcpStorageBucketNuno = _configuration["GCPStorageBucketName_Nuno"];
-        _googleCredentialsNuno =
-            GoogleCredential.FromFile(_gcpStorageFileNuno);
+        //_gcpStorageFileNuno = _configuration["GCPStorageAuthFile_Nuno"];
+        //_gcpStorageBucketNuno = _configuration["GCPStorageBucketName_Nuno"];
+        //_googleCredentialsNuno =
+        //    GoogleCredential.FromFile(_gcpStorageFileNuno);
 
 
-        _gcpStorageFileJorge = _configuration["GCPStorageAuthFile_Jorge"];
-        _gcpStorageBucketJorge =
-            _configuration["GCPStorageBucketName_Jorge"];
-        _googleCredentialsNuno =
-            GoogleCredential.FromFile(_gcpStorageFileJorge);
+        //_gcpStorageFileJorge = _configuration["GCPStorageAuthFile_Jorge"];
+        //_gcpStorageBucketJorge =
+        //    _configuration["GCPStorageBucketName_Jorge"];
+        //_googleCredentialsNuno =
+        //    GoogleCredential.FromFile(_gcpStorageFileJorge);
 
 
         // _options = options.Value;

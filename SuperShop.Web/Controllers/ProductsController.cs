@@ -93,12 +93,12 @@ public class ProductsController : Controller
             productViewModel, filePath, fileStorageId, false);
 
 
-        // TODO: Pending to improve
+
         product.User =
-            await _userHelper.GetUserByEmailAsync(
-                "nunovilhenasantos@msn.com");
-        // product.User =
-        //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+           await _userHelper.GetUserByEmailAsync(
+               "nunovilhenasantos@msn.com");
+        product.User =
+            await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
         await _productsRepository.CreateAsync(product);
 
@@ -159,12 +159,12 @@ public class ProductsController : Controller
                 productViewModel, filePath, fileStorageId, false);
 
 
-            // TODO: Pending to improve
+            
             product.User =
                 await _userHelper.GetUserByEmailAsync(
                     "nunovilhenasantos@msn.com");
-            // product.User =
-            //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            product.User =
+                await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
 
             await _productsRepository.UpdateAsync(product);
@@ -205,13 +205,12 @@ public class ProductsController : Controller
         // var product = _repository.GetProduct(id);
         var product = await _productsRepository.GetByIdAsync(id);
 
-        // TODO: Pending to improve
+        
         product.User =
             await _userHelper.GetUserByEmailAsync(
                 "nunovilhenasantos@msn.com");
-
-        // product.User =
-        //     await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+         product.User =
+             await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
         // _repository.DeleteProduct(product);
         await _productsRepository.DeleteAsync(product);

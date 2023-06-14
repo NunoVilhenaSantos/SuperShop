@@ -39,8 +39,8 @@ public class Product : IEntity
         ? "https://supershopweb.blob.core.windows.net/noimage/noimage.png"
         // : "https://supershopnunostorage.blob.core.windows.net/products/" +
         //   ImageId;
-        : "https://supershopnunostorage.blob.core.windows.net/" +
-          GetType().Name.ToLower() + "s/" + ImageId;
+        : "https://supershopnunostorage.blob.core.windows.net/products/" +
+          ImageId;
     //    "https://supershopnunostorage.blob.core.windows.net/products/
     //    e1572b5b-3a31-4c9a-a68b-f13bc4f550d4";
 
@@ -49,8 +49,8 @@ public class Product : IEntity
 
     public string ImageFullIdGcpUrl => ImageId == Guid.Empty
         ? "https://supershopcet77.azurewebsites.net/images/noimage.png"
-        : "https://supershopnunostorage.blob.core.windows.net/" +
-          GetType().Name.ToLower() + "s/" + ImageId;
+        : "https://supershopnunostorage.blob.core.windows.net/products/" +
+           ImageId;
 
 
     [Display(Name = "Image AWS")] public Guid ImageIdAws { get; set; }
@@ -59,8 +59,7 @@ public class Product : IEntity
         ? "https://supershopweb.blob.core.windows.net/noimage/noimage.png"
         : "https://supershopnunostorage.blob.core.windows.net/products/" +
           ImageId;
-    //    "https://supershopnunostorage.blob.core.windows.net/products/
-    //     e1572b5b-3a31-4c9a-a68b-f13bc4f550d4";
+    //    "https://supershopnunostorage.blob.core.windows.net/products/e1572b5b-3a31-4c9a-a68b-f13bc4f550d4";
 
 
     // [Display(Name = "Thumbnail")]

@@ -10,6 +10,11 @@ using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Services;
 using SuperShop.Web.Utils.ConfigOptions;
+using System;
+using Microsoft.Extensions.Azure;
+using Azure.Storage.Queues;
+using Azure.Storage.Blobs;
+using Azure.Core.Extensions;
 
 namespace SuperShop.Web;
 
@@ -43,7 +48,7 @@ public class Startup
                 cfg.SignIn.RequireConfirmedPhoneNumber = false;
             }).AddEntityFrameworkStores<DataContext>();
 
-        // este � o por defeito, mas j� existe o de cima
+        // este é o por defeito, mas já existe o de cima
         //services.AddDefaultIdentity<IdentityUser>(
         //        options =>
         //            options.SignIn.RequireConfirmedAccount = true)
@@ -53,13 +58,18 @@ public class Startup
         services.AddDbContext<DataContext>(
             cfg =>
             {
-                cfg.UseSqlServer(
-                    Configuration.GetConnectionString(
-                        "SomeeConnection"));
-
                 //cfg.UseSqlServer(
                 //    Configuration.GetConnectionString(
-                //        "AzureConnectionNuno"));
+                //        "SomeeConnection"),
+                //        options => options.EnableRetryOnFailure());
+
+                cfg.UseSqlServer(
+                    Configuration.GetConnectionString(
+                        "AzureConnectionNuno"));
+
+                cfg.UseSqlServer(
+        Configuration.GetConnectionString("AzureConnectionNuno"),
+        options => options.EnableRetryOnFailure());
             });
 
         services.AddMvcCore();
@@ -70,7 +80,8 @@ public class Startup
         //{
         //    options.UseSqlServer(
         //        Configuration.GetConnectionString(
-        //            "AzureConnectionNuno"));
+        //            "AzureConnectionNuno"),
+        //            options => options.EnableRetryOnFailure());
         //});
 
 
@@ -78,7 +89,8 @@ public class Startup
         //{
         //    options.UseSqlServer(
         //        Configuration.GetConnectionString(
-        //            "AzureConnectionRuben"));
+        //            "AzureConnectionRuben"),
+        //            options => options.EnableRetryOnFailure());
         //});
 
 

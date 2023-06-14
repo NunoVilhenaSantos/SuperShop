@@ -1,32 +1,12 @@
 {
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "ancmHostingModel": "OutOfProcess",
-      "sqlDebugging": true
-    },
     "SuperShop.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:50001;http://localhost:50000",
-      "sqlDebugging": true,
-      "nativeDebugging": true
-    }
-  },
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:16517",
-      "sslPort": 44303
+      "applicationUrl": "https://localhost:8793;http://localhost:8794"
     }
   }
 }

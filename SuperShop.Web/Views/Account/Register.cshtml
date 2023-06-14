@@ -1,0 +1,70 @@
+﻿@model SuperShop.Web.Models.RegisterNewUserViewModel
+
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<h2>@ViewData["Title"] </h2>
+
+
+<div class="row">
+
+    <div class="col">
+
+        <form method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+            @* <input type="hidden" asp-for="Username"/>   *@
+            @* <input type="hidden" asp-for="Password"/>   *@
+            @* <input type="hidden" asp-for="RememberMe"/> *@
+
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control"/>
+                <span asp-validation-for="FirstName" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control"/>
+                <span asp-validation-for="LastName" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="password"/>
+                <span asp-validation-for="Password" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" type="password"/>
+                <span asp-validation-for="ConfirmPassword" class="text-warning"></span>
+            </div>
+
+            <br/>
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Register New User"/>
+                <a asp-area="" asp-controller="Products" asp-action="Index" class="btn btn-secondary">Back to List</a>
+                
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

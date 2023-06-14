@@ -51,7 +51,9 @@
             }
 
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
                 <div class="navbar-nav">
+
                     <a class="nav-link @(currentAction == "Index" && currentController == "Home" ? "active" : "")"
                        asp-area="" asp-controller="Home" asp-action="Index">
                         Home
@@ -68,7 +70,9 @@
                        asp-area="" asp-controller="Products" asp-action="Index">
                         Products
                     </a>
+
                 </div>
+
             </div>
 
 
@@ -101,7 +105,12 @@
                     </div>
                 </div>
 
-                <partial name="_LoginPartial"/>
+
+                    <div class="d-flex flex-column">
+                        <partial name="_LoginPartial" />
+                    </div>
+                     
+                    
 
                 <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavAltMarkup"
