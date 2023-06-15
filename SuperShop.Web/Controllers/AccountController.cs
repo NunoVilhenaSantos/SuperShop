@@ -235,4 +235,12 @@ public class AccountController : Controller
         // ModelState.AddModelError(
         //     string.Empty, "Failed to login!");
     }
+
+
+    public IActionResult NotAuthorized()
+    {
+        return View();
+    }
+
+
 }

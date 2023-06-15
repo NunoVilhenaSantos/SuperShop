@@ -96,7 +96,15 @@ public class Startup
                 config =>
                 {
                     config.Cookie.Name = "SuperShop.Cookie";
+
+                    // config.LoginPath = "/Home/Authenticate";
+                    // config.AccessDeniedPath = "/Home/Authenticate";
+
                     config.LoginPath = "/Home/Authenticate";
+                    config.AccessDeniedPath = "/Home/Authenticate";
+
+                    config.LoginPath = "/Account/NotAuthorized";
+                    config.AccessDeniedPath = "/Account/NotAuthorized";
                 });
 
 
@@ -116,6 +124,9 @@ public class Startup
         services.AddScoped<GCPConfigOptions>();
         services.AddScoped<AWSConfigOptions>();
         services.AddScoped<ICloudStorageService, CloudStorageService>();
+
+
+
 
         services.AddControllersWithViews();
     }
