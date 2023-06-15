@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Models;
@@ -8,9 +7,9 @@ namespace SuperShop.Web.Helpers;
 
 public class UserHelper : IUserHelper
 {
-    private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly SignInManager<User> _signInManager;
+    private readonly UserManager<User> _userManager;
 
 
     public UserHelper(

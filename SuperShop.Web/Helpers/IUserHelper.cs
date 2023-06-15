@@ -32,7 +32,6 @@ public interface IUserHelper
         User user, string oldPassword, string newPassword);
 
 
-
     Task AddUserToRoleAsync(User user, string roleName);
 
 
