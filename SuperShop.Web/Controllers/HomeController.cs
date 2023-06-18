@@ -45,4 +45,11 @@ public class HomeController : Controller
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
         });
     }
+
+
+    [Route("error/404")]
+    public IActionResult Error404()
+    {
+        return View();
+    }
 }

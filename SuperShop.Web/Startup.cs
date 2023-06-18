@@ -97,15 +97,18 @@ public class Startup
                 {
                     config.Cookie.Name = "SuperShop.Cookie";
 
-                    // config.LoginPath = "/Home/Authenticate";
-                    // config.AccessDeniedPath = "/Home/Authenticate";
-
                     config.LoginPath = "/Home/Authenticate";
                     config.AccessDeniedPath = "/Home/Authenticate";
 
-                    config.LoginPath = "/Account/NotAuthorized";
-                    config.AccessDeniedPath = "/Account/NotAuthorized";
+                    // config.LoginPath = "/Home/Authenticate";
+                    // config.AccessDeniedPath = "/Home/Authenticate";
                 });
+
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = "/Account/NotAuthorized";
+            options.AccessDeniedPath = "/Account/NotAuthorized";
+        });
 
 
         services.AddTransient<SeedDb>();
@@ -124,8 +127,6 @@ public class Startup
         services.AddScoped<GCPConfigOptions>();
         services.AddScoped<AWSConfigOptions>();
         services.AddScoped<ICloudStorageService, CloudStorageService>();
-
-
 
 
         services.AddControllersWithViews();
@@ -151,6 +152,8 @@ public class Startup
             // see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
+
+        app.UseStatusCodePagesWithReExecute("/error/{0}");
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();

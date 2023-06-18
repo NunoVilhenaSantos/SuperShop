@@ -44,16 +44,18 @@ public class ProductsController : Controller
     //public async Task<IActionResult> Details(int? id)
     public async Task<IActionResult> Details(int? id)
     {
-        if (id == null) return NotFound();
+        // if (id == null) return NotFound();
+        if (id == null) return new NotFoundViewResult("ProductNotFound");
 
         // var product =
         //     await _context.Products.FirstOrDefaultAsync(m => m.Id == id);
         // var product = _repository.GetProduct(id.Value);
         var product = await _productsRepository.GetByIdAsync(id.Value);
 
-        if (product == null) return NotFound();
-
-        return View(product);
+        // if (product == null) return NotFound();
+        return product == null
+            ? new NotFoundViewResult("ProductNotFound")
+            : View(product);
     }
 
 
@@ -135,7 +137,8 @@ public class ProductsController : Controller
     public async Task<IActionResult> Edit(
         int id, ProductViewModel productViewModel)
     {
-        if (id != productViewModel.Id) return NotFound();
+        if (id != productViewModel.Id)
+            return new NotFoundViewResult("ProductNotFound");
 
         if (!ModelState.IsValid) return View(productViewModel);
 
@@ -171,7 +174,7 @@ public class ProductsController : Controller
         catch (DbUpdateConcurrencyException)
         {
             if (!await _productsRepository.ExistAsync(productViewModel.Id))
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
             throw;
         }
 
@@ -184,14 +187,14 @@ public class ProductsController : Controller
     //public async Task<IActionResult> Delete(int? id)
     public async Task<IActionResult> Delete(int? id)
     {
-        if (id == null) return NotFound();
+        if (id == null) return new NotFoundViewResult("ProductNotFound");
 
         // var product = _repository.GetProduct(id.Value);
         var product = await _productsRepository.GetByIdAsync(id.Value);
 
-        if (product == null) return NotFound();
-
-        return View(product);
+        return product == null
+            ? new NotFoundViewResult("ProductNotFound")
+            : View(product);
     }
 
 
@@ -210,12 +213,21 @@ public class ProductsController : Controller
         product.User =
             await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
+
         // _repository.DeleteProduct(product);
         await _productsRepository.DeleteAsync(product);
+
 
         // await _repository.SaveAllAsync();
         return RedirectToAction(nameof(Index));
     }
+
+
+    public IActionResult ProductNotFound()
+    {
+        return View();
+    }
+
 
     #region Attributes
 

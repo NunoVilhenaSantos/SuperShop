@@ -1,0 +1,30 @@
+﻿@* @model dynamic *@
+
+
+@{
+    ViewData["Title"] = "HTTP Error 404";
+    // Layout = "_Layout";
+}
+
+
+@* <br/> *@
+@* <h1>@ViewData["Title"]</h1> *@
+@* <br/> *@
+
+
+@* <script> *@
+@*     document.addEventListener("DOMContentLoaded", function() { *@
+@*       const container = document.getElementById("containerError403"); *@
+@* *@
+@*       container.innerHTML = document.body.innerHTML; *@
+@* *@
+@*       document.body.innerHTML = ""; *@
+@*     }); *@
+@*   </script> *@
+
+<partial name="Error404"/>
+
+<link rel="stylesheet" href="@Url.Content("~/css/Error404.css")">
+
+
+@* <h2>Ops... Page not found!!!</h2> *@
