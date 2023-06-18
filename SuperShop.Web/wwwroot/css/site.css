@@ -1,5 +1,8 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿/*
+ Please see documentation at
+ https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+ for details on configuring this project to bundle and minify static web assets.
+ */
 
 a.navbar-brand {
     white-space: normal;
@@ -71,4 +74,16 @@ body {
     width: 100%;
     white-space: nowrap;
     line-height: 60px; /* Vertically center the text there */
+}
+
+
+/* Custom page CSS
+
+Variable icon font
+Add the variable font stylesheet request to your head tag and
+the current variable axes configuration to icons using CSS.
+------------------------------------------------------------- */
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48
 }

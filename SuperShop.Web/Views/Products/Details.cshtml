@@ -22,8 +22,12 @@
             <partial name="_ProductsDeleteDetails"/>
 
             <div>
-                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Id">Edit</a>
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Id">
+                    <span class="material-symbols-outlined">edit</span>Edit
+                </a>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <span class="material-symbols-outlined">chevron_left</span>Back to List
+                </a>
             </div>
 
         </div>

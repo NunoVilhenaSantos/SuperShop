@@ -20,48 +20,43 @@ public class StorageHelper : IStorageHelper
     public StorageHelper(
         IConfiguration configuration,
         IOptions<GCPConfigOptions> options,
-        ILogger<CloudStorageService> logger)
+        ILogger<CloudStorageService> logger
+    )
     {
         _configuration = configuration;
+        _logger = logger;
 
 
-        _azureBlobKey_1 = _configuration["Storages:AzureBlobKeyNuno"];
-        _azureBlobKey_2 = _configuration["Storages:AzureBlobKeyRuben"];
-
-
+        // _azureBlobKey_1 = _configuration["Storages:AzureBlobKeyNuno"];
+        // _azureBlobKey_2 = _configuration["Storages:AzureBlobKeyRuben"];
         // "AzureBlobKeyNuno": "",
         // "AzureBlobKeyRuben": "",
         // "AzureBlobKeyLicinio": "",
         // "AzureBlobKeyJorge": "",
         // "AzureBlobKeyJoel": "",
         // "AzureBlobKey-6": ""
-
         //_azureKeyCredential = new AzureKeyCredential(_azureBlobKey_1);
         //_azureSasCredential = new AzureSasCredential(_azureBlobKey_2);
-
-
         //_awsStorageKey1 = _configuration["Storages:AWSStorageKey1"];
         //_awsStorageKey2 = _configuration["Storages:AWSStorageKey2"];
-
-
         // Retrieve the connection string for use with the application.
-        var connectionString =
-            Environment.GetEnvironmentVariable(
-                "AZURE_STORAGE_CONNECTION_STRING");
-
+        // var connectionString =
+        //     Environment.GetEnvironmentVariable(
+        //         "AZURE_STORAGE_CONNECTION_STRING");
         // Create a BlobServiceClient object
         // var blobServiceClient = new BlobServiceClient(_azureBlobKey_1);
-
         // "DefaultEndpointsProtocol=https;" +
         //     "AccountName=storagesuper;" +
         //     "AccountKey=your_storage_account_key;" +
-        //     "EndpointSuffix=core.windows.net");
+        //     "EndpointSuffix=core.windows.net")
+        // ;
 
-
-        //_gcpStorageFileNuno = _configuration["GCPStorageAuthFile_Nuno"];
-        //_gcpStorageBucketNuno = _configuration["GCPStorageBucketName_Nuno"];
-        //_googleCredentialsNuno =
-        //    GoogleCredential.FromFile(_gcpStorageFileNuno);
+        // Create the container and return a container client object
+        // Create a unique name for the container
+        // var gcpStorageFileNuno = _configuration["GCPStorageAuthFile_Nuno"];
+        // _gcpStorageBucketNuno = _configuration["GCPStorageBucketName_Nuno"];
+        // _googleCredentialsNuno =
+        //     GoogleCredential.FromFile(gcpStorageFileNuno);
 
 
         //_gcpStorageFileJorge = _configuration["GCPStorageAuthFile_Jorge"];
@@ -72,7 +67,7 @@ public class StorageHelper : IStorageHelper
 
 
         // _options = options.Value;
-        _logger = logger;
+        // _logger = logger;
     }
 
 
@@ -199,12 +194,12 @@ public class StorageHelper : IStorageHelper
             new DefaultAzureCredential());
 
         // Create a unique name for the container
-        containerName = "quickstartblobs" + Guid.NewGuid();
+        containerName += "quickstartblobs" + Guid.NewGuid();
 
         // Create the container and return a container client object
-        BlobContainerClient containerClient =
-            await blobServiceClient.CreateBlobContainerAsync(
-                containerName);
+        // BlobContainerClient containerClient =
+        //     await blobServiceClient.CreateBlobContainerAsync(
+        //         containerName);
 
         return blobServiceClient;
     }
@@ -251,35 +246,35 @@ public class StorageHelper : IStorageHelper
 
     #region Azure
 
-    private readonly string _azureBlobKey_1;
-    private readonly string _azureBlobKey_2;
-    private readonly AzureKeyCredential _azureKeyCredential;
-    private readonly AzureSasCredential _azureSasCredential;
+    // private readonly string _azureBlobKey_1;
+    // private readonly string _azureBlobKey_2;
+    // private readonly AzureKeyCredential _azureKeyCredential;
+    // private readonly AzureSasCredential _azureSasCredential;
 
     #endregion
 
 
     #region AWS
 
-    private string _awsStorageKey1;
-    private string _awsStorageKey2;
+    // private string _awsStorageKey1;
+    // private string _awsStorageKey2;
 
     #endregion
 
 
     #region GCP
 
-    // private readonly GCPConfigOptions _options;
+    private readonly GCPConfigOptions _options;
+
     private readonly ILogger<CloudStorageService> _logger;
     //private readonly Google.Apis.Auth.OAuth2.GoogleCredential _googleCredentials;
 
-    private readonly string _gcpStorageFileNuno;
     private readonly string _gcpStorageBucketNuno;
     private readonly GoogleCredential _googleCredentialsNuno;
 
-    private readonly string _gcpStorageFileJorge;
-    private string _gcpStorageBucketJorge;
-    private GoogleCredential _googleCredentialsJorge;
+    // private readonly string _gcpStorageFileJorge;
+    // private string _gcpStorageBucketJorge;
+    // private GoogleCredential _googleCredentialsJorge;
 
     #endregion
 

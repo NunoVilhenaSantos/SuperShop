@@ -34,8 +34,15 @@
 
                     <br/>
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary"/>
-                        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                        @* <input type="submit" value="Save" class="btn btn-primary"/> *@
+                        <button type="submit" class="btn btn-primary">
+                            @* <i class="material-symbols-outlined">chevron_right</i> *@
+                            <span class="material-symbols-outlined">add_circle</span>
+                            <i class="fa-solid fa-floppy-disk"></i> Save
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="material-symbols-outlined">chevron_left</i> Back to List
+                        </a>
                     </div>
 
                 </form>
