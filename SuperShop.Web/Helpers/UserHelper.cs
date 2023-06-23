@@ -15,7 +15,8 @@ public class UserHelper : IUserHelper
     public UserHelper(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
-        RoleManager<IdentityRole> roleManager)
+        RoleManager<IdentityRole> roleManager
+        )
     {
         _userManager = userManager;
         _signInManager = signInManager;
