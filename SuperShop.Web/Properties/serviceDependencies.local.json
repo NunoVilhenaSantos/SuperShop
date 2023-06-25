@@ -1,8 +1,22 @@
 {
   "dependencies": {
+    "mssql2": {
+      "serviceConnectorResourceId": "",
+      "secretStore": "LocalSecretsFile",
+      "type": "mssql.onprem",
+      "connectionId": "ConnectionStrings:SuperShop-NVS-Somee"
+    },
     "secrets1": {
+      "secretStore": null,
+      "resourceId": null,
       "type": "secrets.user",
-      "dynamicId": null
+      "connectionId": null
+    },
+    "appInsights1": {
+      "secretStore": null,
+      "resourceId": null,
+      "type": "appInsights.sdk",
+      "connectionId": null
     }
   }
 }

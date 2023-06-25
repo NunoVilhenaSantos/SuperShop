@@ -54,15 +54,12 @@ public class Startup
         services.AddDbContext<DataContext>(
             cfg =>
             {
-                //cfg.UseSqlServer(
-                //    Configuration.GetConnectionString(
-                //        "SomeeConnection"),
-                //        options => options.EnableRetryOnFailure());
-
                 cfg.UseSqlServer(
                     Configuration.GetConnectionString(
-                        "AzureConnectionNuno"),
-                    options => options.EnableRetryOnFailure());
+                        "SomeeConnection"),
+                        options => options.EnableRetryOnFailure());
+
+
             });
 
 

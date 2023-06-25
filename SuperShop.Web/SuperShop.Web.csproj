@@ -17,22 +17,23 @@
         <PackageReference Include="Azure.Storage.Files.Shares" Version="12.14.0" />
         <PackageReference Include="Azure.Storage.Queues" Version="12.14.0" />
         <PackageReference Include="Google.Cloud.Storage.V1" Version="4.6.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.18" />
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.18" />
-        <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.18" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="6.0.18" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.18" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.18" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.18">
+        <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.19" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.19" />
+        <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.19" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="6.0.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.19">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Azure" Version="1.6.3" />
-        <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="6.0.18" />
+        <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="6.0.19" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
         <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8" />
-        <PackageReference Include="Serilog" Version="2.12.0" />
+        <PackageReference Include="Serilog" Version="3.0.1" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="Serilog.Sinks.AzureBlobStorage" Version="3.2.0" />
         <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
