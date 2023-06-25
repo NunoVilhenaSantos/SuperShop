@@ -17,6 +17,11 @@
       "resourceId": null,
       "type": "appInsights.sdk",
       "connectionId": null
+    },
+    "sqlite1": {
+      "secretStore": "LocalSecretsFile",
+      "type": "sqlite.local",
+      "connectionId": "ConnectionStrings:SuperShop-SQLite"
     }
   }
 }

@@ -16,6 +16,10 @@
     "appInsights1": {
       "type": "appInsights",
       "connectionId": null
+    },
+    "sqlite1": {
+      "type": "sqlite",
+      "connectionId": "ConnectionStrings:SuperShop-SQLite"
     }
   }
 }
