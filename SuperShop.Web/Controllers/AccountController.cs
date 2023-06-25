@@ -96,6 +96,7 @@ public class AccountController : Controller
 
                 var result =
                     await _userHelper.AddUserAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     var loginViewModel = new LoginViewModel
@@ -122,7 +123,7 @@ public class AccountController : Controller
 
             ModelState.AddModelError(string.Empty, "User already exists.");
             return View(model);
-            //return RedirectToAction("Login", "Account");
+            // return RedirectToAction("Login", "Account");
         }
 
         ModelState.AddModelError(
@@ -217,7 +218,7 @@ public class AccountController : Controller
 
         if (response.Succeeded)
         {
-            ViewBag.UserMessage = "User alterado!";
+            ViewBag.UserMessage = "Password changed!";
             return RedirectToAction("ChangeUser");
         }
 

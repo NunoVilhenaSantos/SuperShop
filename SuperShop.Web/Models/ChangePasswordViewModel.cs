@@ -5,19 +5,19 @@ namespace SuperShop.Web.Models;
 
 public class ChangePasswordViewModel
 {
-    [Microsoft.Build.Framework.Required]
+    [System.ComponentModel.DataAnnotations.Required]
     [DisplayName("Current Password")]
     [DataType(DataType.Password)]
     public string OldPassword { get; set; }
 
 
-    [Microsoft.Build.Framework.Required]
+    [System.ComponentModel.DataAnnotations.Required]
     [DataType(DataType.Password)]
     [MinLength(6)]
     public string NewPassword { get; set; }
 
 
-    [Microsoft.Build.Framework.Required]
+    [System.ComponentModel.DataAnnotations.Required]
     [DataType(DataType.Password)]
     [Compare("NewPassword")]
     [MinLength(6)]
