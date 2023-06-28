@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using SuperShop.Web.Data.DataContext;
 using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Helpers;
 
@@ -9,26 +10,26 @@ namespace SuperShop.Web.Data;
 
 public class SeedDb
 {
-    private readonly DataContext _dataContext;
+    private readonly DataContextMSSQL _dataContextMssql;
     private readonly Random _random;
     private readonly IUserHelper _userHelper;
 
     // private readonly UserManager<User> _userManager;
 
 
-    // public SeedDb(DataContext dataContext, UserManager<User> userManager)
-    public SeedDb(DataContext dataContext, IUserHelper userHelper)
+    // public SeedDb(DataContextMSSQL dataContextMssql, UserManager<User> userManager)
+    public SeedDb(DataContextMSSQL dataContextMssql, IUserHelper userHelper)
     {
         _random = new Random();
         _userHelper = userHelper;
-        _dataContext = dataContext;
+        _dataContextMssql = dataContextMssql;
         // _userManager = userManager;
     }
 
 
     public async Task SeedAsync()
     {
-        await _dataContext.Database.EnsureCreatedAsync();
+        await _dataContextMssql.Database.EnsureCreatedAsync();
 
 
         // adiciona roles ao sistema
@@ -81,7 +82,7 @@ public class SeedDb
         if (!isEnrolled)
             await _userHelper.AddUserToRoleAsync(user, "Admin");
 
-        if (!_dataContext.Products.Any())
+        if (!_dataContextMssql.Products.Any())
         {
             AddProducts("Ténis", user);
             AddProducts("T-Shirt", user);
@@ -101,7 +102,7 @@ public class SeedDb
         // await CheckUserAsync();
         // await CheckProductsAsync();
 
-        await _dataContext.SaveChangesAsync();
+        await _dataContextMssql.SaveChangesAsync();
     }
 
 
@@ -119,7 +120,7 @@ public class SeedDb
         var randomPurchaseDate = currentDate.Subtract(purchaseTimeSpan);
         var randomSaleDate = currentDate.Subtract(saleTimeSpan);
 
-        _dataContext.Products.Add(
+        _dataContextMssql.Products.Add(
             new Product
             {
                 // Id = id,

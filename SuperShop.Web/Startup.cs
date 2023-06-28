@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SuperShop.Web.Data;
+using SuperShop.Web.Data.DataContext;
 using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Services;
@@ -41,46 +42,57 @@ public class Startup
                 cfg.SignIn.RequireConfirmedEmail = false;
                 cfg.SignIn.RequireConfirmedAccount = false;
                 cfg.SignIn.RequireConfirmedPhoneNumber = false;
-            }).AddEntityFrameworkStores<DataContext>();
+            }).AddEntityFrameworkStores<DataContextMSSQL>();
 
 
         // este é o por defeito, mas já existe o de cima
         //services.AddDefaultIdentity<IdentityUser>(
         //        options =>
         //            options.SignIn.RequireConfirmedAccount = true)
-        //    .AddEntityFrameworkStores<DataContext>();
+        //    .AddEntityFrameworkStores<DataContextMSSQL>();
 
 
-        services.AddDbContext<DataContext>(
+        services.AddDbContext<DataContextMSSQL>(
             cfg =>
             {
                 cfg.UseSqlServer(
                     Configuration.GetConnectionString(
                         "SomeeConnection"),
-                        options => options.EnableRetryOnFailure());
-
-
+                    options =>
+                    {
+                        options.EnableRetryOnFailure();
+                        options.MigrationsAssembly("SuperShop.Web");
+                        options.MigrationsHistoryTable("_MyMigrationsHistory");
+                    });
             });
 
 
-        // services.AddDbContext<DataContext>(
-        //     cfg =>
-        //     {
-        //         cfg.UseSqlServer(
-        //             Configuration.GetConnectionString(
-        //                 "AzureConnectionNuno"),
-        //             options => options.EnableRetryOnFailure());
-        //     });
+        services.AddDbContext<DataContextMySQL>(
+            cfg =>
+            {
+                cfg.UseSqlite(
+                    Configuration.GetConnectionString(
+                        "SuperShop-MySQL"),
+                    options =>
+                    {
+                        options.MigrationsAssembly("SuperShop.Web");
+                        options.MigrationsHistoryTable("_MyMigrationsHistory");
+                    });
+            });
 
 
-        // services.AddDbContext<DataContext>(
-        //     cfg =>
-        //     {
-        //         cfg.UseSqlServer(
-        //             Configuration.GetConnectionString(
-        //                 "AzureConnectionRuben"),
-        //             options => options.EnableRetryOnFailure());
-        //     });
+        services.AddDbContext<DataContextSQLite>(
+            cfg =>
+            {
+                cfg.UseSqlite(
+                    Configuration.GetConnectionString(
+                        "SuperShop-SQLite"),
+                    options =>
+                    {
+                        options.MigrationsAssembly("SuperShop.Web");
+                        options.MigrationsHistoryTable("_MyMigrationsHistory");
+                    });
+            });
 
 
         services.AddMvcCore();

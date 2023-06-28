@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SuperShop.Web.Data.DataContext;
 using SuperShop.Web.Data.Entity;
 
 namespace SuperShop.Web.Data;
@@ -8,24 +9,24 @@ namespace SuperShop.Web.Data;
 public class GenericRepository<T> : IGenericRepository<T>
     where T : class, IEntity
 {
-    private readonly DataContext _dataContext;
+    private readonly DataContextMSSQL _dataContextMssql;
 
-    protected GenericRepository(DataContext dataContext)
+    protected GenericRepository(DataContextMSSQL dataContextMssql)
     {
-        _dataContext = dataContext;
+        _dataContextMssql = dataContextMssql;
     }
 
 
     public IQueryable<T> GetAll()
     {
-        return _dataContext.Set<T>()
+        return _dataContextMssql.Set<T>()
             .AsNoTracking().AsQueryable();
     }
 
 
     public async Task<T> GetByIdAsync(int id)
     {
-        return await _dataContext.Set<T>()
+        return await _dataContextMssql.Set<T>()
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Id == id);
     }
@@ -33,7 +34,7 @@ public class GenericRepository<T> : IGenericRepository<T>
 
     public async Task CreateAsync(T entity)
     {
-        await _dataContext.Set<T>().AddAsync(entity);
+        await _dataContextMssql.Set<T>().AddAsync(entity);
 
         await SaveAllAsync();
 
@@ -43,7 +44,7 @@ public class GenericRepository<T> : IGenericRepository<T>
 
     public async Task UpdateAsync(T entity)
     {
-        _dataContext.Set<T>().Update(entity);
+        _dataContextMssql.Set<T>().Update(entity);
 
         await SaveAllAsync();
 
@@ -53,7 +54,7 @@ public class GenericRepository<T> : IGenericRepository<T>
 
     public async Task DeleteAsync(T entity)
     {
-        _dataContext.Set<T>().Remove(entity);
+        _dataContextMssql.Set<T>().Remove(entity);
 
         await SaveAllAsync();
 
@@ -63,7 +64,7 @@ public class GenericRepository<T> : IGenericRepository<T>
 
     public async Task<bool> ExistAsync(int id)
     {
-        return await _dataContext.Set<T>()
+        return await _dataContextMssql.Set<T>()
             .AsNoTracking()
             .AnyAsync(e => e.Id == id);
     }
@@ -71,6 +72,6 @@ public class GenericRepository<T> : IGenericRepository<T>
 
     private async Task<bool> SaveAllAsync()
     {
-        return await _dataContext.SaveChangesAsync() > 0;
+        return await _dataContextMssql.SaveChangesAsync() > 0;
     }
 }

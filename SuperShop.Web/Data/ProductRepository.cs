@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using SuperShop.Web.Data.DataContext;
 using SuperShop.Web.Data.Entity;
 
 namespace SuperShop.Web.Data;
@@ -7,17 +8,17 @@ namespace SuperShop.Web.Data;
 public class ProductRepository : GenericRepository<Product>,
     IProductsRepository
 {
-    private readonly DataContext _dataContext;
+    private readonly DataContextMSSQL _dataContextMssql;
 
-    public ProductRepository(DataContext dataContext) : base(dataContext)
+    public ProductRepository(DataContextMSSQL dataContextMssql) : base(dataContextMssql)
     {
-        _dataContext = dataContext;
+        _dataContextMssql = dataContextMssql;
     }
 
 
     public IQueryable GetAllWithUsers()
     {
-        return _dataContext
+        return _dataContextMssql
             .Products
             .Include(
                 p => p.User);

@@ -32,6 +32,11 @@ public class Program
     }
 
 
+    // private async static Task<object> CreateFirewallRuleAsync()
+    // {
+    // }
+
+
     // Replace the placeholder values in the CreateFirewallRule
     // method with your actual values,
     // such as your IP address, Azure subscription ID, resource group name,

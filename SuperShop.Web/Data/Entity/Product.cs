@@ -84,7 +84,9 @@ public class Product : IEntity
     public double Stock { get; set; }
 
 
-    public User User { get; set; }
+    [Required] public User User { get; set; }
 
-    [Key] public int Id { get; set; }
+    [Key] [Required] public int Id { get; set; }
+
+    [Required] public bool WasDeleted { get; set; }
 }

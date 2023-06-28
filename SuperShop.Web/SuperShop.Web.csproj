@@ -46,7 +46,8 @@
         <Folder Include="Controllers\API\" />
         <Folder Include="Entities\" />
         <Folder Include="Helpers\GCP\" />
-        <Folder Include="docs\" />
+        <Folder Include="Docs\" />
+        <Folder Include="Migrations\SQLite\" />
         <Folder Include="Properties\" />
         <Folder Include="wwwroot\app_data\" />
     </ItemGroup>
