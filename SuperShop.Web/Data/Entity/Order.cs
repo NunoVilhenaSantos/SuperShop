@@ -8,14 +8,6 @@ namespace SuperShop.Web.Data.Entity;
 public class Order : IEntity
 
 {
-    [Key] [Required] public int Id { get; set; }
-
-
-    [Required]
-    [DisplayName("Was Deleted?")]
-    public bool WasDeleted { get; set; }
-
-
     [Required] public User User { get; set; }
 
 
@@ -48,6 +40,13 @@ public class Order : IEntity
 
     [DataType(DataType.Currency)]
     public decimal Total => Items?.Sum(i => i.Value) ?? 0;
+
+    [Key] [Required] public int Id { get; set; }
+
+
+    [Required]
+    [DisplayName("Was Deleted?")]
+    public bool WasDeleted { get; set; }
 
 
     // [Required] public OrderStatus OrderStatus { get; set; }

@@ -1,21 +1,7 @@
-using System;
-using System.Threading.Tasks;
-using Azure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-// using Microsoft.Azure.Management.Sql;
-// using Microsoft.Azure.Management.Sql.Models;
-using Azure.Identity;
-using Azure.ResourceManager;
-using Azure.ResourceManager.Sql;
-using Azure.ResourceManager.Sql.Models;
-using Microsoft.Extensions.Azure;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using SuperShop.Web.Data;
-
 
 namespace SuperShop.Web;
 
@@ -30,11 +16,6 @@ public class Program
         RunSeeding(host);
         host.Run();
     }
-
-
-    // private async static Task<object> CreateFirewallRuleAsync()
-    // {
-    // }
 
 
     // Replace the placeholder values in the CreateFirewallRule

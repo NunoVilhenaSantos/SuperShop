@@ -6,14 +6,6 @@ namespace SuperShop.Web.Data.Entity;
 
 public class OrderDetailTemp : IEntity
 {
-    [Key] [Required] public int Id { get; set; }
-
-
-    [Required]
-    [DisplayName("Was Deleted?")]
-    public bool WasDeleted { get; set; }
-
-
     [Required] public User User { get; set; }
 
 
@@ -35,4 +27,11 @@ public class OrderDetailTemp : IEntity
 
     [DataType(DataType.Currency)]
     public decimal Value => (decimal) Quantity * Price;
+
+    [Key] [Required] public int Id { get; set; }
+
+
+    [Required]
+    [DisplayName("Was Deleted?")]
+    public bool WasDeleted { get; set; }
 }

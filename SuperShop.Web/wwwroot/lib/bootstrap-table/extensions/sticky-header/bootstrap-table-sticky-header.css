@@ -3,19 +3,19 @@
  * @update zhixin wen <wenzhixin2010@gmail.com>
  */
 .fix-sticky {
-  position: fixed !important;
-  overflow: hidden;
-  z-index: 100;
+    position: fixed !important;
+    overflow: hidden;
+    z-index: 100;
 }
 
 .fix-sticky table thead {
-  background: #fff;
+    background: #fff;
 }
 
 .fix-sticky table thead.thead-light {
-  background: #e9ecef;
+    background: #e9ecef;
 }
 
 .fix-sticky table thead.thead-dark {
-  background: #212529;
+    background: #212529;
 }

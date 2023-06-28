@@ -10,7 +10,8 @@ public class ProductRepository : GenericRepository<Product>,
 {
     private readonly DataContextMSSQL _dataContextMssql;
 
-    public ProductRepository(DataContextMSSQL dataContextMssql) : base(dataContextMssql)
+    public ProductRepository(DataContextMSSQL dataContextMssql) : base(
+        dataContextMssql)
     {
         _dataContextMssql = dataContextMssql;
     }

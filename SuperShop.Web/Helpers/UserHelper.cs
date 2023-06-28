@@ -7,16 +7,16 @@ namespace SuperShop.Web.Helpers;
 
 public class UserHelper : IUserHelper
 {
-    private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly SignInManager<User> _signInManager;
+    private readonly UserManager<User> _userManager;
 
 
     public UserHelper(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
         RoleManager<IdentityRole> roleManager
-        )
+    )
     {
         _userManager = userManager;
         _signInManager = signInManager;

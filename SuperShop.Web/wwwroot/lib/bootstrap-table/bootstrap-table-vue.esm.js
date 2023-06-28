@@ -5,88 +5,88 @@
 
 const $ = window.jQuery;
 const deepCopy = arg => {
-  if (arg === undefined) {
-    return arg
-  }
-  return $.fn.bootstrapTable.utils.extend(true, Array.isArray(arg) ? [] : {}, arg)
+    if (arg === undefined) {
+        return arg
+    }
+    return $.fn.bootstrapTable.utils.extend(true, Array.isArray(arg) ? [] : {}, arg)
 };
 
 var script = {
-  name: 'BootstrapTable',
-  props: {
-    columns: {
-      type: Array,
-      require: true
+    name: 'BootstrapTable',
+    props: {
+        columns: {
+            type: Array,
+            require: true
+        },
+        data: {
+            type: [Array, Object],
+            default() {
+                return undefined
+            }
+        },
+        options: {
+            type: Object,
+            default() {
+                return {}
+            }
+        }
     },
-    data: {
-      type: [Array, Object],
-      default () {
-        return undefined
-      }
-    },
-    options: {
-      type: Object,
-      default () {
-        return {}
-      }
-    }
-  },
-  mounted () {
-    this.$table = $(this.$el);
+    mounted() {
+        this.$table = $(this.$el);
 
-    this.$table.on('all.bs.table', (e, name, args) => {
-      let eventName = $.fn.bootstrapTable.events[name];
-      eventName = eventName.replace(/([A-Z])/g, '-$1').toLowerCase();
-      this.$emit('on-all', ...args);
-      this.$emit(eventName, ...args);
-    });
+        this.$table.on('all.bs.table', (e, name, args) => {
+            let eventName = $.fn.bootstrapTable.events[name];
+            eventName = eventName.replace(/([A-Z])/g, '-$1').toLowerCase();
+            this.$emit('on-all', ...args);
+            this.$emit(eventName, ...args);
+        });
 
-    this._initTable();
-  },
-  methods: {
-    _initTable () {
-      const options = {
-        ...deepCopy(this.options),
-        columns: deepCopy(this.columns),
-        data: deepCopy(this.data)
-      };
-      if (!this._hasInit) {
-        this.$table.bootstrapTable(options);
-        this._hasInit = true;
-      } else {
-        this.refreshOptions(options);
-      }
-    },
-    ...(() => {
-      const res = {};
-      for (const method of $.fn.bootstrapTable.methods) {
-        res[method] = function (...args) {
-          return this.$table.bootstrapTable(method, ...args)
-        };
-      }
-      return res
-    })()
-  },
-  watch: {
-    options: {
-      handler () {
         this._initTable();
-      },
-      deep: true
     },
-    columns: {
-      handler () {
-        this._initTable();
-      },
-      deep: true
+    methods: {
+        _initTable() {
+            const options = {
+                ...deepCopy(this.options),
+                columns: deepCopy(this.columns),
+                data: deepCopy(this.data)
+            };
+            if (!this._hasInit) {
+                this.$table.bootstrapTable(options);
+                this._hasInit = true;
+            } else {
+                this.refreshOptions(options);
+            }
+        },
+        ...(() => {
+            const res = {};
+            for (const method of $.fn.bootstrapTable.methods) {
+                res[method] = function (...args) {
+                    return this.$table.bootstrapTable(method, ...args)
+                };
+            }
+            return res
+        })()
     },
-    data: {
-      handler () {
-        this.load(deepCopy(this.data));
-      },
-      deep: true
+    watch: {
+        options: {
+            handler() {
+                this._initTable();
+            },
+            deep: true
+        },
+        columns: {
+            handler() {
+                this._initTable();
+            },
+            deep: true
+        },
+        data: {
+            handler() {
+                this.load(deepCopy(this.data));
+            },
+            deep: true
+        }
     }
-  }
 };
 
 function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
@@ -118,8 +118,8 @@ function normalizeComponent(template, style, script, scopeId, isFunctionalTempla
             // 2.3 injection
             context =
                 context || // cached call
-                    (this.$vnode && this.$vnode.ssrContext) || // stateful
-                    (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext); // functional
+                (this.$vnode && this.$vnode.ssrContext) || // stateful
+                (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext); // functional
             // 2.2 with runInNewContext: true
             if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
                 context = __VUE_SSR_CONTEXT__;
@@ -136,8 +136,7 @@ function normalizeComponent(template, style, script, scopeId, isFunctionalTempla
         // used by ssr in case component is cached and beforeCreate
         // never gets called
         options._ssrRegister = hook;
-    }
-    else if (style) {
+    } else if (style) {
         hook = shadowMode
             ? function (context) {
                 style.call(this, createInjectorShadow(context, this.$root.$options.shadowRoot));
@@ -154,8 +153,7 @@ function normalizeComponent(template, style, script, scopeId, isFunctionalTempla
                 hook.call(context);
                 return originalRender(h, context);
             };
-        }
-        else {
+        } else {
             // inject component registration as beforeCreate hook
             const existing = options.beforeCreate;
             options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
@@ -169,32 +167,31 @@ const __vue_script__ = script;
 
 /* template */
 var __vue_render__ = function () {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("table")
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c("table")
 };
 var __vue_staticRenderFns__ = [];
 __vue_render__._withStripped = true;
 
-  /* style */
-  const __vue_inject_styles__ = undefined;
-  /* scoped */
-  const __vue_scope_id__ = undefined;
-  /* module identifier */
-  const __vue_module_identifier__ = undefined;
-  /* functional template */
-  const __vue_is_functional_template__ = false;
-  /* style inject */
-  
-  /* style inject SSR */
-  
-  /* style inject shadow dom */
-  
+/* style */
+const __vue_inject_styles__ = undefined;
+/* scoped */
+const __vue_scope_id__ = undefined;
+/* module identifier */
+const __vue_module_identifier__ = undefined;
+/* functional template */
+const __vue_is_functional_template__ = false;
+/* style inject */
 
-  
-  const __vue_component__ = /*#__PURE__*/normalizeComponent(
-    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+/* style inject SSR */
+
+/* style inject shadow dom */
+
+
+const __vue_component__ = /*#__PURE__*/normalizeComponent(
+    {render: __vue_render__, staticRenderFns: __vue_staticRenderFns__},
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
@@ -204,6 +201,6 @@ __vue_render__._withStripped = true;
     undefined,
     undefined,
     undefined
-  );
+);
 
-export { __vue_component__ as default };
+export {__vue_component__ as default};

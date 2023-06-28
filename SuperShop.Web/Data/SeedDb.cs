@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data.DataContext;
 using SuperShop.Web.Data.Entity;
 using SuperShop.Web.Helpers;
@@ -10,26 +11,44 @@ namespace SuperShop.Web.Data;
 
 public class SeedDb
 {
-    private readonly DataContextMSSQL _dataContextMssql;
-    private readonly Random _random;
-    private readonly IUserHelper _userHelper;
-
     // private readonly UserManager<User> _userManager;
 
 
+    private readonly DataContextMSSQL _dataContextMssql;
+    private readonly DataContextMySQL _dataContextMySql;
+    private readonly DataContextSQLite _dataContextSqLite;
+    private readonly Random _random;
+
+    private readonly IUserHelper _userHelper;
+
+
     // public SeedDb(DataContextMSSQL dataContextMssql, UserManager<User> userManager)
-    public SeedDb(DataContextMSSQL dataContextMssql, IUserHelper userHelper)
+    public SeedDb(
+        DataContextMSSQL dataContextMssql,
+        DataContextMySQL dataContextMySql,
+        DataContextSQLite dataContextSqLite,
+        IUserHelper userHelper)
     {
         _random = new Random();
         _userHelper = userHelper;
+
         _dataContextMssql = dataContextMssql;
+        _dataContextMySql = dataContextMySql;
+        _dataContextSqLite = dataContextSqLite;
         // _userManager = userManager;
     }
 
 
     public async Task SeedAsync()
     {
-        await _dataContextMssql.Database.EnsureCreatedAsync();
+        // await _dataContextMssql.Database.EnsureCreatedAsync();
+        // await _dataContextMssql.Database.EnsureCreatedAsync();
+        // await _dataContextSqLite.Database.EnsureCreatedAsync();
+
+
+        await _dataContextMssql.Database.MigrateAsync();
+        await _dataContextMssql.Database.MigrateAsync();
+        await _dataContextSqLite.Database.MigrateAsync();
 
 
         // adiciona roles ao sistema

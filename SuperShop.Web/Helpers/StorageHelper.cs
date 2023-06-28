@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Azure;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using Google.Apis.Auth.OAuth2;

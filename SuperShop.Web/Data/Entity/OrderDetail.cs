@@ -1,20 +1,11 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace SuperShop.Web.Data.Entity;
 
 public class OrderDetail : IEntity
 {
-    [Key] [Required] public int Id { get; set; }
-
-
-    [Required]
-    [DisplayName("Was Deleted?")]
-    public bool WasDeleted { get; set; }
-
-
     [Required] public Product Product { get; set; }
 
 
@@ -33,4 +24,11 @@ public class OrderDetail : IEntity
 
     [DataType(DataType.Currency)]
     public decimal Value => (decimal) Quantity * Price;
+
+    [Key] [Required] public int Id { get; set; }
+
+
+    [Required]
+    [DisplayName("Was Deleted?")]
+    public bool WasDeleted { get; set; }
 }

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Microsoft.AspNetCore.Http;
 
-namespace SuperShop.Web.Models
+namespace SuperShop.Web.Models;
+
+public class UserViewModel
 {
-    public class UserViewModel
-    {
-        [DisplayName("Image")] public IFormFile ImageFile { get; set; }
-    }
+    [DisplayName("Image")] public IFormFile ImageFile { get; set; }
 }
