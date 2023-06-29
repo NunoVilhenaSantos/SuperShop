@@ -1,16 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Azure.Identity;
 using Azure.Storage.Blobs;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using SuperShop.Web.Services;
-using SuperShop.Web.Utils.ConfigOptions;
 
 namespace SuperShop.Web.Helpers;
 

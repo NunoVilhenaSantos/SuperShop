@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data.Entity;
 
@@ -20,4 +21,16 @@ public class DataContextSQLite : IdentityDbContext<User>
     public DbSet<OrderDetailTemp> OrderDetailTemps { get; set; }
 
     public DbSet<Product> Products { get; set; }
+
+
+    protected override void OnModelCreating(ModelBuilder modelbuilder)
+    {
+        foreach (
+            var relationship in
+            modelbuilder.Model.GetEntityTypes()
+                .SelectMany(e => e.GetForeignKeys()))
+            relationship.DeleteBehavior = DeleteBehavior.Restrict;
+
+        base.OnModelCreating(modelbuilder);
+    }
 }

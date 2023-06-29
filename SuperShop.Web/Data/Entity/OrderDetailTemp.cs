@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -16,8 +15,9 @@ public class OrderDetailTemp : IEntity
     // [Required]
     // [ForeignKey(nameof(Product))]
     public int ProductId { get; set; }
+
     // [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-    [System.ComponentModel.DataAnnotations.Schema.ForeignKey(nameof(ProductId))]
+    [ForeignKey(nameof(ProductId))]
     [Required]
     public Product Product { get; set; }
 
@@ -39,10 +39,7 @@ public class OrderDetailTemp : IEntity
     [Precision(18, 2)]
     public decimal Value => (decimal) Quantity * Price;
 
-    [Key]
-    [Required]
-    [System.ComponentModel.DataAnnotations.Schema.Column(Order = 0)]
-    public int Id { get; set; }
+    [Key] [Required] [Column(Order = 0)] public int Id { get; set; }
 
 
     [DisplayName("Was Deleted?")] public bool WasDeleted { get; set; }

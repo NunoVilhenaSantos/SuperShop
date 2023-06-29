@@ -13,18 +13,6 @@ public class DataContextMSSQL : IdentityDbContext<User>
     {
     }
 
-    protected override void OnModelCreating(ModelBuilder modelbuilder)
-    {
-        foreach (
-            var relationship in
-            modelbuilder.Model.GetEntityTypes()
-                .SelectMany(e => e.GetForeignKeys()))
-        {
-            relationship.DeleteBehavior = DeleteBehavior.Restrict;
-        }
-
-        base.OnModelCreating(modelbuilder);
-    }
 
     public DbSet<Order> Orders { get; set; }
 
@@ -33,4 +21,16 @@ public class DataContextMSSQL : IdentityDbContext<User>
     public DbSet<OrderDetailTemp> OrderDetailTemps { get; set; }
 
     public DbSet<Product> Products { get; set; }
+
+
+    protected override void OnModelCreating(ModelBuilder modelbuilder)
+    {
+        foreach (
+            var relationship in
+            modelbuilder.Model.GetEntityTypes()
+                .SelectMany(e => e.GetForeignKeys()))
+            relationship.DeleteBehavior = DeleteBehavior.Restrict;
+
+        base.OnModelCreating(modelbuilder);
+    }
 }
