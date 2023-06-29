@@ -8,52 +8,53 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Identity" Version="1.9.0"/>
-        <PackageReference Include="Azure.ResourceManager.Sql" Version="1.2.0"/>
-        <PackageReference Include="Azure.Storage.Blobs" Version="12.16.0"/>
-        <PackageReference Include="Azure.Storage.Blobs.Batch" Version="12.13.0"/>
-        <PackageReference Include="Azure.Storage.Common" Version="12.15.0"/>
-        <PackageReference Include="Azure.Storage.Files.DataLake" Version="12.14.0"/>
-        <PackageReference Include="Azure.Storage.Files.Shares" Version="12.14.0"/>
-        <PackageReference Include="Azure.Storage.Queues" Version="12.14.0"/>
-        <PackageReference Include="Google.Cloud.Storage.V1" Version="4.6.0"/>
-        <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.19"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.19"/>
-        <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.19"/>
-        <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="6.0.19"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.19"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.19"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.19"/>
+        <PackageReference Include="Azure.Identity" Version="1.9.0" />
+        <PackageReference Include="Azure.ResourceManager.Sql" Version="1.2.0" />
+        <PackageReference Include="Azure.Storage.Blobs" Version="12.16.0" />
+        <PackageReference Include="Azure.Storage.Blobs.Batch" Version="12.13.0" />
+        <PackageReference Include="Azure.Storage.Common" Version="12.15.0" />
+        <PackageReference Include="Azure.Storage.Files.DataLake" Version="12.14.0" />
+        <PackageReference Include="Azure.Storage.Files.Shares" Version="12.14.0" />
+        <PackageReference Include="Azure.Storage.Queues" Version="12.14.0" />
+        <PackageReference Include="Google.Cloud.Storage.V1" Version="4.6.0" />
+        <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.19" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.19" />
+        <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.19" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="6.0.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.19" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.19" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.19">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Azure" Version="1.6.3"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="6.0.19"/>
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14"/>
-        <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175"/>
-        <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.13"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8"/>
-        <PackageReference Include="Serilog" Version="3.0.1"/>
-        <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0"/>
-        <PackageReference Include="Serilog.Sinks.AzureBlobStorage" Version="3.2.0"/>
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0"/>
-        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Azure" Version="1.6.3" />
+        <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="6.0.19" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
+        <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
+        <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.13" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8" />
+        <PackageReference Include="Serilog" Version="3.0.1" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+        <PackageReference Include="Serilog.Sinks.AzureBlobStorage" Version="3.2.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Context\"/>
-        <Folder Include="Controllers\API\"/>
-        <Folder Include="Entities\"/>
-        <Folder Include="Helpers\GCP\"/>
-        <Folder Include="Docs\"/>
-        <Folder Include="Migrations\DataContextSQLiteMigrations\"/>
-        <Folder Include="Migrations\MSSQL\"/>
-        <Folder Include="Migrations\MySQL\"/>
-        <Folder Include="Migrations\SQLite\"/>
-        <Folder Include="Properties\"/>
-        <Folder Include="wwwroot\app_data\"/>
+        <Folder Include="Context\" />
+        <Folder Include="Controllers\API\" />
+        <Folder Include="Entities\" />
+        <Folder Include="Helpers\GCP\" />
+        <Folder Include="Docs\" />
+        <Folder Include="Migrations\DataContextMySQLMigrations\" />
+        <Folder Include="Migrations\DataContextSQLiteMigrations\" />
+        <Folder Include="Migrations\MSSQL\" />
+        <Folder Include="Migrations\MySQL\" />
+        <Folder Include="Migrations\SQLite\" />
+        <Folder Include="Properties\" />
+        <Folder Include="wwwroot\app_data\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -63,23 +64,23 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="wwwroot\css\Error403.css"/>
-        <None Include="wwwroot\images\placeholders\no-picture\person\Placeholder-no-text-person-2.webp"/>
+        <None Include="wwwroot\css\Error403.css" />
+        <None Include="wwwroot\images\placeholders\no-picture\person\Placeholder-no-text-person-2.webp" />
     </ItemGroup>
 
     <ItemGroup>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\05c6e8ca-4990-4917-bc69-a98a9953928d.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\1c35d595-5981-4b7c-93d9-bfa8923f7cd2.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\3c75758e-9ff6-439d-bc2d-62fc1c0cbb76.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\562a7f8d-3ab1-459e-ad13-a68698b77c5f.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\6d2b06f5-cf0f-47a2-99b1-2995623b05e7.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\71f0c49d-e069-46fb-a3c3-f9e64ffb76e8.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\9d66da4e-2a8f-4adb-9a07-4082450225be.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\a442c8a5-d93e-4f2f-bada-22b4e4e9eacf.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\a6efcb65-428b-4331-9808-dc25f15654af.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\b62ab7f4-11db-47cc-92da-4c815af0ecd7.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\beb633f6-7e17-41c4-b258-3d2de68ef07a.png"/>
-        <_ContentIncludedByDefault Remove="wwwroot\images\products\e8e32e45-74b1-4a78-9860-2b30413897f6.png"/>
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\05c6e8ca-4990-4917-bc69-a98a9953928d.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\1c35d595-5981-4b7c-93d9-bfa8923f7cd2.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\3c75758e-9ff6-439d-bc2d-62fc1c0cbb76.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\562a7f8d-3ab1-459e-ad13-a68698b77c5f.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\6d2b06f5-cf0f-47a2-99b1-2995623b05e7.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\71f0c49d-e069-46fb-a3c3-f9e64ffb76e8.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\9d66da4e-2a8f-4adb-9a07-4082450225be.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\a442c8a5-d93e-4f2f-bada-22b4e4e9eacf.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\a6efcb65-428b-4331-9808-dc25f15654af.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\b62ab7f4-11db-47cc-92da-4c815af0ecd7.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\beb633f6-7e17-41c4-b258-3d2de68ef07a.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\images\products\e8e32e45-74b1-4a78-9860-2b30413897f6.png" />
     </ItemGroup>
 
 </Project>

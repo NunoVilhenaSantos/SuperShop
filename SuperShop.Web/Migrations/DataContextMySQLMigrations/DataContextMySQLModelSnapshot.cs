@@ -419,19 +419,19 @@ namespace SuperShop.Web.Migrations.DataContextMySQLMigrations
                     b.HasOne("SuperShop.Web.Data.Entity.Product", "DeliveryDate")
                         .WithMany()
                         .HasForeignKey("DeliveryDateId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SuperShop.Web.Data.Entity.Product", "OrderDate")
                         .WithMany()
                         .HasForeignKey("OrderDateId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SuperShop.Web.Data.Entity.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("DeliveryDate");
@@ -445,12 +445,13 @@ namespace SuperShop.Web.Migrations.DataContextMySQLMigrations
                 {
                     b.HasOne("SuperShop.Web.Data.Entity.Order", null)
                         .WithMany("Items")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SuperShop.Web.Data.Entity.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -461,13 +462,13 @@ namespace SuperShop.Web.Migrations.DataContextMySQLMigrations
                     b.HasOne("SuperShop.Web.Data.Entity.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SuperShop.Web.Data.Entity.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -480,7 +481,7 @@ namespace SuperShop.Web.Migrations.DataContextMySQLMigrations
                     b.HasOne("SuperShop.Web.Data.Entity.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
