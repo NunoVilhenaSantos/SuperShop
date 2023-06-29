@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
-namespace SuperShop.Web.Data;
+namespace SuperShop.Web.Data.Repositories;
 
 public interface IGenericRepository<T> where T : class
 {

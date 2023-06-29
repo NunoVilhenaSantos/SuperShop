@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data.DataContext;
 using SuperShop.Web.Data.Entity;
 
-namespace SuperShop.Web.Data;
+namespace SuperShop.Web.Data.Repositories;
 
 public class ProductRepository : GenericRepository<Product>,
     IProductsRepository

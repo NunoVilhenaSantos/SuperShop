@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Data.Repositories;
 
-namespace SuperShop.Web.Data;
+namespace SuperShop.Web.Data.MockRepositories;
 
 public class MockRepository : IGenericRepository<Product>
 {

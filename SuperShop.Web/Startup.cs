@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using SuperShop.Web.Data;
 using SuperShop.Web.Data.DataContext;
 using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Data.Repositories;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Services;
 using SuperShop.Web.Utils.ConfigOptions;
@@ -23,6 +24,8 @@ public class Startup
 
     private IConfiguration Configuration { get; }
 
+
+    //
     // This method gets called by the runtime.
     // Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -45,7 +48,7 @@ public class Startup
             }).AddEntityFrameworkStores<DataContextMSSQL>();
 
 
-        // este é o por defeito, mas já existe o de cima
+        // este é o por defeito, mas já está definido em cima
         //services.AddDefaultIdentity<IdentityUser>(
         //        options =>
         //            options.SignIn.RequireConfirmedAccount = true)
@@ -117,19 +120,30 @@ public class Startup
         });
 
 
+        //
+        // Seeding databases
         services.AddTransient<SeedDb>();
 
+        //
+        // injecting repositories helpers
         services.AddScoped<IUserHelper, UserHelper>();
         services.AddScoped<IImageHelper, ImageHelper>();
         services.AddScoped<IStorageHelper, StorageHelper>();
         services.AddScoped<IConverterHelper, ConverterHelper>();
 
+        //
+        // injecting mock repositories
         //services.AddScoped<IRepository, Repository>();
         //services.AddScoped<IRepository, MockRepository>();
 
+        //
+        // injecting real repositories
         services.AddScoped<IProductsRepository, ProductRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
 
-        //services.AddScoped<ICountryRepository, CountryRepository>();
+        //
+        // injecting cloud repositories
+        // services.AddScoped<ICountryRepository, CountryRepository>();
         services.AddScoped<GcpConfigOptions>();
         services.AddScoped<AWSConfigOptions>();
         services.AddScoped<ICloudStorageService, CloudStorageService>();
@@ -146,10 +160,7 @@ public class Startup
         app.UseDeveloperExceptionPage();
 
 
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
+        if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
         else
         {
             app.UseExceptionHandler("/Home/Error");
