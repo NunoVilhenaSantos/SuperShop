@@ -18,55 +18,11 @@ public class StorageHelper : IStorageHelper
 {
     public StorageHelper(
         IConfiguration configuration,
-        IOptions<GCPConfigOptions> options,
         ILogger<CloudStorageService> logger
     )
     {
         _configuration = configuration;
         _logger = logger;
-
-
-        // _azureBlobKey_1 = _configuration["Storages:AzureBlobKeyNuno"];
-        // _azureBlobKey_2 = _configuration["Storages:AzureBlobKeyRuben"];
-        // "AzureBlobKeyNuno": "",
-        // "AzureBlobKeyRuben": "",
-        // "AzureBlobKeyLicinio": "",
-        // "AzureBlobKeyJorge": "",
-        // "AzureBlobKeyJoel": "",
-        // "AzureBlobKey-6": ""
-        //_azureKeyCredential = new AzureKeyCredential(_azureBlobKey_1);
-        //_azureSasCredential = new AzureSasCredential(_azureBlobKey_2);
-        //_awsStorageKey1 = _configuration["Storages:AWSStorageKey1"];
-        //_awsStorageKey2 = _configuration["Storages:AWSStorageKey2"];
-        // Retrieve the connection string for use with the application.
-        // var connectionString =
-        //     Environment.GetEnvironmentVariable(
-        //         "AZURE_STORAGE_CONNECTION_STRING");
-        // Create a BlobServiceClient object
-        // var blobServiceClient = new BlobServiceClient(_azureBlobKey_1);
-        // "DefaultEndpointsProtocol=https;" +
-        //     "AccountName=storagesuper;" +
-        //     "AccountKey=your_storage_account_key;" +
-        //     "EndpointSuffix=core.windows.net")
-        // ;
-
-        // Create the container and return a container client object
-        // Create a unique name for the container
-        // var gcpStorageFileNuno = _configuration["GCPStorageAuthFile_Nuno"];
-        // _gcpStorageBucketNuno = _configuration["GCPStorageBucketName_Nuno"];
-        // _googleCredentialsNuno =
-        //     GoogleCredential.FromFile(gcpStorageFileNuno);
-
-
-        //_gcpStorageFileJorge = _configuration["GCPStorageAuthFile_Jorge"];
-        //_gcpStorageBucketJorge =
-        //    _configuration["GCPStorageBucketName_Jorge"];
-        //_googleCredentialsNuno =
-        //    GoogleCredential.FromFile(_gcpStorageFileJorge);
-
-
-        // _options = options.Value;
-        // _logger = logger;
     }
 
 
@@ -94,8 +50,8 @@ public class StorageHelper : IStorageHelper
     }
 
 
-    public async Task<string> UploadFileAsyncToGCP(IFormFile fileToUpload,
-        string fileNameToSave)
+    public async Task<string> UploadFileAsyncToGCP(
+        IFormFile fileToUpload, string fileNameToSave)
     {
         try
         {
@@ -122,18 +78,12 @@ public class StorageHelper : IStorageHelper
 
                     _logger.LogInformation(
                         $"Uploaded File Async: " +
-                        $"{fileToUpload.FileName} to " +
-                        $"{fileNameToSave} into storage {_configuration[""]}");
+                        $"{0} to {1} into storage {2}",
+                        fileToUpload.FileName, fileNameToSave,
+                        _configuration["GCPStorageBucketName_Nuno"]);
 
                     return await Task.FromResult(storageObject.MediaLink);
                 }
-
-                //var uploadFile = _googleCredentials.CreateScoped(scopes: _options.Scopes).UnderlyingCredential as Google.Apis.Auth.OAuth2.GoogleCredential;
-                //var storageClient = Google.Cloud.Storage.V1.StorageClient.Create(uploadFile);
-                //var bucketName = _options.BucketName;
-                //var storageObject = storageClient.UploadObject(bucketName, fileNameToSave, null, memoryStream);
-
-                //return await Task.FromResult(storageObject.MediaLink);
             }
         }
         catch (Exception ex)
@@ -184,60 +134,6 @@ public class StorageHelper : IStorageHelper
     }
 
 
-    public async Task<BlobServiceClient> CreateContainer(
-        string containerName)
-    {
-        // TODO: Replace <storage-account-name> with your actual storage account name
-        var blobServiceClient = new BlobServiceClient(
-            new Uri("https://<storage-account-name>.blob.core.windows.net"),
-            new DefaultAzureCredential());
-
-        // Create a unique name for the container
-        containerName += "quickstartblobs" + Guid.NewGuid();
-
-        // Create the container and return a container client object
-        // BlobContainerClient containerClient =
-        //     await blobServiceClient.CreateBlobContainerAsync(
-        //         containerName);
-
-        return blobServiceClient;
-    }
-
-
-    public Task<bool> CopyFileToBlob()
-    {
-        // Get a connection string to our Azure Storage account.
-        // You can obtain your connection string from the Azure Portal
-        // (click Access Keys under Settings
-        //  in the Portal Storage account blade)
-        // or using the Azure CLI with:
-        //
-        //     az storage account show-connection-string
-        //     --name <account_name> --resource-group <resource_group>
-        //
-        // And you can provide the connection string to your application
-        // using an environment variable.
-
-        var connectionString = _configuration["Storages:AzureBlobKey1"];
-        var containerName = "sample-container";
-        var blobName = "sample-blob";
-        var filePath = "sample-file";
-
-        // Get a reference to a container named "sample-container" and then create it
-        var container =
-            new BlobContainerClient(connectionString, containerName);
-
-        container.Create();
-
-        // Get a reference to a blob named "sample-file" in a container named "sample-container"
-        var blob = container.GetBlobClient(blobName);
-
-        // Upload local file
-        blob.Upload(filePath);
-
-        return Task.FromResult(true); // "Uploaded file to blob storage.";
-    }
-
     #region Fields
 
     private readonly IConfiguration _configuration;
@@ -263,7 +159,7 @@ public class StorageHelper : IStorageHelper
 
     #region GCP
 
-    private readonly GCPConfigOptions _options;
+    // private readonly GCPConfigOptions _options;
 
     private readonly ILogger<CloudStorageService> _logger;
     //private readonly Google.Apis.Auth.OAuth2.GoogleCredential _googleCredentials;
