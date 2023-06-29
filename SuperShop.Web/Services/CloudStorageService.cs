@@ -18,11 +18,11 @@ public class CloudStorageService : ICloudStorageService
 
 
     //private readonly IOptions<GCPConfigOptions> _options;
-    private readonly GCPConfigOptions _options;
+    private readonly GcpConfigOptions _options;
 
 
     public CloudStorageService(
-        IOptions<GCPConfigOptions> options,
+        IOptions<GcpConfigOptions> options,
         ILogger<CloudStorageService> logger)
     {
         _options = options.Value;
@@ -36,7 +36,7 @@ public class CloudStorageService : ICloudStorageService
         try
         {
             _googleCredentials =
-                GoogleCredential.FromFile(_options.GCPStorageAuthFile_Nuno);
+                GoogleCredential.FromFile(_options.GcpStorageAuthFileNuno);
 
             var environment =
                 Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -44,7 +44,7 @@ public class CloudStorageService : ICloudStorageService
             if (environment == "Development")
             {
                 _googleCredentials =
-                    GoogleCredential.FromFile(_options.GCPStorageAuthFile_Nuno);
+                    GoogleCredential.FromFile(_options.GcpStorageAuthFileNuno);
             }
             else
             {
@@ -52,7 +52,7 @@ public class CloudStorageService : ICloudStorageService
 
                 // store the json file in secrets.
                 _googleCredentials =
-                    GoogleCredential.FromJson(_options.GCPStorageAuthFile_Nuno);
+                    GoogleCredential.FromJson(_options.GcpStorageAuthFileNuno);
             }
         }
         catch (Exception ex)
@@ -67,17 +67,17 @@ public class CloudStorageService : ICloudStorageService
         try
         {
             _logger.LogInformation(
-                $"Deleting File Async: {fileNameToDelete} into storage {_options.GCPStorageBucketName_Nuno}");
+                $"Deleting File Async: {fileNameToDelete} into storage {_options.GcpStorageBucketNameNuno}");
 
 
             using (var storageClient =
                    StorageClient.Create(_googleCredentials))
             {
                 await storageClient.DeleteObjectAsync(
-                    _options.GCPStorageBucketName_Nuno, fileNameToDelete);
+                    _options.GcpStorageBucketNameNuno, fileNameToDelete);
 
                 _logger.LogInformation(
-                    $"Deleted File Async: {fileNameToDelete} into storage {_options.GCPStorageBucketName_Nuno}");
+                    $"Deleted File Async: {fileNameToDelete} into storage {_options.GcpStorageBucketNameNuno}");
 
                 return true;
             }
@@ -97,15 +97,15 @@ public class CloudStorageService : ICloudStorageService
         try
         {
             _logger.LogInformation(
-                $"Obtained signed url for the file {fileNameToRead} in the storage {_options.GCPStorageBucketName_Nuno}");
+                $"Obtained signed url for the file {fileNameToRead} in the storage {_options.GcpStorageBucketNameNuno}");
 
             var urlSigner =
                 UrlSigner.FromServiceAccountPath(_options
-                    .GCPStorageAuthFile_Nuno);
+                    .GcpStorageAuthFileNuno);
 
             // V4 is the default signing version.
             var signedUrl = await urlSigner.SignAsync(
-                _options.GCPStorageBucketName_Nuno, fileNameToRead,
+                _options.GcpStorageBucketNameNuno, fileNameToRead,
                 TimeSpan.FromHours(1), HttpMethod.Get);
 
             Console.WriteLine("Generated GET signed URL:");
@@ -116,7 +116,7 @@ public class CloudStorageService : ICloudStorageService
 
 
             _logger.LogInformation(
-                $"Obtained signed url for the file {fileNameToRead} in the storage {_options.GCPStorageBucketName_Nuno}");
+                $"Obtained signed url for the file {fileNameToRead} in the storage {_options.GcpStorageBucketNameNuno}");
 
             return signedUrl;
         }
@@ -135,7 +135,7 @@ public class CloudStorageService : ICloudStorageService
         try
         {
             _logger.LogInformation(
-                $"Uploading File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_options.GCPStorageBucketName_Nuno}");
+                $"Uploading File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_options.GcpStorageBucketNameNuno}");
 
 
             using (var memoryStream = new MemoryStream())
@@ -150,12 +150,12 @@ public class CloudStorageService : ICloudStorageService
 
                     var storageObject =
                         await storageClient.UploadObjectAsync(
-                            _options.GCPStorageBucketName_Nuno,
+                            _options.GcpStorageBucketNameNuno,
                             fileNameToSave, fileToUpload.ContentType,
                             memoryStream);
 
                     _logger.LogInformation(
-                        $"Uploaded File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_options.GCPStorageBucketName_Nuno}");
+                        $"Uploaded File Async: {fileToUpload.FileName} to {fileNameToSave} into storage {_options.GcpStorageBucketNameNuno}");
 
                     return await Task.FromResult(storageObject.MediaLink);
                 }

@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace SuperShop.Web.Data.Entity;
@@ -9,7 +11,15 @@ public class OrderDetailTemp : IEntity
     [Required] public User User { get; set; }
 
 
-    [Required] public Product Product { get; set; }
+    // [OnDelete(DeleteBehavior.NoAction)]
+    // [OnUpdate(DeleteBehavior.NoAction)]
+    // [Required]
+    // [ForeignKey(nameof(Product))]
+    public int ProductId { get; set; }
+    // [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
+    [System.ComponentModel.DataAnnotations.Schema.ForeignKey(nameof(ProductId))]
+    [Required]
+    public Product Product { get; set; }
 
 
     [Required]
@@ -26,12 +36,14 @@ public class OrderDetailTemp : IEntity
 
 
     [DataType(DataType.Currency)]
+    [Precision(18, 2)]
     public decimal Value => (decimal) Quantity * Price;
 
-    [Key] [Required] public int Id { get; set; }
-
-
+    [Key]
     [Required]
-    [DisplayName("Was Deleted?")]
-    public bool WasDeleted { get; set; }
+    [System.ComponentModel.DataAnnotations.Schema.Column(Order = 0)]
+    public int Id { get; set; }
+
+
+    [DisplayName("Was Deleted?")] public bool WasDeleted { get; set; }
 }

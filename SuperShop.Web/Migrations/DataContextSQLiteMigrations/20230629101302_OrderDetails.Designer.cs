@@ -11,7 +11,7 @@ using SuperShop.Web.Data.DataContext;
 namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
 {
     [DbContext(typeof(DataContextSQLite))]
-    [Migration("20230628181328_OrderDetails")]
+    [Migration("20230629101302_OrderDetails")]
     partial class OrderDetails
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,7 +212,8 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnOrder(0);
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)

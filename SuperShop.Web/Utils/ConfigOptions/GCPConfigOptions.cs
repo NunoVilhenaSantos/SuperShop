@@ -2,13 +2,13 @@
 
 namespace SuperShop.Web.Utils.ConfigOptions;
 
-public class GCPConfigOptions
+public class GcpConfigOptions
 {
-    internal readonly string GCPStorageAuthFile_Jorge;
-    internal readonly string GCPStorageAuthFile_Nuno;
-    internal readonly string GCPStorageBucketName_Jorge;
-    internal readonly string GCPStorageBucketName_Nuno;
-
-
-    internal readonly IEnumerable<string> Scopes;
+    // internal readonly string GCPStorageAuthFile_Jorge;
+    internal readonly string GcpStorageAuthFileNuno;
+    // internal readonly string GCPStorageBucketName_Jorge;
+    internal readonly string GcpStorageBucketNameNuno;
+    //
+    //
+    // internal readonly IEnumerable<string> Scopes;
 }

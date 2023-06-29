@@ -56,8 +56,7 @@ public class Startup
             cfg =>
             {
                 cfg.UseSqlServer(
-                    Configuration.GetConnectionString(
-                        "SomeeConnection"),
+                    Configuration.GetConnectionString("SomeeConnection"),
                     options =>
                     {
                         options.EnableRetryOnFailure();
@@ -70,9 +69,8 @@ public class Startup
         services.AddDbContext<DataContextMySQL>(
             cfg =>
             {
-                cfg.UseSqlite(
-                    Configuration.GetConnectionString(
-                        "SuperShop-MySQL"),
+                cfg.UseMySQL(
+                    Configuration.GetConnectionString("SuperShop-MySQL"),
                     options =>
                     {
                         options.MigrationsAssembly("SuperShop.Web");
@@ -85,8 +83,7 @@ public class Startup
             cfg =>
             {
                 cfg.UseSqlite(
-                    Configuration.GetConnectionString(
-                        "SuperShop-SQLite"),
+                    Configuration.GetConnectionString("SuperShop-SQLite"),
                     options =>
                     {
                         options.MigrationsAssembly("SuperShop.Web");
@@ -133,7 +130,7 @@ public class Startup
         services.AddScoped<IProductsRepository, ProductRepository>();
 
         //services.AddScoped<ICountryRepository, CountryRepository>();
-        services.AddScoped<GCPConfigOptions>();
+        services.AddScoped<GcpConfigOptions>();
         services.AddScoped<AWSConfigOptions>();
         services.AddScoped<ICloudStorageService, CloudStorageService>();
 

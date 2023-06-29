@@ -210,7 +210,8 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnOrder(0);
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
