@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using Microsoft.AspNetCore.Http;
-using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Data.Entities;
 
 namespace SuperShop.Web.Models;
 

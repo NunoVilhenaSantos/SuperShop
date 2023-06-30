@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SuperShop.Web.Data.Repositories;
 
-
 namespace SuperShop.Web.Controllers;
 
 [Authorize]
@@ -21,7 +20,7 @@ public class OrdersController : Controller
     public async Task<IActionResult> Index()
     {
         var model = await _orderRepository
-            .GetOrdersFromUsersAsync(User.Identity.Name);
+            .GetOrdersAsync(User.Identity.Name);
 
         return View();
     }

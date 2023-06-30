@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Data.Entities;
 
 namespace SuperShop.Web.Data.Repositories;
 

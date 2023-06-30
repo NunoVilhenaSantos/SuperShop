@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Models;
 

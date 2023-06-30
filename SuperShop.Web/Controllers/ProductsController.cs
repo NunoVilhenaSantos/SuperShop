@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SuperShop.Web.Data;
 using SuperShop.Web.Data.Repositories;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Models;

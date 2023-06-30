@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data.DataContext;
-using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Helpers;
 
 namespace SuperShop.Web.Data;

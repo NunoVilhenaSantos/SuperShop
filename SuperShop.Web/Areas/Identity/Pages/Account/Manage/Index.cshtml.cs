@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Data.Entities;
 
 namespace SuperShop.Web.Areas.Identity.Pages.Account.Manage;
 

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Data.Entities;
 
 namespace SuperShop.Web.Data.DataContext;
 // public class DataContextMSSQL : DbContext

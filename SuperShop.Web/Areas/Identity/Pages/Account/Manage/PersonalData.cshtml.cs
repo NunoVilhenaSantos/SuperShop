@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Data.Entities;
 
 namespace SuperShop.Web.Areas.Identity.Pages.Account.Manage;
 

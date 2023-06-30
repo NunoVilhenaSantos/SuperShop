@@ -1,3 +1,4 @@
+@using SuperShop.Web.Data.Entities
 @inject SignInManager<User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();

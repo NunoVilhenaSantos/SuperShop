@@ -145,17 +145,17 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SuperShop.Web.Data.Entity.Order", b =>
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DeliveryDateId")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("DeliveryDate")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("OrderDateId")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -166,22 +166,18 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DeliveryDateId");
-
-                    b.HasIndex("OrderDateId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("SuperShop.Web.Data.Entity.OrderDetail", b =>
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Price")
@@ -206,12 +202,11 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("SuperShop.Web.Data.Entity.OrderDetailTemp", b =>
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.OrderDetailTemp", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnOrder(0);
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
@@ -239,7 +234,7 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
                     b.ToTable("OrderDetailTemps");
                 });
 
-            modelBuilder.Entity("SuperShop.Web.Data.Entity.Product", b =>
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -291,7 +286,7 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("SuperShop.Web.Data.Entity.User", b =>
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -372,7 +367,7 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SuperShop.Web.Data.Entity.User", null)
+                    b.HasOne("SuperShop.Web.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -381,7 +376,7 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SuperShop.Web.Data.Entity.User", null)
+                    b.HasOne("SuperShop.Web.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -396,7 +391,7 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SuperShop.Web.Data.Entity.User", null)
+                    b.HasOne("SuperShop.Web.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -405,65 +400,52 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SuperShop.Web.Data.Entity.User", null)
+                    b.HasOne("SuperShop.Web.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SuperShop.Web.Data.Entity.Order", b =>
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.Order", b =>
                 {
-                    b.HasOne("SuperShop.Web.Data.Entity.Product", "DeliveryDate")
-                        .WithMany()
-                        .HasForeignKey("DeliveryDateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SuperShop.Web.Data.Entity.Product", "OrderDate")
-                        .WithMany()
-                        .HasForeignKey("OrderDateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SuperShop.Web.Data.Entity.User", "User")
+                    b.HasOne("SuperShop.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("DeliveryDate");
-
-                    b.Navigation("OrderDate");
-
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SuperShop.Web.Data.Entity.OrderDetail", b =>
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.OrderDetail", b =>
                 {
-                    b.HasOne("SuperShop.Web.Data.Entity.Order", null)
+                    b.HasOne("SuperShop.Web.Data.Entities.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("SuperShop.Web.Data.Entity.Product", "Product")
+                    b.HasOne("SuperShop.Web.Data.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("SuperShop.Web.Data.Entity.OrderDetailTemp", b =>
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.OrderDetailTemp", b =>
                 {
-                    b.HasOne("SuperShop.Web.Data.Entity.Product", "Product")
+                    b.HasOne("SuperShop.Web.Data.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SuperShop.Web.Data.Entity.User", "User")
+                    b.HasOne("SuperShop.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -474,9 +456,9 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SuperShop.Web.Data.Entity.Product", b =>
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.Product", b =>
                 {
-                    b.HasOne("SuperShop.Web.Data.Entity.User", "User")
+                    b.HasOne("SuperShop.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -485,7 +467,7 @@ namespace SuperShop.Web.Migrations.DataContextSQLiteMigrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SuperShop.Web.Data.Entity.Order", b =>
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.Order", b =>
                 {
                     b.Navigation("Items");
                 });

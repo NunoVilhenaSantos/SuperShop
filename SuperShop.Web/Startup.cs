@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SuperShop.Web.Data;
 using SuperShop.Web.Data.DataContext;
-using SuperShop.Web.Data.Entity;
+using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Data.Repositories;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Services;
@@ -180,7 +180,6 @@ public class Startup
         app.UseAuthentication(); // Must be before UseAuthorization
         app.UseAuthorization();
 
-        // app.MapRazorPages();
 
         app.UseEndpoints(endpoints =>
         {

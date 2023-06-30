@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using SuperShop.Web.Data;
 using SuperShop.Web.Data.Repositories;
 using SuperShop.Web.Helpers;
 
