@@ -11,7 +11,9 @@ public class Program
     {
         // CreateHostBuilder(args).Build().Run();
         var host = CreateHostBuilder(args).Build();
-        RunSeeding(host);
+
+        // RunSeeding(host);
+
         host.Run();
     }
 
