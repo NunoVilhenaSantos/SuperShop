@@ -66,6 +66,9 @@ public class SeedDb
 
         if (user == null)
         {
+            //
+            // cria user admin
+            //
             user = new User
             {
                 FirstName = "Nuno",

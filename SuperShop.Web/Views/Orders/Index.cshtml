@@ -48,12 +48,12 @@
     @if (Model == null || !Model.Any())
     {
         <p>Não há encomendas disponíveis.</p>
-        @* <p>O tipo do modelo é: @Model.GetType().FullName</p> *@
-
+        <p>O tipo do modelo é: @Model?.GetType().FullName</p>
     }
     else
     {
-        <p>Existem @Model.Count() encomendas disponíveis.</p>
+        <p>Existem @Model?.Count() encomendas disponíveis.</p>
+        <p>O tipo do modelo é: @Model.GetType().FullName</p>
 
         @foreach (var item in Model)
         {

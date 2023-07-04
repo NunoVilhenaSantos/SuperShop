@@ -12,7 +12,6 @@ public interface IOrderRepository : IGenericRepository<Order>
 
     Task<IQueryable<OrderDetailTemp>> GetDetailsTempAsync(string userName);
 
-
     Task AddItemToOrderAsync(AddItemViewModel model, string userName);
 
 

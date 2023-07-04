@@ -160,7 +160,10 @@ public class Startup
         app.UseDeveloperExceptionPage();
 
 
-        if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
         else
         {
             app.UseExceptionHandler("/Home/Error");

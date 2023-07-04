@@ -30,7 +30,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         var user = await _userHelper.GetUserByEmailAsync(userName);
 
 
-        if (user == null) return null;
+        if (user == null) return Array.Empty<Order>().AsQueryable();
 
 
         if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
@@ -48,13 +48,14 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
             .OrderByDescending(o => o.OrderDate);
     }
 
+
     public async Task<IQueryable<OrderDetailTemp>> GetDetailsTempAsync(
         string userName)
     {
         var user = await _userHelper.GetUserByEmailAsync(userName);
 
 
-        if (user == null) return null;
+        if (user == null) return Array.Empty<OrderDetailTemp>().AsQueryable();
 
 
         if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
@@ -69,7 +70,6 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
             .Where(o => o.User == user)
             .OrderByDescending(o => o.Product.Name);
     }
-
 
     public async Task AddItemToOrderAsync(
         AddItemViewModel model, string userName)

@@ -5,6 +5,7 @@
         <UserSecretsId>abcb71f5-d541-40f1-9c64-4bf45375102e</UserSecretsId>
         <IsPackable>true</IsPackable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <EnablePreviewFeatures>true</EnablePreviewFeatures>
     </PropertyGroup>
 
     <ItemGroup>
@@ -2619,11 +2620,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Update="libman.json.bak">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
+        <Content Update="libman.json.bak">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
