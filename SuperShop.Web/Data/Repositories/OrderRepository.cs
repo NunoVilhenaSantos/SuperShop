@@ -20,8 +20,8 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         DataContextMSSQL dataContextMssql
     ) : base(dataContextMssql)
     {
-        _dataContextMssql = dataContextMssql;
         _userHelper = userHelper;
+        _dataContextMssql = dataContextMssql;
     }
 
 
@@ -74,14 +74,60 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
     public async Task AddItemToOrderAsync(
         AddItemViewModel model, string userName)
     {
-        throw new NotImplementedException();
+        var user = await _userHelper.GetUserByEmailAsync(userName);
+
+        if (user == null) return;
+
+        var product =
+            await _dataContextMssql.Products.FindAsync(model.ProductId);
+
+        if (product == null) return;
+
+        var orderDetailTemp =
+            await _dataContextMssql.OrderDetailTemps
+                .Where(odt =>
+                    odt.User == user &&
+                    odt.Product == product)
+                .FirstOrDefaultAsync();
+
+        if (orderDetailTemp == null)
+        {
+            orderDetailTemp = new OrderDetailTemp
+            {
+                Price = product.Price,
+                Product = product,
+                Quantity = model.Quantity,
+                User = user
+            };
+
+            _dataContextMssql.OrderDetailTemps.Add(orderDetailTemp);
+        }
+        else
+        {
+            orderDetailTemp.Quantity += model.Quantity;
+            _dataContextMssql.OrderDetailTemps.Update(orderDetailTemp);
+        }
+
+        await _dataContextMssql.SaveChangesAsync();
     }
 
 
     public async Task ModifyOrderDetailTempQuantityAsync(
         int id, double quantity)
     {
-        throw new NotImplementedException();
+        var orderDetailTemp =
+            await _dataContextMssql.OrderDetailTemps.FindAsync(id);
+
+        if (orderDetailTemp == null) return;
+
+        orderDetailTemp.Quantity += quantity;
+
+        if (orderDetailTemp.Quantity > 0)
+            _dataContextMssql.OrderDetailTemps.Update(orderDetailTemp);
+        else
+            _dataContextMssql.OrderDetailTemps.Remove(orderDetailTemp);
+
+        await _dataContextMssql.SaveChangesAsync();
     }
 
 

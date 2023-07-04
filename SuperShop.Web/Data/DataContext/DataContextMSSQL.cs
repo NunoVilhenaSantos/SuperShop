@@ -20,6 +20,7 @@ public class DataContextMSSQL : IdentityDbContext<User>
 
     public DbSet<OrderDetailTemp> OrderDetailTemps { get; set; }
 
+
     public DbSet<Product> Products { get; set; }
 
 

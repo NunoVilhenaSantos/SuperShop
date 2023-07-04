@@ -58,4 +58,16 @@ public class OrdersController : Controller
 
         return View(model);
     }
+
+
+    //HttpPost
+    [HttpPost]
+    public async Task<IActionResult> AddProduct(AddItemViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+
+        await _orderRepository.AddItemToOrderAsync(model, User.Identity.Name);
+
+        return RedirectToAction(nameof(Create));
+    }
 }
