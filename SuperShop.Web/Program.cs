@@ -34,7 +34,7 @@ public class Program
 
         RunSeeding(host);
 
-        OpenBrowser(urlHttp);
+        // OpenBrowser(urlHttp);
         OpenBrowser(urlHttps);
 
         // host.Run();

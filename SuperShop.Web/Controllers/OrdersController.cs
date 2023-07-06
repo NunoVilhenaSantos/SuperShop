@@ -70,4 +70,53 @@ public class OrdersController : Controller
 
         return RedirectToAction(nameof(Create));
     }
+
+
+    //HttpGet
+    [HttpGet]
+    public async Task<IActionResult> Increase(int? id)
+    {
+        if (id == null) return NotFound();
+
+        await _orderRepository.ModifyOrderDetailTempQuantityAsync(
+            id.Value, 1);
+
+        return RedirectToAction(nameof(Create));
+    }
+
+
+    //HttpGet
+    [HttpGet]
+    public async Task<IActionResult> Decrease(int? id)
+    {
+        if (id == null) return NotFound();
+
+        await _orderRepository.ModifyOrderDetailTempQuantityAsync(
+            id.Value, -1);
+
+        return RedirectToAction(nameof(Create));
+    }
+
+
+    //HttpGet
+    [HttpGet]
+    public async Task<IActionResult> DeleteItem(int? id)
+    {
+        if (id == null) return NotFound();
+
+        await _orderRepository.DeleteDetailTempAsync(id.Value);
+
+        return RedirectToAction(nameof(Create));
+    }
+
+
+    //HttpGet
+    [HttpGet]
+    public async Task<IActionResult> ConfirmOrder()
+    {
+        var response =
+            await _orderRepository.ConfirmOrderAsync(User.Identity.Name);
+
+        return RedirectToAction(response ? nameof(Index) : nameof(Create));
+    }
 }

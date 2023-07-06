@@ -29,13 +29,13 @@ public class Order : IEntity
     [Required] public User User { get; set; }
 
 
-    public IEnumerable<OrderDetail> Items { get; set; }
+    public ICollection<OrderDetail> Items { get; set; }
     // = new List<OrderDetail>();
 
 
     // [DataType(DataType.Custom)]
     [DisplayFormat(DataFormatString = "{0:N0}")]
-    public int Lines => Items?.Count() ?? 0;
+    public int Lines => Items?.Count ?? 0;
 
 
     // [DataType(DataType.Custom)]

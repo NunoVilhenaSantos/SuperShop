@@ -49,8 +49,8 @@ public interface IStorageHelper
         return Task.FromResult(Guid.NewGuid());
     }
 
-    Task<string> UploadFileAsyncToGCP(IFormFile fileToUpload,
-        string fileNameToSave);
+    Task<Guid> UploadFileAsyncToGCP(
+        IFormFile fileToUpload, string fileNameToSave);
 
     // [END storage_stream_file_upload]
     // [END storage_upload_file]

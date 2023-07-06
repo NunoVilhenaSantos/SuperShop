@@ -20,9 +20,15 @@
 <table class="table">
     <thead>
     <tr>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.User.FullName)
+                </th>
+            }
+
         <th>
             @Html.DisplayNameFor(model => model.Product.Name)
-            @* @Html.DisplayNameFor(model => model.AsEnumerable().First().Product.Name) *@
         </th>
 
         <th>
@@ -44,6 +50,12 @@
     @foreach (var item in Model)
     {
         <tr>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.FullName)
+                    </td>
+                }
             <td>
                 @Html.DisplayFor(modelItem => item.Product.Name)
             </td>
@@ -62,60 +74,62 @@
 
             <td id="@item.Id">
                 <a asp-action="Increase" asp-route-id="@item.Id" class="btn btn-warning">
-                    <i class="fa fa-plus"></i>
+                    <i class="material-symbols-outlined">add</i> <i class="fa fa-plus"></i>
                 </a>
                 <a asp-action="Decrease" asp-route-id="@item.Id" class="btn btn-info">
-                    <i class="fa fa-minus"></i>
+                    <i class="material-symbols-outlined">remove</i> <i class="fa fa-minus"></i>
                 </a>
                 <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem">Delete</a>
             </td>
+
         </tr>
     }
     </tbody>
 </table>
 
-<div id="confirmDialog" class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
 
-            <div class="modal-header">
-                <h4 class="modal-header">Confirm Order</h4>
-                <button type="button" class="close" data-dismiss="modal" id="closingXConfirmDialog">
-                    <i class="fa fa-window-close"></i>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <p>Do you want to confirm the order?</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnYesConfirm">Yes</button>
-                <button type="button" class="btn btn-danger" id="btnNoConfirm">No</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="deleteDialog" class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h4 class="modal-header">Delete Order</h4>
-                <button type="button" class="close" data-dismiss="modal" id="closingXDeleteDialog">
-                    <i class="fa fa-window-close"></i>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <p>Do you want to delete product the order?</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnYesDelete">Yes</button>
-                <button type="button" class="btn btn-danger" id="btnNoDelete">No</button>
-            </div>
-        </div>
-    </div>
-</div>
+@* <div id="confirmDialog" class="modal fade"> *@
+@*     <div class="modal-dialog modal-sm"> *@
+@*         <div class="modal-content"> *@
+@* *@
+@*             <div class="modal-header"> *@
+@*                 <h4 class="modal-header">Confirm Order</h4> *@
+@*                 <button type="button" class="close" data-dismiss="modal" id="closingXConfirmDialog"> *@
+@*                     <i class="fa fa-window-close"></i> *@
+@*                 </button> *@
+@*             </div> *@
+@* *@
+@*             <div class="modal-body"> *@
+@*                 <p>Do you want to confirm the order?</p> *@
+@*             </div> *@
+@* *@
+@*             <div class="modal-footer"> *@
+@*                 <button type="button" class="btn btn-danger" id="btnYesConfirm">Yes</button> *@
+@*                 <button type="button" class="btn btn-danger" id="btnNoConfirm">No</button> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+@* *@
+@* <div id="deleteDialog" class="modal fade"> *@
+@*     <div class="modal-dialog modal-sm"> *@
+@*         <div class="modal-content"> *@
+@* *@
+@*             <div class="modal-header"> *@
+@*                 <h4 class="modal-header">Delete Order</h4> *@
+@*                 <button type="button" class="close" data-dismiss="modal" id="closingXDeleteDialog"> *@
+@*                     <i class="fa fa-window-close"></i> *@
+@*                 </button> *@
+@*             </div> *@
+@* *@
+@*             <div class="modal-body"> *@
+@*                 <p>Do you want to delete the order?</p> *@
+@*             </div> *@
+@* *@
+@*             <div class="modal-footer"> *@
+@*                 <button type="button" class="btn btn-danger" id="btnYesDelete">Yes</button> *@
+@*                 <button type="button" class="btn btn-danger" id="btnNoDelete">No</button> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@

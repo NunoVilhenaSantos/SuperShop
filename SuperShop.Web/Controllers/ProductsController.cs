@@ -76,7 +76,9 @@ public class ProductsController : Controller
     public async Task<IActionResult> Create(
         ProductViewModel productViewModel)
     {
-        if (!ModelState.IsValid) return View(productViewModel);
+
+        // TODO BUG Mariconsoft
+        // if (!ModelState.IsValid) return View(productViewModel);
 
         var filePath = productViewModel.ImageUrl;
         var fileStorageId = productViewModel.ImageId;
@@ -140,7 +142,7 @@ public class ProductsController : Controller
         if (id != productViewModel.Id)
             return new NotFoundViewResult("ProductNotFound");
 
-        if (!ModelState.IsValid) return View(productViewModel);
+        // if (!ModelState.IsValid) return View(productViewModel);
 
         try
         {
@@ -152,7 +154,10 @@ public class ProductsController : Controller
                 filePath = await _imageHelper.UploadImageAsync(
                     productViewModel.ImageFile, "products");
 
-                fileStorageId = await _storageHelper.UploadStorageAsync(
+                // fileStorageId = await _storageHelper.UploadStorageAsync(
+                //     productViewModel.ImageFile, "products");
+
+                fileStorageId = await _storageHelper.UploadFileAsyncToGCP(
                     productViewModel.ImageFile, "products");
             }
 

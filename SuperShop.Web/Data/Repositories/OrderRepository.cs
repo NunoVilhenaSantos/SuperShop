@@ -133,12 +133,50 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 
     public async Task DeleteDetailTempAsync(int id)
     {
-        throw new NotImplementedException();
+        var orderDetailTemp =
+            await _dataContextMssql.OrderDetailTemps.FindAsync(id);
+
+        if (orderDetailTemp == null) return;
+
+        _dataContextMssql.OrderDetailTemps.Remove(orderDetailTemp);
+
+        await _dataContextMssql.SaveChangesAsync();
     }
 
 
     public async Task<bool> ConfirmOrderAsync(string userName)
     {
-        throw new NotImplementedException();
+        var user = await _userHelper.GetUserByEmailAsync(userName);
+
+        if (user == null) return false;
+
+        var orderDetailsTemp =
+            await _dataContextMssql.OrderDetailTemps
+                .Include(odt => odt.Product)
+                .Where(odt => odt.User == user)
+                .ToListAsync();
+
+        if (orderDetailsTemp.Count == 0) return false;
+
+        var order = new Order
+        {
+            OrderDate = DateTime.UtcNow,
+            User = user,
+            Items = orderDetailsTemp.Select(odt => new OrderDetail
+            {
+                Price = odt.Product.Price,
+                Product = odt.Product,
+                Quantity = odt.Quantity
+            }).ToList()
+        };
+
+        _dataContextMssql.Orders.Add(order);
+        await CreateAsync(order);
+
+        _dataContextMssql.OrderDetailTemps.RemoveRange(orderDetailsTemp);
+
+        await _dataContextMssql.SaveChangesAsync();
+
+        return true;
     }
 }
