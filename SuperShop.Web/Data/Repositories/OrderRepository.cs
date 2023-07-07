@@ -34,12 +34,15 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 
 
         if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
-            return _dataContextMssql.Orders
+        {
+            var orders = _dataContextMssql.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
                 .ThenInclude(i => i.Product)
                 .OrderByDescending(o => o.OrderDate);
 
+            return orders;
+        }
 
         return _dataContextMssql.Orders
             .Include(o => o.Items)

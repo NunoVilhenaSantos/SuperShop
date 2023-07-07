@@ -7,7 +7,7 @@
 }
 
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData["Title"] - @Model.Any() - @Model.Count()</h1>
 
 
 <p>
@@ -46,7 +46,7 @@
     </thead>
 
     <tbody>
-    @if (Model == null || !Model.Any())
+        @if (Model == null || !Model.Any() || Model.Count() == 0)
     {
         <p>Não há encomendas disponíveis.</p>
         <p>O tipo do modelo é: @Model?.GetType().FullName</p>

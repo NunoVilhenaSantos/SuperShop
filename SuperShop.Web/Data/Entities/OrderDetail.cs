@@ -16,6 +16,7 @@ public class OrderDetail : IEntity
     // [Column(TypeName = "decimal(18,2)")]
     [DataType(DataType.Currency)]
     [Precision(18, 2)]
+    [DisplayFormat(DataFormatString = "{0:C2}")]
     public decimal Price { get; set; }
 
 
@@ -27,6 +28,7 @@ public class OrderDetail : IEntity
 
     [DataType(DataType.Currency)]
     [Precision(18, 2)]
+    [DisplayFormat(DataFormatString = "{0:C2}")]
     public decimal Value => (decimal) Quantity * Price;
 
     [Key]
