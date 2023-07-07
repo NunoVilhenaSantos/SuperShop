@@ -31,7 +31,7 @@ public class OrdersController : Controller
             await _orderRepository
                 .GetOrdersAsync(User.Identity.Name);
 
-        return View();
+        return View(model);
     }
 
 
@@ -53,7 +53,7 @@ public class OrdersController : Controller
     {
         var model = new AddItemViewModel
         {
-            Products = _productsRepository.GetComboProducts(),
+            Products = _productsRepository.GetComboProducts()
         };
 
         return View(model);

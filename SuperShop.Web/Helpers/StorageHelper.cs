@@ -6,9 +6,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Serilog;
-using SuperShop.Web.Services;
 
 namespace SuperShop.Web.Helpers;
 

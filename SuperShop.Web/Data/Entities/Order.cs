@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +18,6 @@ public class Order : IEntity
     public DateTime OrderDate { get; set; }
 
 
-    
     [DisplayName("Delivery Date")]
     [DataType(DataType.DateTime)]
     [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}",
@@ -50,7 +48,6 @@ public class Order : IEntity
     public decimal Total => Items?.Sum(i => i.Value) ?? 0;
 
 
-
     [DisplayName("Order Date")]
     [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy HH:mm tt}",
         ApplyFormatInEditMode = false)]
@@ -60,8 +57,8 @@ public class Order : IEntity
     [DisplayName("Delivery Date")]
     [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}",
         ApplyFormatInEditMode = false)]
-    public DateTime? DeliveryDateLocal => DeliveryDate.GetValueOrDefault().ToLocalTime();
-
+    public DateTime? DeliveryDateLocal =>
+        DeliveryDate.GetValueOrDefault().ToLocalTime();
 
 
     [Key]

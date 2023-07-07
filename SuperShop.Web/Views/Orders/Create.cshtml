@@ -20,12 +20,12 @@
 <table class="table">
     <thead>
     <tr>
-            @if (User.IsInRole("Admin"))
-            {
-                <th>
-                    @Html.DisplayNameFor(model => model.User.FullName)
-                </th>
-            }
+        @if (User.IsInRole("Admin"))
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.User.FullName)
+            </th>
+        }
 
         <th>
             @Html.DisplayNameFor(model => model.Product.Name)
@@ -50,12 +50,12 @@
     @foreach (var item in Model)
     {
         <tr>
-                @if (User.IsInRole("Admin"))
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.FullName)
-                    </td>
-                }
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FullName)
+                </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.Product.Name)
             </td>

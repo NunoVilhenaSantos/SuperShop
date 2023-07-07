@@ -27,6 +27,7 @@ public class ProductRepository :
                 p => p.User);
     }
 
+
     public IEnumerable<SelectListItem> GetComboProducts()
     {
         var list =

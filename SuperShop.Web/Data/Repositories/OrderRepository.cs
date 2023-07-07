@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using SuperShop.Web.Data.DataContext;
 using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Helpers;
@@ -31,31 +30,21 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         var user = await _userHelper.GetUserByEmailAsync(userName);
 
 
-        if (user == null) return Array.Empty<Order>().AsQueryable();
+        if (user == null)
+            return Array.Empty<Order>().AsQueryable();
 
 
-        if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
-        {
-            var orders = _dataContextMssql.Orders
+        return await _userHelper.IsUserInRoleAsync(user, "Admin")
+            ? _dataContextMssql.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
                 .ThenInclude(i => i.Product)
+                .OrderByDescending(o => o.OrderDate)
+            : _dataContextMssql.Orders
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
+                .Where(o => o.User == user)
                 .OrderByDescending(o => o.OrderDate);
-
-            Log.Information("Debug zone");
-            Log.Information(orders.ToString());
-
-            Console.WriteLine(orders);
-            Console.WriteLine("Debug zone");
-
-            return orders;
-        }
-
-        return _dataContextMssql.Orders
-            .Include(o => o.Items)
-            .ThenInclude(i => i.Product)
-            .Where(o => o.User == user)
-            .OrderByDescending(o => o.OrderDate);
     }
 
 
@@ -65,21 +54,21 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         var user = await _userHelper.GetUserByEmailAsync(userName);
 
 
-        if (user == null) return Array.Empty<OrderDetailTemp>().AsQueryable();
+        if (user == null)
+            return Array.Empty<OrderDetailTemp>().AsQueryable();
 
 
-        if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
-            return _dataContextMssql.OrderDetailTemps
+        return await _userHelper.IsUserInRoleAsync(user, "Admin")
+            ? _dataContextMssql.OrderDetailTemps
                 .Include(o => o.User)
                 .Include(p => p.Product)
+                .OrderByDescending(o => o.Product.Name)
+            : _dataContextMssql.OrderDetailTemps
+                .Include(o => o.Product)
+                .Where(o => o.User == user)
                 .OrderByDescending(o => o.Product.Name);
-
-
-        return _dataContextMssql.OrderDetailTemps
-            .Include(o => o.Product)
-            .Where(o => o.User == user)
-            .OrderByDescending(o => o.Product.Name);
     }
+
 
     public async Task AddItemToOrderAsync(
         AddItemViewModel model, string userName)

@@ -7,7 +7,7 @@
 }
 
 
-<h1>@ViewData["Title"] - @Model.Any() - @Model.Count()</h1>
+<h1>@ViewData["Title"] </h1>
 
 
 <p>
@@ -46,7 +46,7 @@
     </thead>
 
     <tbody>
-        @if (Model == null || !Model.Any() || Model.Count() == 0)
+    @if (Model == null || !Model.Any())
     {
         <p>Não há encomendas disponíveis.</p>
         <p>O tipo do modelo é: @Model?.GetType().FullName</p>
@@ -84,9 +84,9 @@
                     @Html.DisplayFor(modelItem => item.WasDeleted)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Deliver" asp-route-id="@item.Id" class="btn btn-info" id="btnDeliver">Deliver</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info" id="btnEdit">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info" id="btnDetails">Details</a>
+                    <a asp-action="Deliver" asp-route-id="@item.Id" class="btn btn-info" id="btnDeliver">Deliver</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete">Delete</a>
                 </td>
             </tr>

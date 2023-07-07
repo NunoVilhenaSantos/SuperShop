@@ -8,9 +8,12 @@ namespace SuperShop.Web.Data.Repositories;
 public interface IOrderRepository : IGenericRepository<Order>
 {
     Task<IQueryable<Order>> GetOrdersAsync(string userName);
+    // Task<EnumerableQuery<Order>> GetOrdersAsync(string userName);
 
 
     Task<IQueryable<OrderDetailTemp>> GetDetailsTempAsync(string userName);
+    // Task<EnumerableQuery<OrderDetailTemp>> GetDetailsTempAsync(string userName);
+
 
     Task AddItemToOrderAsync(AddItemViewModel model, string userName);
 

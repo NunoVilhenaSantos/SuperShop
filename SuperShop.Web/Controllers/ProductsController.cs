@@ -12,11 +12,11 @@ namespace SuperShop.Web.Controllers;
 // [Authorize]
 public class ProductsController : Controller
 {
-    private readonly IUserHelper _userHelper;
-    private readonly IImageHelper _imageHelper;
-    private readonly IStorageHelper _storageHelper;
     private readonly IConverterHelper _converterHelper;
+    private readonly IImageHelper _imageHelper;
     private readonly IProductsRepository _productsRepository;
+    private readonly IStorageHelper _storageHelper;
+    private readonly IUserHelper _userHelper;
 
     // private readonly IRepository _repository;
     // private readonly DataContextMSSQL _context;
