@@ -12,6 +12,16 @@ namespace SuperShop.Web.Controllers;
 // [Authorize]
 public class ProductsController : Controller
 {
+    private readonly IUserHelper _userHelper;
+    private readonly IImageHelper _imageHelper;
+    private readonly IStorageHelper _storageHelper;
+    private readonly IConverterHelper _converterHelper;
+    private readonly IProductsRepository _productsRepository;
+
+    // private readonly IRepository _repository;
+    // private readonly DataContextMSSQL _context;
+
+
     public ProductsController(
         IUserHelper userHelper,
         IImageHelper imageHelper,
@@ -76,7 +86,6 @@ public class ProductsController : Controller
     public async Task<IActionResult> Create(
         ProductViewModel productViewModel)
     {
-
         // TODO BUG Mariconsoft
         // if (!ModelState.IsValid) return View(productViewModel);
 
@@ -88,7 +97,12 @@ public class ProductsController : Controller
             filePath = await _imageHelper.UploadImageAsync(
                 productViewModel.ImageFile, "products");
 
-            fileStorageId = await _storageHelper.UploadStorageAsync(
+
+            // fileStorageId = await _storageHelper.UploadStorageAsync(
+            //     productViewModel.ImageFile, "products");
+
+
+            fileStorageId = await _storageHelper.UploadFileAsyncToGcp(
                 productViewModel.ImageFile, "products");
         }
 
@@ -97,9 +111,8 @@ public class ProductsController : Controller
             productViewModel, filePath, fileStorageId, false);
 
 
-        product.User =
-            await _userHelper.GetUserByEmailAsync(
-                "nunovilhenasantos@msn.com");
+        // product.User = await _userHelper.GetUserByEmailAsync(
+        //     "nunovilhenasantos@msn.com");
         product.User =
             await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
@@ -142,7 +155,10 @@ public class ProductsController : Controller
         if (id != productViewModel.Id)
             return new NotFoundViewResult("ProductNotFound");
 
+
+        // TODO BUG Mariconsoft
         // if (!ModelState.IsValid) return View(productViewModel);
+
 
         try
         {
@@ -157,18 +173,18 @@ public class ProductsController : Controller
                 // fileStorageId = await _storageHelper.UploadStorageAsync(
                 //     productViewModel.ImageFile, "products");
 
-                fileStorageId = await _storageHelper.UploadFileAsyncToGCP(
+                fileStorageId = await _storageHelper.UploadFileAsyncToGcp(
                     productViewModel.ImageFile, "products");
             }
 
-            // TODO: Pending to improve
+
             var product = _converterHelper.ToProduct(
                 productViewModel, filePath, fileStorageId, false);
 
 
-            product.User =
-                await _userHelper.GetUserByEmailAsync(
-                    "nunovilhenasantos@msn.com");
+            // product.User =
+            //     await _userHelper.GetUserByEmailAsync(
+            //         "nunovilhenasantos@msn.com");
             product.User =
                 await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
@@ -180,7 +196,7 @@ public class ProductsController : Controller
         {
             if (!await _productsRepository.ExistAsync(productViewModel.Id))
                 return new NotFoundViewResult("ProductNotFound");
-            throw;
+            // throw;
         }
 
         return RedirectToAction(nameof(Index));
@@ -212,9 +228,9 @@ public class ProductsController : Controller
         var product = await _productsRepository.GetByIdAsync(id);
 
 
-        product.User =
-            await _userHelper.GetUserByEmailAsync(
-                "nunovilhenasantos@msn.com");
+        // product.User =
+        //     await _userHelper.GetUserByEmailAsync(
+        //         "nunovilhenasantos@msn.com");
         product.User =
             await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
@@ -232,20 +248,6 @@ public class ProductsController : Controller
     {
         return View();
     }
-
-
-    #region Attributes
-
-    private readonly IUserHelper _userHelper;
-    private readonly IImageHelper _imageHelper;
-    private readonly IStorageHelper _storageHelper;
-    private readonly IConverterHelper _converterHelper;
-    private readonly IProductsRepository _productsRepository;
-
-    // private readonly IRepository _repository;
-    // private readonly DataContextMSSQL _context;
-
-    #endregion
 
 
     //private bool ProductExists(int id)

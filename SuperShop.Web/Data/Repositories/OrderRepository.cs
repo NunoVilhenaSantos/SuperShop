@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using SuperShop.Web.Data.DataContext;
 using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Helpers;
@@ -40,6 +41,12 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
                 .Include(o => o.Items)
                 .ThenInclude(i => i.Product)
                 .OrderByDescending(o => o.OrderDate);
+
+            Log.Information("Debug zone");
+            Log.Information(orders.ToString());
+
+            Console.WriteLine(orders);
+            Console.WriteLine("Debug zone");
 
             return orders;
         }

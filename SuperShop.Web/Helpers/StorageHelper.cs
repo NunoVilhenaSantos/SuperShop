@@ -7,6 +7,7 @@ using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using SuperShop.Web.Services;
 
 namespace SuperShop.Web.Helpers;
@@ -24,7 +25,7 @@ public class StorageHelper : IStorageHelper
     // private readonly string _azureBlobKey_1;
     // private readonly string _azureBlobKey_2;
 
-    private readonly GoogleCredential _googleCredentialsNuno;
+    private readonly GoogleCredential _googleCredentials;
 
     public StorageHelper(
         IConfiguration configuration
@@ -33,11 +34,11 @@ public class StorageHelper : IStorageHelper
     {
         _configuration = configuration;
 
-        var gcpStorageFileNuno =
+        var gcpStorageFileAccess =
             _configuration["GCPStorageAuthFile_Nuno"];
 
-        _googleCredentialsNuno =
-            GoogleCredential.FromFile(gcpStorageFileNuno);
+        _googleCredentials =
+            GoogleCredential.FromFile(gcpStorageFileAccess);
     }
 
 
@@ -45,6 +46,7 @@ public class StorageHelper : IStorageHelper
         IFormFile file, string bucketName)
     {
         var stream = file.OpenReadStream();
+
         return await UploadStreamAsync(stream, bucketName);
     }
 
@@ -53,6 +55,7 @@ public class StorageHelper : IStorageHelper
         byte[] file, string bucketName)
     {
         var stream = new MemoryStream(file);
+
         return await UploadStreamAsync(stream, bucketName);
     }
 
@@ -61,67 +64,108 @@ public class StorageHelper : IStorageHelper
         string file, string bucketName)
     {
         var stream = File.OpenRead(file);
+
         return await UploadStreamAsync(stream, bucketName);
     }
 
 
-    public async Task<Guid> UploadFileAsyncToGCP(
-        IFormFile fileToUpload, string bucketName)
+    public async Task<Guid> UploadFileAsyncToGcp(IFormFile fileToUpload,
+        string fileNameToSave)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Guid> UploadFileAsyncToGcp(
+        string fileToUpload, string fileNameInBucket,
+        string gcpStorageBucketName = "supershoptpsicet77-jorge")
     {
         try
         {
-            // _logger.LogInformation(
-            //     $"Uploading File Async: {fileToUpload.FileName} to " +
-            //     $"{fileNameToSave} into storage " +
-            //     $"{_configuration["GCPStorageBucketName_Nuno"]}");
-
-
-            using (var memoryStream = new MemoryStream())
+            // create a memory stream from the file bytes
+            using (var memoryStream =
+                   new MemoryStream(File.ReadAllBytes(fileToUpload)))
             {
-                await fileToUpload.CopyToAsync(memoryStream);
-
-                // create storage client using the credentials file.
+                // Create storage client using the credentials file.
                 using (var storageClient =
-                       StorageClient.Create(_googleCredentialsNuno))
+                       await StorageClient.CreateAsync(_googleCredentials))
                 {
-                    // var gcpStorageNameNuno =
-                    //     _configuration["GCPStorageBucketName_Nuno"];
+                    gcpStorageBucketName = "supershoptpsicet77-nuno";
+                    var uniqueFileName = Guid.NewGuid();
+                    fileNameInBucket += uniqueFileName;
 
 
-                    var gcpStorageNameNuno = "supershoptpsicet77-jorge";
-                    var name = Guid.NewGuid();
-                    bucketName += "/" + name;
+                    await DeleteFileAsyncFromGcp(
+                        fileNameInBucket, gcpStorageBucketName);
 
 
+                    // Log information - Begin file upload
+                    Log.Logger.Information(
+                        "Uploading file: " +
+                        "{File} to {Name} in storage bucket {GcpStorage}",
+                        fileToUpload,
+                        fileNameInBucket,
+                        gcpStorageBucketName);
+
+
+                    // Upload the file to storage
                     var storageObject =
                         await storageClient.UploadObjectAsync(
-                            gcpStorageNameNuno, bucketName,
-                            fileToUpload.ContentType, memoryStream);
+                            gcpStorageBucketName, fileNameInBucket,
+                            null, memoryStream);
 
-                    // _logger.LogInformation(
-                    //     $"Uploaded File Async: " +
-                    //     $"{0} to {1} into storage {2}",
-                    //     fileToUpload.FileName, fileNameToSave,
-                    //     _configuration["GCPStorageBucketName_Nuno"]);
 
-                    // return await Task.FromResult(storageObject.MediaLink);
-                    return await Task.FromResult(name);
+                    // Log information - File upload complete
+                    Log.Logger.Information(
+                        "File uploaded successfully: " +
+                        "{File} to {Name} in storage bucket {GcpStorage}",
+                        fileToUpload,
+                        fileNameInBucket,
+                        gcpStorageBucketName);
+
+
+                    return await Task.FromResult(uniqueFileName);
                 }
             }
         }
         catch (Exception ex)
         {
-            // _logger.LogError(ex, $"{ex.Message}");
-
-            // return $"Error while uploading file {fileNameToSave} {ex.Message}";
-
-            // return await Task.FromResult(
-            //     $"Error while uploading file {fileNameToSave} {ex.Message}");
-
+            Log.Logger.Error(ex,
+                "Error while uploading file: {File}",
+                fileToUpload);
             return await Task.FromResult(Guid.Empty);
         }
     }
 
+
+    public async Task<bool> DeleteFileAsyncFromGcp(
+        string fileNameInBucket,
+        string gcpStorageBucketName)
+    {
+        // Create storage client using the credentials file.
+        using var storageClient =
+            await StorageClient.CreateAsync(_googleCredentials);
+
+        var assetExists =
+            await storageClient.GetObjectAsync(
+                gcpStorageBucketName,
+                fileNameInBucket);
+
+        switch (assetExists)
+        {
+            case null:
+                return true;
+
+            default:
+                await storageClient.DeleteObjectAsync(assetExists);
+
+                assetExists =
+                    await storageClient.GetObjectAsync(
+                        gcpStorageBucketName,
+                        fileNameInBucket);
+
+                return assetExists is null;
+        }
+    }
 
     private async Task<Guid> UploadStreamAsync(
         Stream stream, string bucketName)

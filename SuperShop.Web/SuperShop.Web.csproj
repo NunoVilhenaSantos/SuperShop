@@ -51,6 +51,7 @@
         <Folder Include="Docs\" />
         <Folder Include="Properties\" />
         <Folder Include="wwwroot\app_data\" />
+        <Folder Include="wwwroot\images\products\" />
     </ItemGroup>
 
     <ItemGroup>
