@@ -169,7 +169,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
             }).ToList()
         };
 
-        _dataContextMssql.Orders.Add(order);
+        // _dataContextMssql.Orders.Add(order);
         await CreateAsync(order);
 
         _dataContextMssql.OrderDetailTemps.RemoveRange(orderDetailsTemp);

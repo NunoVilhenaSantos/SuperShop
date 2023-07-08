@@ -27,17 +27,36 @@ a {
     border-color: #1861ac;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+
+/* -------------------------------------------------- */
+/*                  general styles                    */
+/* -------------------------------------------------- */
 html {
-    font-size: 14px;
+    font-size: 12px;
 }
+
+/*html {*/
+/*    font-size: 4vw; !* ajuste o valor conforme necessário *!*/
+/*}*/
 
 @media (min-width: 768px) {
     html {
-        font-size: 16px;
+        font-size: 0.8em;
     }
 }
+
+@media (min-width: 1920px) {
+    html {
+        font-size: 1.0em;
+    }
+}
+
+@media (min-width: 3840px) {
+    html {
+        font-size: 1.5em;
+    }
+}
+
 
 .border-top {
     border-top: 1px solid #e5e5e5;
