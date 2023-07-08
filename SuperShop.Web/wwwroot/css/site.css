@@ -35,9 +35,11 @@ html {
     font-size: 12px;
 }
 
-/*html {*/
-/*    font-size: 4vw; !* ajuste o valor conforme necessário *!*/
-/*}*/
+/*
+html {
+    font-size: 4vw; !* ajuste o valor conforme necessário *!
+}
+*/
 
 @media (min-width: 768px) {
     html {

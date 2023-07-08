@@ -51,12 +51,11 @@ public interface IStorageHelper
     }
 
     Task<Guid> UploadFileAsyncToGcp(
-        IFormFile fileToUpload, string fileNameToSave);
+        IFormFile fileToUpload, string fileNameInBucket);
 
 
     public Task<Guid> UploadFileAsyncToGcp(
-        string fileToUpload, string fileNameInBucket,
-        string gcpStorageBucketName);
+        string fileToUpload, string fileNameInBucket);
 
 
     public Task<bool> DeleteFileAsyncFromGcp(

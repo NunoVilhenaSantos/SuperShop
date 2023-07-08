@@ -12,6 +12,10 @@ namespace SuperShop.Web.Helpers;
 
 public class StorageHelper : IStorageHelper
 {
+    private const string GcpStorageBucketName = "storage-nuno";
+
+    internal const string GcpStoragePublicUrl =
+        "https://storage.googleapis.com/storage-nuno/";
     // "GCPStorageAuthFile_Jorge": "C:\\Users\\nunov\\Downloads\\GCP\\lateral-isotope-388820-755e381a94ef-jorge.json",
     // "GCPStorageAuthFile_Nuno": "C:\\Users\\nunov\\Downloads\\GCP\\lateral-isotope-388820-f36a4ce5137c-nuno.json",
     // "GCPStorageBucketName_Jorge": "supershoptpsicet77-jorge",
@@ -37,6 +41,13 @@ public class StorageHelper : IStorageHelper
 
         _googleCredentials =
             GoogleCredential.FromFile(gcpStorageFileAccess);
+
+
+        UriBuilder uriBuilder =
+            new UriBuilder("https", "storage.googleapis.com");
+        uriBuilder.Path = Path.Combine("storage-jorge", "products" + "ImageId");
+        //
+        // string url = uriBuilder.Uri.ToString();
     }
 
 
@@ -67,15 +78,72 @@ public class StorageHelper : IStorageHelper
     }
 
 
-    public async Task<Guid> UploadFileAsyncToGcp(IFormFile fileToUpload,
-        string fileNameToSave)
+    public async Task<Guid> UploadFileAsyncToGcp(
+        IFormFile fileToUpload, string fileNameInBucket)
     {
-        throw new NotImplementedException();
+        try
+        {
+            // Create a memory stream from the file in memory
+            using (var memoryStream = new MemoryStream())
+            {
+                // Copy the file to the memory stream
+                await fileToUpload.CopyToAsync(memoryStream);
+
+
+                // create storage client using the credentials file.
+                using (var storageClient =
+                       await StorageClient.CreateAsync(_googleCredentials))
+                {
+                    var uniqueFileName = Guid.NewGuid();
+                    fileNameInBucket += "/" + uniqueFileName;
+
+
+                    // await DeleteFileAsyncFromGcp(
+                    //     fileNameInBucket, GcpStorageBucketName);
+
+
+                    // Log information - Begin file upload
+                    Log.Logger.Information(
+                        "Uploading file: " +
+                        "{File} to {Name} in storage bucket {GcpStorage}",
+                        fileToUpload,
+                        fileNameInBucket,
+                        GcpStorageBucketName);
+
+
+                    // Upload the file to storage
+                    var storageObject =
+                        await storageClient.UploadObjectAsync(
+                            GcpStorageBucketName, fileNameInBucket,
+                            fileToUpload.ContentType, memoryStream);
+
+
+                    // Log information - File upload complete
+                    Log.Logger.Information(
+                        "File uploaded successfully: " +
+                        "{File} to {Name} in storage bucket {GcpStorage}",
+                        fileToUpload,
+                        fileNameInBucket,
+                        GcpStorageBucketName);
+
+
+                    return await Task.FromResult(uniqueFileName);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Logger.Error(ex,
+                "Error while uploading file: {File}",
+                fileToUpload);
+            return await Task.FromResult(Guid.Empty);
+        }
     }
 
+
     public async Task<Guid> UploadFileAsyncToGcp(
-        string fileToUpload, string fileNameInBucket,
-        string gcpStorageBucketName = "supershoptpsicet77-jorge")
+        string fileToUpload, string fileNameInBucket
+    )
     {
         try
         {
@@ -87,13 +155,12 @@ public class StorageHelper : IStorageHelper
                 using (var storageClient =
                        await StorageClient.CreateAsync(_googleCredentials))
                 {
-                    gcpStorageBucketName = "supershoptpsicet77-nuno";
                     var uniqueFileName = Guid.NewGuid();
-                    fileNameInBucket += uniqueFileName;
+                    fileNameInBucket += "/" + uniqueFileName;
 
 
                     await DeleteFileAsyncFromGcp(
-                        fileNameInBucket, gcpStorageBucketName);
+                        fileNameInBucket, GcpStorageBucketName);
 
 
                     // Log information - Begin file upload
@@ -102,13 +169,13 @@ public class StorageHelper : IStorageHelper
                         "{File} to {Name} in storage bucket {GcpStorage}",
                         fileToUpload,
                         fileNameInBucket,
-                        gcpStorageBucketName);
+                        GcpStorageBucketName);
 
 
                     // Upload the file to storage
                     var storageObject =
                         await storageClient.UploadObjectAsync(
-                            gcpStorageBucketName, fileNameInBucket,
+                            GcpStorageBucketName, fileNameInBucket,
                             null, memoryStream);
 
 
@@ -118,7 +185,7 @@ public class StorageHelper : IStorageHelper
                         "{File} to {Name} in storage bucket {GcpStorage}",
                         fileToUpload,
                         fileNameInBucket,
-                        gcpStorageBucketName);
+                        GcpStorageBucketName);
 
 
                     return await Task.FromResult(uniqueFileName);
@@ -161,7 +228,8 @@ public class StorageHelper : IStorageHelper
                         gcpStorageBucketName,
                         fileNameInBucket);
 
-                return assetExists is null;
+                return true;
+            // return assetExists is null;
         }
     }
 

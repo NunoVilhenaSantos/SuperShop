@@ -14,7 +14,15 @@
 
 <p>
     <a asp-action="AddProduct" class="btn btn-success">Add Product</a>
-    <a asp-action="ConfirmOrder" class="btn btn-primary" id="btnConfirm">Confirm Order</a>
+    @* <a asp-action="ConfirmOrder" class="btn btn-primary" id="btnConfirm" *@
+    @*    data-bs-toggle="modal" data-bs-target="#confirmStaticBackdrop"> *@
+    @*     Confirm Order *@
+    @* </a> *@
+    <!-- Button to trigger modal ="#confirmStaticBackdrop" -->
+    <a asp-action="ConfirmOrder" type="button" class="btn btn-primary" id="btnConfirm"
+       data-bs-toggle="modal" data-bs-target="#confirmStaticBackdrop">
+        Confirm Order
+    </a>
 </p>
 
 <table class="table">
@@ -79,7 +87,10 @@
                 <a asp-action="Decrease" asp-route-id="@item.Id" class="btn btn-info">
                     <i class="material-symbols-outlined">remove</i> <i class="fa fa-minus"></i>
                 </a>
-                <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem">Delete</a>
+                <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger"
+                   data-bs-toggle="modal" data-bs-target="#deleteStaticBackdrop">
+                    Delete
+                </a>
             </td>
 
         </tr>
@@ -88,48 +99,124 @@
 </table>
 
 
-@* <div id="confirmDialog" class="modal fade"> *@
-@*     <div class="modal-dialog modal-sm"> *@
-@*         <div class="modal-content"> *@
-@* *@
-@*             <div class="modal-header"> *@
-@*                 <h4 class="modal-header">Confirm Order</h4> *@
-@*                 <button type="button" class="close" data-dismiss="modal" id="closingXConfirmDialog"> *@
-@*                     <i class="fa fa-window-close"></i> *@
-@*                 </button> *@
-@*             </div> *@
-@* *@
-@*             <div class="modal-body"> *@
-@*                 <p>Do you want to confirm the order?</p> *@
-@*             </div> *@
-@* *@
-@*             <div class="modal-footer"> *@
-@*                 <button type="button" class="btn btn-danger" id="btnYesConfirm">Yes</button> *@
-@*                 <button type="button" class="btn btn-danger" id="btnNoConfirm">No</button> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-@* *@
-@* <div id="deleteDialog" class="modal fade"> *@
-@*     <div class="modal-dialog modal-sm"> *@
-@*         <div class="modal-content"> *@
-@* *@
-@*             <div class="modal-header"> *@
-@*                 <h4 class="modal-header">Delete Order</h4> *@
-@*                 <button type="button" class="close" data-dismiss="modal" id="closingXDeleteDialog"> *@
-@*                     <i class="fa fa-window-close"></i> *@
-@*                 </button> *@
-@*             </div> *@
-@* *@
-@*             <div class="modal-body"> *@
-@*                 <p>Do you want to delete the order?</p> *@
-@*             </div> *@
-@* *@
-@*             <div class="modal-footer"> *@
-@*                 <button type="button" class="btn btn-danger" id="btnYesDelete">Yes</button> *@
-@*                 <button type="button" class="btn btn-danger" id="btnNoDelete">No</button> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- -->
+@*   Product Orders *@
+@*     menus de popup com acções de confirmação *@
+@*     popup de confirmação de eliminação de um item do carrinho de compras *@
+<!-- -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- -->
+<!-- popup de confirmação do carrinho de compras -->
+<!-- -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- Button trigger modal -->
+<!--
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+</button>
+-->
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- Modal -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<div class="modal fade" id="confirmStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="confirmStaticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="confirmStaticBackdropLabel">Confirm Order</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <p>Do you want to confirm the order?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="confirmOrderOk">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- -->
+<!-- popup de confirmação da eliminação de um item do carrinho de compras -->
+<!-- -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- Button trigger modal -->
+<!--
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+</button>
+-->
+
+<!-- Modal -->
+<div class="modal fade" id="deleteStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteStaticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <p>Do you want to delete the order?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="deleteItemOk">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- -->
+<!-- popup de confirmação da eliminação de um item do carrinho de compras -->
+<!-- -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+
+@*
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let id = 0;
+
+            // Event handler for confirming the order
+            $("#confirmOrderOk").click(function () {
+                window.location.href = "/Orders/ConfirmOrder";
+            });
+
+            // Event handler for deleting an item from the shopping list
+            $("#deleteItemOk").click(function () {
+                window.location.href = "/Orders/DeleteItem/" + id;
+            });
+
+            // Event handler for setting the ID when the delete modal is shown
+            $("#deleteStaticBackdrop").on("show.bs.modal", function (event) {
+                let button = $(event.relatedTarget);
+                id = button.closest("td").attr("id");
+            });
+        });
+</script>
+}
+
+*@

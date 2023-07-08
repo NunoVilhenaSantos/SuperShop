@@ -1,7 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
+using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
+using SuperShop.Web.Helpers;
 
 namespace SuperShop.Web.Data.Entities;
 
@@ -30,36 +33,30 @@ public class Product : IEntity
         ? "https://supershopweb.blob.core.windows.net/noimage/noimage.png"
         : Regex.Replace(ImageUrl, @"^~/products/images/",
             "https://myleasingnunostorage.blob.core.windows.net/owners/");
-    //    "https://supershopnunostorage.blob.core.windows.net/products/e1572b5b-3a31-4c9a-a68b-f13bc4f550d4";
 
 
     [Display(Name = "Image ID")] public Guid ImageId { get; set; }
 
     public string ImageFullIdUrl => ImageId == Guid.Empty
         ? "https://supershopweb.blob.core.windows.net/noimage/noimage.png"
-        // : "https://supershopnunostorage.blob.core.windows.net/products/" +
-        //   ImageId;
-        : "https://supershopnunostorage.blob.core.windows.net/products/" +
-          ImageId;
-    //    "https://supershopnunostorage.blob.core.windows.net/products/
-    //    e1572b5b-3a31-4c9a-a68b-f13bc4f550d4";
+        : "https://storage.googleapis.com/storage-ruben/" +
+          "/products/" + ImageId;
 
 
     [Display(Name = "Image GCP")] public Guid ImageIdGcp { get; set; }
 
     public string ImageFullIdGcpUrl => ImageId == Guid.Empty
         ? "https://supershopcet77.azurewebsites.net/images/noimage.png"
-        : "https://storage.googleapis.com/supershoptpsicet77-jorge/products/" +
-          ImageId;
+        : Path.Combine(StorageHelper.GcpStoragePublicUrl, "products",
+            ImageId.ToString());
 
 
     [Display(Name = "Image AWS")] public Guid ImageIdAws { get; set; }
 
     public string ImageFullIdAwsUrl => ImageId == Guid.Empty
         ? "https://supershopweb.blob.core.windows.net/noimage/noimage.png"
-        : "https://supershopnunostorage.blob.core.windows.net/products/" +
-          ImageId;
-    //    "https://supershopnunostorage.blob.core.windows.net/products/e1572b5b-3a31-4c9a-a68b-f13bc4f550d4";
+        : Path.Combine("https:", "storage.googleapis.com",
+            "storage-jorge", "products", ImageId.ToString());
 
 
     // [Display(Name = "Thumbnail")]

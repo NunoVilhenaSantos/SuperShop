@@ -50,6 +50,7 @@ public class ProductsController : Controller
             _productsRepository.GetAll().OrderBy(p => p.Name));
     }
 
+
     // GET: Products/Details/5
     //public async Task<IActionResult> Details(int? id)
     public async Task<IActionResult> Details(int? id)
@@ -78,7 +79,7 @@ public class ProductsController : Controller
 
 
     // POST: Products/Create
-    // To protect from overposting attacks,
+    // To protect from over-posting attacks,
     // enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
@@ -103,7 +104,12 @@ public class ProductsController : Controller
 
 
             fileStorageId = await _storageHelper.UploadFileAsyncToGcp(
-                productViewModel.ImageFile, "products");
+                productViewModel.ImageFile,
+                "products");
+
+            fileStorageId = await _storageHelper.UploadFileAsyncToGcp(
+                productViewModel.ImageFile.FileName,
+                "products");
         }
 
         // TODO: Pending to improve

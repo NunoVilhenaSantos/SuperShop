@@ -13,7 +13,7 @@
 //
 // ------------------------------------------------------------------------------------------------------------------ //
 
-$(document).ready(function () {
+function darkModeSwitching() {
     let switchInput = document.getElementById("darkModeSwitch");
     let htmlElement = document.documentElement;
 
@@ -28,7 +28,7 @@ $(document).ready(function () {
             htmlElement.setAttribute("data-bs-theme", "light");
         }
     });
-});
+}
 
 
 // ------------------------------------------------------------------------------------------------------------------ //
@@ -64,53 +64,42 @@ function previewImages(event) {
 }
 
 
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- -->
+<!-- popup de confirmação da eliminação de um item do carrinho de compras -->
+<!-- -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+
+
+// Event handler for confirming the order
+$("#confirmOrderOk").click(function () {
+    window.location.href = "/Orders/ConfirmOrder";
+    debugger;
+});
+
+// Event handler for deleting an item from the shopping list
+$("#deleteItemOk").click(function () {
+    window.location.href = "/Orders/DeleteItem/" + id;
+    debugger;
+});
+
+// Event handler for setting the ID when the delete modal is shown
+$("#deleteStaticBackdrop").on("show.bs.modal", function (event) {
+    let button = $(event.relatedTarget);
+    id = button.closest("td").attr("id");
+    debugger;
+});
+
+
 // ------------------------------------------------------------------------------------------------------------------ //
 //
-// Product Orders
+// Document Ready functions
 //
 // ------------------------------------------------------------------------------------------------------------------ //
 
 
 $(document).ready(function () {
-
-    let id = 0;
-
-    $("#btnConfirm").click(function () {
-        $("#confirmDialog").modal("show");
-        return false;
-    });
-
-    $("#btnNoConfirm").click(function () {
-        $("#confirmDialog").modal("hide");
-        return false;
-    });
-
-    $("#btnYesConfirm").click(function () {
-        window.location.href = "/Orders/ConfirmOrder";
-    });
-
-    $("a[id*=btnDeleteItem]").click(function () {
-        id = $(this).parent()[0].id;
-        $("#deleteDialog").modal("show");
-        return false;
-    });
-
-    $("#btnNoDelete").click(function () {
-        $("#deleteDialog").modal("hide");
-        return false;
-    });
-
-    $("#btnYesDelete").click(function () {
-        window.location.href = "/Orders/DeleteItem/" + id;
-    });
-
-    $("#closingXConfirmDialog").click(function () {
-        $("#confirmDialog").modal("hide");
-        return false;
-    });
-
-    $("#closingXDeleteDialog").click(function () {
-        $("#deleteDialog").modal("hide");
-        return false;
-    });
+    let id = -1;
+    // debugger;
+    darkModeSwitching();
 });
