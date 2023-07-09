@@ -14,9 +14,9 @@ public class SeedDb
     // private readonly UserManager<User> _userManager;
 
 
-    private readonly DataContextMSSQL _dataContextMssql;
-    private readonly DataContextMySQL _dataContextMySql;
-    private readonly DataContextSQLite _dataContextSqLite;
+    private readonly DataContextMssql _dataContextMssql;
+    private readonly DataContextMySql _dataContextMySql;
+    private readonly DataContextSqLite _dataContextSqLite;
     private readonly Random _random;
 
     private readonly IUserHelper _userHelper;
@@ -24,9 +24,9 @@ public class SeedDb
 
     // public SeedDb(DataContextMSSQL dataContextMssql, UserManager<User> userManager)
     public SeedDb(
-        DataContextMSSQL dataContextMssql,
-        DataContextMySQL dataContextMySql,
-        DataContextSQLite dataContextSqLite,
+        DataContextMssql dataContextMssql,
+        DataContextMySql dataContextMySql,
+        DataContextSqLite dataContextSqLite,
         IUserHelper userHelper)
     {
         _random = new Random();

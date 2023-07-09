@@ -6,9 +6,9 @@ using SuperShop.Web.Data.Entities;
 namespace SuperShop.Web.Data.DataContext;
 // public class DataContextMSSQL : DbContext
 
-public class DataContextMSSQL : IdentityDbContext<User>
+public class DataContextMssql : IdentityDbContext<User>
 {
-    public DataContextMSSQL(DbContextOptions<DataContextMSSQL> options) :
+    public DataContextMssql(DbContextOptions<DataContextMssql> options) :
         base(options)
     {
     }
@@ -16,7 +16,9 @@ public class DataContextMSSQL : IdentityDbContext<User>
 
     public DbSet<Order> Orders { get; set; }
 
+
     public DbSet<OrderDetail> OrderDetails { get; set; }
+
 
     public DbSet<OrderDetailTemp> OrderDetailTemps { get; set; }
 

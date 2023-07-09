@@ -45,7 +45,7 @@ public class Startup
                 cfg.SignIn.RequireConfirmedEmail = false;
                 cfg.SignIn.RequireConfirmedAccount = false;
                 cfg.SignIn.RequireConfirmedPhoneNumber = false;
-            }).AddEntityFrameworkStores<DataContextMSSQL>();
+            }).AddEntityFrameworkStores<DataContextMssql>();
 
 
         // este é o por defeito, mas já está definido em cima
@@ -55,7 +55,7 @@ public class Startup
         //    .AddEntityFrameworkStores<DataContextMSSQL>();
 
 
-        services.AddDbContext<DataContextMSSQL>(
+        services.AddDbContext<DataContextMssql>(
             cfg =>
             {
                 cfg.UseSqlServer(
@@ -69,7 +69,7 @@ public class Startup
             });
 
 
-        services.AddDbContext<DataContextMySQL>(
+        services.AddDbContext<DataContextMySql>(
             cfg =>
             {
                 cfg.UseMySQL(
@@ -82,7 +82,7 @@ public class Startup
             });
 
 
-        services.AddDbContext<DataContextSQLite>(
+        services.AddDbContext<DataContextSqLite>(
             cfg =>
             {
                 cfg.UseSqlite(
@@ -166,7 +166,8 @@ public class Startup
         }
         else
         {
-            app.UseExceptionHandler("/Home/Error");
+            // app.UseExceptionHandler("/Home/Error");
+            app.UseExceptionHandler("/Errors/Error");
             // The default HSTS value is 30 days.
             // You may want to change this for production scenarios,
             // see https://aka.ms/aspnetcore-hsts.

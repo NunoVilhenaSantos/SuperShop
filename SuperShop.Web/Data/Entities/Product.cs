@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
-using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using SuperShop.Web.Helpers;
 

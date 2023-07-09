@@ -10,9 +10,9 @@ namespace SuperShop.Web.Data.Repositories;
 public class ProductRepository :
     GenericRepository<Product>, IProductsRepository
 {
-    private readonly DataContextMSSQL _dataContextMssql;
+    private readonly DataContextMssql _dataContextMssql;
 
-    public ProductRepository(DataContextMSSQL dataContextMssql) : base(
+    public ProductRepository(DataContextMssql dataContextMssql) : base(
         dataContextMssql)
     {
         _dataContextMssql = dataContextMssql;

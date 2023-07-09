@@ -43,7 +43,7 @@ public class StorageHelper : IStorageHelper
             GoogleCredential.FromFile(gcpStorageFileAccess);
 
 
-        UriBuilder uriBuilder =
+        var uriBuilder =
             new UriBuilder("https", "storage.googleapis.com");
         uriBuilder.Path = Path.Combine("storage-jorge", "products" + "ImageId");
         //

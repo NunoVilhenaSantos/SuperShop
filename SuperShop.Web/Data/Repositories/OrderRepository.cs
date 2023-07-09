@@ -11,13 +11,13 @@ namespace SuperShop.Web.Data.Repositories;
 
 public class OrderRepository : GenericRepository<Order>, IOrderRepository
 {
-    private readonly DataContextMSSQL _dataContextMssql;
+    private readonly DataContextMssql _dataContextMssql;
     private readonly IUserHelper _userHelper;
 
 
     public OrderRepository(
         IUserHelper userHelper,
-        DataContextMSSQL dataContextMssql
+        DataContextMssql dataContextMssql
     ) : base(dataContextMssql)
     {
         _userHelper = userHelper;

@@ -6,9 +6,9 @@ using SuperShop.Web.Data.Entities;
 namespace SuperShop.Web.Data.DataContext;
 // public class DataContextMSSQL : DbContext
 
-public class DataContextSQLite : IdentityDbContext<User>
+public class DataContextSqLite : IdentityDbContext<User>
 {
-    public DataContextSQLite(DbContextOptions<DataContextSQLite> options) :
+    public DataContextSqLite(DbContextOptions<DataContextSqLite> options) :
         base(options)
     {
     }

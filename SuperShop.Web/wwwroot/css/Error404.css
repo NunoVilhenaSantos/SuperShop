@@ -16,9 +16,10 @@
     /* background by SVGBackgrounds.com */
 }
 
-#container-error-403 {
+
+#container-error-404 {
     align-self: center;
-    padding: 0px 10px;
+    padding: 0 10px;
     position: relative;
 
     box-sizing: border-box;
@@ -34,7 +35,7 @@
 }
 
 
-#containerError403 h1 {
+#containerError404 h1 {
     font-weight: 900;
     width: 100px;
     margin: 10px 0;
@@ -46,7 +47,8 @@
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 }
 
-#containerError403 .toph h1 {
+
+#containerError404 .topHeader h1 {
     transform: translateY(20px);
     font-size: 25px;
     margin: 10px 25px;
@@ -54,46 +56,54 @@
     font-weight: 700;
 }
 
-#containerError403 .toph .number {
+
+#containerError404 .topHeader .number {
     color: #cdc5bd;
 }
 
-#containerError403 #moon {
+
+#containerError404 #moon {
     position: relative;
 }
 
-#containerError403 #earth {
+
+#containerError404 #earth {
     position: relative;
 }
 
-#containerError403 svg {
-    max-width: 100%;
-    max-height: 65vh;
-    min-height: 200px;
+
+#containerError404 svg {
+    max-width: fit-content(100%);
+    min-height: 40vh;
+    max-height: 60vh;
     margin: 0 auto;
     align-self: center;
 }
 
-#containerError403 #details {
+
+#containerError404 #details {
     display: flex;
     text-align: left;
     align-self: center;
     font-size: 0.9em;
 }
 
-#containerError403 #details span {
+
+#containerError404 #details span {
     /*   display: block; */
     color: rgb(83, 133, 145);
     display: inline-block;
 }
 
-#containerError403 #details span:nth-child(odd) {
+
+#containerError404 #details span:nth-child(odd) {
     width: 150px;
     border-left: 2px solid rgb(83, 133, 145);
     padding-left: 10px;
 }
 
-#containerError403 #details span:nth-child(even) {
+
+#containerError404 #details span:nth-child(even) {
     align-self: flex-end;
     color: #cdc5bd;
     text-align: right;
@@ -102,13 +112,15 @@
     padding-right: 10px;
 }
 
-#containerError403 li {
+
+#containerError404 li {
     list-style: none;
     margin: 25px auto;
     padding: 0;
 }
 
-#containerError403 ul {
+
+#containerError404 ul {
     margin: 0 auto;
     padding: 0 0 25px;
 }

@@ -9,9 +9,9 @@ namespace SuperShop.Web.Data.Repositories;
 public class GenericRepository<T> : IGenericRepository<T>
     where T : class, IEntity
 {
-    private readonly DataContextMSSQL _dataContextMssql;
+    private readonly DataContextMssql _dataContextMssql;
 
-    protected GenericRepository(DataContextMSSQL dataContextMssql)
+    protected GenericRepository(DataContextMssql dataContextMssql)
     {
         _dataContextMssql = dataContextMssql;
     }

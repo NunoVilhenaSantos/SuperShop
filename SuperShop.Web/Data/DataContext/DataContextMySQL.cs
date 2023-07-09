@@ -6,9 +6,9 @@ using SuperShop.Web.Data.Entities;
 namespace SuperShop.Web.Data.DataContext;
 // public class DataContextMSSQL : DbContext
 
-public class DataContextMySQL : IdentityDbContext<User>
+public class DataContextMySql : IdentityDbContext<User>
 {
-    public DataContextMySQL(DbContextOptions<DataContextMySQL> options) :
+    public DataContextMySql(DbContextOptions<DataContextMySql> options) :
         base(options)
     {
     }
