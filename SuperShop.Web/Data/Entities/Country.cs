@@ -6,12 +6,6 @@ namespace SuperShop.Web.Data.Entities;
 
 public class Country : IEntity
 {
-    [Key] [Required] public int Id { get; set; }
-
-
-    [Required] public bool WasDeleted { get; set; }
-
-
     [Required]
     [DisplayName("Country")]
     [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters.")]
@@ -23,4 +17,9 @@ public class Country : IEntity
 
     [DisplayName("Number of Cities")]
     public int NumberCities => Cities?.Count ?? 0;
+
+    [Key] [Required] public int Id { get; set; }
+
+
+    [Required] public bool WasDeleted { get; set; }
 }

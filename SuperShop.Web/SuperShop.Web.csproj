@@ -2631,7 +2631,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="Views\Errors\Error404.cshtml" />
+        <AdditionalFiles Include="Views\Errors\Error404.cshtml" />
     </ItemGroup>
 
 </Project>

@@ -10,28 +10,30 @@ namespace SuperShop.Web.Data.Repositories;
 public class ProductRepository :
     GenericRepository<Product>, IProductsRepository
 {
-    private readonly DataContextMssql _dataContextMssql;
+    private readonly DataContextMsSql _dataContextMsSql;
 
-    public ProductRepository(DataContextMssql dataContextMssql) : base(
-        dataContextMssql)
+    public ProductRepository(
+        DataContextMsSql dataContextMsSql,
+        DataContextMySql dataContextMySql,
+        DataContextSqLite dataContextSqLite
+    ) : base(dataContextMsSql, dataContextMySql, dataContextSqLite)
     {
-        _dataContextMssql = dataContextMssql;
+        _dataContextMsSql = dataContextMsSql;
     }
 
 
     public IQueryable GetAllWithUsers()
     {
-        return _dataContextMssql
+        return _dataContextMsSql
             .Products
-            .Include(
-                p => p.User);
+            .Include(p => p.User);
     }
 
 
     public IEnumerable<SelectListItem> GetComboProducts()
     {
         var list =
-            _dataContextMssql.Products
+            _dataContextMsSql.Products
                 .Select(p => new SelectListItem
                 {
                     Text = p.Name,

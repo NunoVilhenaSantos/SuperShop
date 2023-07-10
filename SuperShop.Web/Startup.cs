@@ -31,21 +31,24 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddIdentity<User, IdentityRole>(
-            cfg =>
-            {
-                cfg.User.RequireUniqueEmail = true;
+                cfg =>
+                {
+                    cfg.User.RequireUniqueEmail = true;
 
-                cfg.Password.RequireDigit = false;
-                cfg.Password.RequiredLength = 6;
-                cfg.Password.RequiredUniqueChars = 0;
-                cfg.Password.RequireUppercase = false;
-                cfg.Password.RequireLowercase = false;
-                cfg.Password.RequireNonAlphanumeric = false;
+                    cfg.Password.RequireDigit = false;
+                    cfg.Password.RequiredLength = 6;
+                    cfg.Password.RequiredUniqueChars = 0;
+                    cfg.Password.RequireUppercase = false;
+                    cfg.Password.RequireLowercase = false;
+                    cfg.Password.RequireNonAlphanumeric = false;
 
-                cfg.SignIn.RequireConfirmedEmail = false;
-                cfg.SignIn.RequireConfirmedAccount = false;
-                cfg.SignIn.RequireConfirmedPhoneNumber = false;
-            }).AddEntityFrameworkStores<DataContextMssql>();
+                    cfg.SignIn.RequireConfirmedEmail = false;
+                    cfg.SignIn.RequireConfirmedAccount = false;
+                    cfg.SignIn.RequireConfirmedPhoneNumber = false;
+                })
+            .AddEntityFrameworkStores<DataContextMsSql>()
+            .AddEntityFrameworkStores<DataContextMySql>()
+            .AddEntityFrameworkStores<DataContextSqLite>();
 
 
         // este é o por defeito, mas já está definido em cima
@@ -55,7 +58,7 @@ public class Startup
         //    .AddEntityFrameworkStores<DataContextMSSQL>();
 
 
-        services.AddDbContext<DataContextMssql>(
+        services.AddDbContext<DataContextMsSql>(
             cfg =>
             {
                 cfg.UseSqlServer(
@@ -140,10 +143,10 @@ public class Startup
         // injecting real repositories
         services.AddScoped<IProductsRepository, ProductRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<ICountryRepository, CountryRepository>();
 
         //
         // injecting cloud repositories
-        // services.AddScoped<ICountryRepository, CountryRepository>();
         services.AddScoped<GcpConfigOptions>();
         services.AddScoped<AWSConfigOptions>();
         services.AddScoped<ICloudStorageService, CloudStorageService>();

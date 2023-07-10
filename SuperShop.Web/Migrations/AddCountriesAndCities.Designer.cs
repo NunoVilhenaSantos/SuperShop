@@ -11,7 +11,7 @@ using SuperShop.Web.Data.DataContext;
 
 namespace SuperShop.Web.Migrations
 {
-    [DbContext(typeof(DataContextMssql))]
+    [DbContext(typeof(DataContextMsSql))]
     [Migration("20230710004633_AddCountriesAndCities")]
     partial class AddCountriesAndCities
     {

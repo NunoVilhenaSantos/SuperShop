@@ -6,9 +6,9 @@ using SuperShop.Web.Data.Entities;
 namespace SuperShop.Web.Data.DataContext;
 // public class DataContextMSSQL : DbContext
 
-public class DataContextMssql : IdentityDbContext<User>
+public class DataContextMsSql : IdentityDbContext<User>
 {
-    public DataContextMssql(DbContextOptions<DataContextMssql> options) :
+    public DataContextMsSql(DbContextOptions<DataContextMsSql> options) :
         base(options)
     {
     }
@@ -21,7 +21,7 @@ public class DataContextMssql : IdentityDbContext<User>
     public DbSet<OrderDetailTemp> OrderDetailTemps { get; set; }
 
 
-    public DbSet<City> City { get; set; }
+    public DbSet<City> Cities { get; set; }
 
     public DbSet<Country> Countries { get; set; }
 
@@ -29,14 +29,14 @@ public class DataContextMssql : IdentityDbContext<User>
     public DbSet<Product> Products { get; set; }
 
 
-    protected override void OnModelCreating(ModelBuilder modelbuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
         foreach (
             var relationship in
-            modelbuilder.Model.GetEntityTypes()
+            builder.Model.GetEntityTypes()
                 .SelectMany(e => e.GetForeignKeys()))
             relationship.DeleteBehavior = DeleteBehavior.Restrict;
 
-        base.OnModelCreating(modelbuilder);
+        base.OnModelCreating(builder);
     }
 }

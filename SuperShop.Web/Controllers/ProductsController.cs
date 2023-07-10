@@ -256,7 +256,7 @@ public class ProductsController : Controller
 
 
             TempData["ErrorTitle"] =
-                $"Provavelmente está a ser usado!!";
+                "Provavelmente está a ser usado!!";
 
 
             TempData["ErrorMessage"] =
@@ -268,7 +268,8 @@ public class ProductsController : Controller
 
             TempData["DbUpdateException"] = ex.Message;
             TempData["DbUpdateInnerException"] = ex.InnerException;
-            TempData["DbUpdateInnerExceptionMessage"] = ex.InnerException.Message;
+            TempData["DbUpdateInnerExceptionMessage"] =
+                ex.InnerException.Message;
 
             return RedirectToAction(nameof(Delete), new
             {

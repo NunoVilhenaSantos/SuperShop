@@ -11,23 +11,25 @@ namespace SuperShop.Web.Data.Repositories;
 
 public class OrderRepository : GenericRepository<Order>, IOrderRepository
 {
-    private readonly DataContextMssql _dataContextMssql;
+    private readonly DataContextMsSql _dataContextMsSql;
     private readonly IUserHelper _userHelper;
 
 
     public OrderRepository(
         IUserHelper userHelper,
-        DataContextMssql dataContextMssql
-    ) : base(dataContextMssql)
+        DataContextMsSql dataContextMsSql,
+        DataContextMySql dataContextMySql,
+        DataContextSqLite dataContextSqLite
+    ) : base(dataContextMsSql, dataContextMySql, dataContextSqLite)
     {
         _userHelper = userHelper;
-        _dataContextMssql = dataContextMssql;
+        _dataContextMsSql = dataContextMsSql;
     }
 
 
     public async Task<Order> GetOrdersAsync(int id)
     {
-        return await _dataContextMssql.Orders.FindAsync(id);
+        return await _dataContextMsSql.Orders.FindAsync(id);
     }
 
 
@@ -41,12 +43,12 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 
 
         return await _userHelper.IsUserInRoleAsync(user, "Admin")
-            ? _dataContextMssql.Orders
+            ? _dataContextMsSql.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
                 .ThenInclude(i => i.Product)
                 .OrderByDescending(o => o.OrderDate)
-            : _dataContextMssql.Orders
+            : _dataContextMsSql.Orders
                 .Include(o => o.Items)
                 .ThenInclude(i => i.Product)
                 .Where(o => o.User == user)
@@ -65,11 +67,11 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 
 
         return await _userHelper.IsUserInRoleAsync(user, "Admin")
-            ? _dataContextMssql.OrderDetailTemps
+            ? _dataContextMsSql.OrderDetailTemps
                 .Include(o => o.User)
                 .Include(p => p.Product)
                 .OrderByDescending(o => o.Product.Name)
-            : _dataContextMssql.OrderDetailTemps
+            : _dataContextMsSql.OrderDetailTemps
                 .Include(o => o.Product)
                 .Where(o => o.User == user)
                 .OrderByDescending(o => o.Product.Name);
@@ -84,12 +86,12 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         if (user == null) return;
 
         var product =
-            await _dataContextMssql.Products.FindAsync(model.ProductId);
+            await _dataContextMsSql.Products.FindAsync(model.ProductId);
 
         if (product == null) return;
 
         var orderDetailTemp =
-            await _dataContextMssql.OrderDetailTemps
+            await _dataContextMsSql.OrderDetailTemps
                 .Where(odt =>
                     odt.User == user &&
                     odt.Product == product)
@@ -105,15 +107,15 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
                 User = user
             };
 
-            _dataContextMssql.OrderDetailTemps.Add(orderDetailTemp);
+            _dataContextMsSql.OrderDetailTemps.Add(orderDetailTemp);
         }
         else
         {
             orderDetailTemp.Quantity += model.Quantity;
-            _dataContextMssql.OrderDetailTemps.Update(orderDetailTemp);
+            _dataContextMsSql.OrderDetailTemps.Update(orderDetailTemp);
         }
 
-        await _dataContextMssql.SaveChangesAsync();
+        await _dataContextMsSql.SaveChangesAsync();
     }
 
 
@@ -121,31 +123,31 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         int id, double quantity)
     {
         var orderDetailTemp =
-            await _dataContextMssql.OrderDetailTemps.FindAsync(id);
+            await _dataContextMsSql.OrderDetailTemps.FindAsync(id);
 
         if (orderDetailTemp == null) return;
 
         orderDetailTemp.Quantity += quantity;
 
         if (orderDetailTemp.Quantity > 0)
-            _dataContextMssql.OrderDetailTemps.Update(orderDetailTemp);
+            _dataContextMsSql.OrderDetailTemps.Update(orderDetailTemp);
         else
-            _dataContextMssql.OrderDetailTemps.Remove(orderDetailTemp);
+            _dataContextMsSql.OrderDetailTemps.Remove(orderDetailTemp);
 
-        await _dataContextMssql.SaveChangesAsync();
+        await _dataContextMsSql.SaveChangesAsync();
     }
 
 
     public async Task DeleteDetailTempAsync(int id)
     {
         var orderDetailTemp =
-            await _dataContextMssql.OrderDetailTemps.FindAsync(id);
+            await _dataContextMsSql.OrderDetailTemps.FindAsync(id);
 
         if (orderDetailTemp == null) return;
 
-        _dataContextMssql.OrderDetailTemps.Remove(orderDetailTemp);
+        _dataContextMsSql.OrderDetailTemps.Remove(orderDetailTemp);
 
-        await _dataContextMssql.SaveChangesAsync();
+        await _dataContextMsSql.SaveChangesAsync();
     }
 
 
@@ -156,7 +158,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         if (user == null) return false;
 
         var orderDetailsTemp =
-            await _dataContextMssql.OrderDetailTemps
+            await _dataContextMsSql.OrderDetailTemps
                 .Include(odt => odt.Product)
                 .Where(odt => odt.User == user)
                 .ToListAsync();
@@ -175,12 +177,12 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
             }).ToList()
         };
 
-        // _dataContextMssql.Orders.Add(order);
+        // _dataContextMsSql.Orders.Add(order);
         await CreateAsync(order);
 
-        _dataContextMssql.OrderDetailTemps.RemoveRange(orderDetailsTemp);
+        _dataContextMsSql.OrderDetailTemps.RemoveRange(orderDetailsTemp);
 
-        await _dataContextMssql.SaveChangesAsync();
+        await _dataContextMsSql.SaveChangesAsync();
 
         return true;
     }
@@ -188,15 +190,15 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 
     public async Task<bool> DeliverOrder(DeliveryViewModel model)
     {
-        var order = await _dataContextMssql.Orders.FindAsync(model.Id);
+        var order = await _dataContextMsSql.Orders.FindAsync(model.Id);
 
         if (order == null) return false;
 
         order.DeliveryDate = model.DeliveryDate;
 
-        _dataContextMssql.Orders.Update(order);
+        _dataContextMsSql.Orders.Update(order);
 
-        await _dataContextMssql.SaveChangesAsync();
+        await _dataContextMsSql.SaveChangesAsync();
 
         return true;
     }

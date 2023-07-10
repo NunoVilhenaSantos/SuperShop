@@ -1,17 +1,18 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SuperShop.Web.Data.Entities;
+namespace SuperShop.Web.Models;
 
-public class City : IEntity
+public class CityViewModel
 {
+    public int CountryId { get; set; }
+
+
+    public int CityId { get; set; }
+
+
     [Required]
     [DisplayName("City")]
     [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters.")]
     public string Name { get; set; }
-
-    [Key] [Required] public int Id { get; set; }
-
-
-    [Required] public bool WasDeleted { get; set; }
 }

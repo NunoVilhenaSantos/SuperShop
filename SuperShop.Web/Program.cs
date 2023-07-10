@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -46,8 +47,12 @@ public class Program
     private static void RunSeeding(IHost host)
     {
         var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
-        // var scopeFactory = host.Services.GetService(typeof(IServiceScopeFactory)) as IServiceScopeFactory;
-        // var scopeFactory = host.Services.GetService(typeof(IServiceProvider)) as IServiceProvider;
+        // var Provider =
+        //     host.Services.GetService(typeof(IServiceProvider)) as
+        //         IServiceProvider;
+        // var scopeFactory =
+        //     host.Services.GetService(typeof(IServiceScopeFactory)) as
+        //         IServiceScopeFactory;
 
         using var scope = scopeFactory.CreateScope();
 
@@ -66,33 +71,6 @@ public class Program
             webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
-
-                //
-                // O uso de ":0"
-                // indica que o Kestrel deve selecionar
-                // uma porta disponível automaticamente
-                //
-
-                // webBuilder.ConfigureKestrel((context, options) =>
-                // {
-                //     // var port = GetAvailablePort();
-                //     webBuilder.UseUrls(url);
-                //     options.ListenLocalhost(port);
-                // });
-                // webBuilder.UseUrls(url);
-
-                // webBuilder.ConfigureKestrel(options =>
-                // {
-                //     webBuilder.UseUrls(urls);
-                //     options.ListenLocalhost(portHttp);
-                // });
-
-
-                // webBuilder.ConfigureKestrel(options =>
-                // {
-                //     options.ListenLocalhost(portHttps,
-                //         builder => { builder.UseHttps(); });
-                // });
 
 
                 webBuilder.ConfigureKestrel((context, options) =>

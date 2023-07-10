@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +15,7 @@ public class SeedDb
     // private readonly UserManager<User> _userManager;
 
 
-    private readonly DataContextMssql _dataContextMssql;
+    private readonly DataContextMsSql _dataContextMsSql;
     private readonly DataContextMySql _dataContextMySql;
     private readonly DataContextSqLite _dataContextSqLite;
     private readonly Random _random;
@@ -24,7 +25,7 @@ public class SeedDb
 
     // public SeedDb(DataContextMSSQL dataContextMssql, UserManager<User> userManager)
     public SeedDb(
-        DataContextMssql dataContextMssql,
+        DataContextMsSql dataContextMsSql,
         DataContextMySql dataContextMySql,
         DataContextSqLite dataContextSqLite,
         IUserHelper userHelper)
@@ -32,7 +33,7 @@ public class SeedDb
         _random = new Random();
         _userHelper = userHelper;
 
-        _dataContextMssql = dataContextMssql;
+        _dataContextMsSql = dataContextMsSql;
         _dataContextMySql = dataContextMySql;
         _dataContextSqLite = dataContextSqLite;
         // _userManager = userManager;
@@ -46,8 +47,8 @@ public class SeedDb
         // await _dataContextSqLite.Database.EnsureCreatedAsync();
 
 
-        await _dataContextMssql.Database.MigrateAsync();
-        await _dataContextMssql.Database.MigrateAsync();
+        await _dataContextMsSql.Database.MigrateAsync();
+        await _dataContextMySql.Database.MigrateAsync();
         await _dataContextSqLite.Database.MigrateAsync();
 
 
@@ -55,6 +56,9 @@ public class SeedDb
         await _userHelper.CheckRoleAsync("Admin");
         await _userHelper.CheckRoleAsync("Customer");
 
+
+        AddCitiesAndCountries();
+        await AddUsers();
 
         //var user =
         //    await _userManager.FindByEmailAsync(
@@ -64,47 +68,8 @@ public class SeedDb
             await _userHelper.GetUserByEmailAsync(
                 "nunovilhenasantos@msn.com");
 
-        if (user == null)
-        {
-            //
-            // cria user admin
-            //
-            user = new User
-            {
-                FirstName = "Nuno",
-                LastName = "Santos",
-                Email = "nunovilhenasantos@msn.com",
-                UserName = "nunovilhenasantos@msn.com",
-                PhoneNumber = "211333555"
-            };
 
-            //var result = await _userManager.CreateAsync(user, "Passw0rd");
-            var result = await _userHelper
-                .AddUserAsync(user, "Passw0rd");
-
-            if (result != IdentityResult.Success)
-            {
-                result.Errors.ToList()
-                    .ForEach(
-                        e => Console.WriteLine(e.Description));
-
-                throw new InvalidOperationException(
-                    "Could not create the user in Seeder");
-            }
-
-            // adiciona role ao user
-            await _userHelper.AddUserToRoleAsync(user, "Admin");
-        }
-
-        // verifica se o user está na role
-        var isEnrolled =
-            await _userHelper.IsUserInRoleAsync(user, "Admin");
-
-        // tenta registar o user na role
-        if (!isEnrolled)
-            await _userHelper.AddUserToRoleAsync(user, "Admin");
-
-        if (!_dataContextMssql.Products.Any())
+        if (!_dataContextMsSql.Products.Any())
         {
             AddProducts("Ténis", user);
             AddProducts("T-Shirt", user);
@@ -124,9 +89,219 @@ public class SeedDb
         // await CheckUserAsync();
         // await CheckProductsAsync();
 
-        await _dataContextMssql.SaveChangesAsync();
+        await _dataContextMsSql.SaveChangesAsync();
     }
 
+    private async Task AddUsers()
+    {
+        // ----------------------------------------------------------------- //
+        // criar users admin
+        // ----------------------------------------------------------------- //
+
+        //
+        // nunovilhenasantos@msn.com
+        //
+        var user = new User
+        {
+            FirstName = "Nuno",
+            LastName = "Santos",
+            Email = "nunovilhenasantos@msn.com",
+            UserName = "nunovilhenasantos@msn.com",
+            PhoneNumber = "211333555",
+            Address = "Rua do Ouro, 123",
+            CountryId = 1,
+            City = await _dataContextMsSql.Cities.FindAsync(1),
+        };
+
+        // var result = await _userManager.CreateAsync(user, "Passw0rd");
+        var result = await _userHelper
+            .AddUserAsync(user, "Passw0rd");
+
+
+        if (result != IdentityResult.Success)
+        {
+            result.Errors.ToList()
+                .ForEach(
+                    e => Console.WriteLine(e.Description));
+
+            throw new InvalidOperationException(
+                "Could not create the user in Seeder");
+        }
+
+        // adiciona role ao user
+        await _userHelper.AddUserToRoleAsync(user, "Admin");
+
+
+        // verifica se o user está na role
+        var isEnrolled =
+            await _userHelper.IsUserInRoleAsync(user, "Admin");
+
+        // tenta registar o user na role
+        if (!isEnrolled)
+            await _userHelper.AddUserToRoleAsync(user, "Admin");
+
+
+        // ----------------------------------------------------------------- //
+        //
+        // nuno.santos.26288@formandos.cinel.pt
+        //
+        user = new User
+        {
+            FirstName = "Nuno",
+            LastName = "Santos",
+            Email = "nuno.santos.26288@formandos.cinel.pt",
+            UserName = "nuno.santos.26288@formandos.cinel.pt",
+            PhoneNumber = "211333555",
+            Address = "Rua do Ouro, 123",
+            CountryId = 1,
+            City = await _dataContextMsSql.Cities.FindAsync(2),
+        };
+
+        // var result = await _userManager.CreateAsync(user, "Passw0rd");
+        result = await _userHelper
+            .AddUserAsync(user, "Passw0rd");
+
+
+        if (result != IdentityResult.Success)
+        {
+            result.Errors.ToList()
+                .ForEach(
+                    e => Console.WriteLine(e.Description));
+
+            throw new InvalidOperationException(
+                "Could not create the user in Seeder");
+        }
+
+
+        // adiciona role ao user
+        await _userHelper.AddUserToRoleAsync(user, "Admin");
+
+
+        // verifica se o user está na role
+        isEnrolled = await _userHelper.IsUserInRoleAsync(user, "Admin");
+
+
+        // tenta registar o user na role
+        if (!isEnrolled)
+            await _userHelper.AddUserToRoleAsync(user, "Admin");
+
+
+        // ----------------------------------------------------------------- //
+        // criar users customers
+        // ----------------------------------------------------------------- //
+
+        //
+        // Carmelita.Jones@yopmail.pt
+        //
+        user = new User
+        {
+            FirstName = "Carmelita",
+            LastName = "Jones",
+            Email = "Carmelita.Jones@yopmail.pt",
+            UserName = "Carmelita.Jones@yopmail.pt",
+            PhoneNumber = "211333555",
+            Address = "Rua do Ouro, 123",
+            CountryId = 1,
+            City = await _dataContextMsSql.Cities.FindAsync(3),
+        };
+
+        // var result = await _userManager.CreateAsync(user, "Passw0rd");
+        result = await _userHelper
+            .AddUserAsync(user, "Passw0rd");
+
+
+        if (result != IdentityResult.Success)
+        {
+            result.Errors.ToList()
+                .ForEach(
+                    e => Console.WriteLine(e.Description));
+
+            throw new InvalidOperationException(
+                "Could not create the user in Seeder");
+        }
+
+
+        // adiciona role ao user
+        await _userHelper.AddUserToRoleAsync(user, "Customer");
+
+
+        // verifica se o user está na role
+        isEnrolled =
+            await _userHelper.IsUserInRoleAsync(user, "Customer");
+
+
+        // tenta registar o user na role
+        if (!isEnrolled)
+            await _userHelper.AddUserToRoleAsync(user, "Customer");
+
+
+        // ----------------------------------------------------------------- //
+        //
+        // cria user customer
+        //
+        user = new User
+        {
+            FirstName = "Rafael",
+            LastName = "Jones",
+            Email = "Rafael.Jones@yopmail.pt",
+            UserName = "Rafael.Jones@yopmail.pt",
+            PhoneNumber = "211333555",
+            Address = "Rua do Ouro, 123",
+            CountryId = 1,
+            City = await _dataContextMsSql.Cities.FindAsync(3),
+        };
+
+        // var result = await _userManager.CreateAsync(user, "Passw0rd");
+        result = await _userHelper
+            .AddUserAsync(user, "Passw0rd");
+
+
+        if (result != IdentityResult.Success)
+        {
+            result.Errors.ToList()
+                .ForEach(
+                    e => Console.WriteLine(e.Description));
+
+            throw new InvalidOperationException(
+                "Could not create the user in Seeder");
+        }
+
+
+        // adiciona role ao user
+        await _userHelper.AddUserToRoleAsync(user, "Customer");
+
+
+        // verifica se o user está na role
+        isEnrolled =
+            await _userHelper.IsUserInRoleAsync(user, "Customer");
+
+
+        // tenta registar o user na role
+        if (!isEnrolled)
+            await _userHelper.AddUserToRoleAsync(user, "Customer");
+    }
+
+
+    private void AddCitiesAndCountries()
+    {
+        var cities = new List<City>();
+        cities.Add(new City {Name = "Lisboa"});
+        cities.Add(new City {Name = "Porto"});
+        cities.Add(new City {Name = "Coimbra"});
+
+
+        _dataContextMsSql.Countries.Add(
+            new Country {Name = "Portugal", Cities = cities});
+
+        cities = new List<City>();
+        cities.Add(new City {Name = "Madrid"});
+        cities.Add(new City {Name = "Salamanca"});
+        cities.Add(new City {Name = "Sevilha"});
+
+
+        _dataContextMsSql.Countries.Add(
+            new Country {Name = "Espanha", Cities = cities});
+    }
 
     private void AddProducts(string name, User user)
     {
@@ -142,7 +317,7 @@ public class SeedDb
         var randomPurchaseDate = currentDate.Subtract(purchaseTimeSpan);
         var randomSaleDate = currentDate.Subtract(saleTimeSpan);
 
-        _dataContextMssql.Products.Add(
+        _dataContextMsSql.Products.Add(
             new Product
             {
                 // Id = id,

@@ -132,15 +132,15 @@ public class OrdersController : Controller
         if (order == null) return NotFound();
 
 
-        var model = new DeliveryViewModel()
+        var model = new DeliveryViewModel
         {
             Id = order.Id,
-            DeliveryDate = order.DeliveryDate,
+            DeliveryDate = order.DeliveryDate
         };
 
         return View(model);
 
-        return RedirectToAction(nameof(Index));
+        // return RedirectToAction(nameof(Index));
     }
 
 

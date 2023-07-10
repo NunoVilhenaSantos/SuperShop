@@ -2,7 +2,6 @@
 
 namespace SuperShop.Web.Data.Repositories;
 
-public interface ICountryRepository: IGenericRepository<Country>
+public interface ICountryRepository : IGenericRepository<Country>
 {
-
 }
