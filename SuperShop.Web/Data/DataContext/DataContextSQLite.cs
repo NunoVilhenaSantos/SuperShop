@@ -20,6 +20,12 @@ public class DataContextSqLite : IdentityDbContext<User>
 
     public DbSet<OrderDetailTemp> OrderDetailTemps { get; set; }
 
+
+    public DbSet<City> City { get; set; }
+
+    public DbSet<Country> Countries { get; set; }
+
+
     public DbSet<Product> Products { get; set; }
 
 

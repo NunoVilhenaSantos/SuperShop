@@ -16,11 +16,14 @@ public class DataContextMssql : IdentityDbContext<User>
 
     public DbSet<Order> Orders { get; set; }
 
-
     public DbSet<OrderDetail> OrderDetails { get; set; }
 
-
     public DbSet<OrderDetailTemp> OrderDetailTemps { get; set; }
+
+
+    public DbSet<City> City { get; set; }
+
+    public DbSet<Country> Countries { get; set; }
 
 
     public DbSet<Product> Products { get; set; }

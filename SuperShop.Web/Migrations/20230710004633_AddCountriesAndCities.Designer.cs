@@ -12,8 +12,8 @@ using SuperShop.Web.Data.DataContext;
 namespace SuperShop.Web.Migrations
 {
     [DbContext(typeof(DataContextMssql))]
-    [Migration("20230706220800_OrderDetails")]
-    partial class OrderDetails
+    [Migration("20230710004633_AddCountriesAndCities")]
+    partial class AddCountriesAndCities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,6 +155,53 @@ namespace SuperShop.Web.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("WasDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("City");
+                });
+
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("WasDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("SuperShop.Web.Data.Entities.Order", b =>
@@ -428,6 +475,14 @@ namespace SuperShop.Web.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.City", b =>
+                {
+                    b.HasOne("SuperShop.Web.Data.Entities.Country", null)
+                        .WithMany("Cities")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("SuperShop.Web.Data.Entities.Order", b =>
                 {
                     b.HasOne("SuperShop.Web.Data.Entities.User", "User")
@@ -486,6 +541,11 @@ namespace SuperShop.Web.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SuperShop.Web.Data.Entities.Country", b =>
+                {
+                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("SuperShop.Web.Data.Entities.Order", b =>
