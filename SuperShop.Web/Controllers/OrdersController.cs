@@ -119,4 +119,41 @@ public class OrdersController : Controller
 
         return RedirectToAction(response ? nameof(Index) : nameof(Create));
     }
+
+
+    //HttpGet
+    [HttpGet]
+    public async Task<IActionResult> Deliver(int? id)
+    {
+        if (id == null) return NotFound();
+
+        var order = await _orderRepository.GetOrdersAsync(id.Value);
+
+        if (order == null) return NotFound();
+
+
+        var model = new DeliveryViewModel()
+        {
+            Id = order.Id,
+            DeliveryDate = order.DeliveryDate,
+        };
+
+        return View(model);
+
+        return RedirectToAction(nameof(Index));
+    }
+
+
+    //HttpPost
+    [HttpPost]
+    public async Task<IActionResult> Deliver(DeliveryViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+
+        var response = await _orderRepository.DeliverOrder(model);
+
+        if (!response) return NotFound();
+
+        return RedirectToAction(nameof(Index));
+    }
 }

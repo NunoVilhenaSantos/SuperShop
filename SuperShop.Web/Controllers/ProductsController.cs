@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -240,9 +241,64 @@ public class ProductsController : Controller
         product.User =
             await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
+        try
+        {
+            // _repository.DeleteProduct(product);
+            await _productsRepository.DeleteAsync(product);
+        }
+        catch (DbUpdateException ex)
+        {
+            Console.WriteLine(ex.Message);
 
-        // _repository.DeleteProduct(product);
-        await _productsRepository.DeleteAsync(product);
+            if (ex.InnerException == null ||
+                !ex.InnerException.Message.Contains("DELETE"))
+                return View("Error");
+
+
+            TempData["ErrorTitle"] =
+                $"Provavelmente está a ser usado!!";
+
+
+            TempData["ErrorMessage"] =
+                $"{product.Name} não pode ser apagado visto " +
+                $"haverem encomendas que o usam.</br></br>" +
+                $"Experimente primeiro apagar todas as encomendas " +
+                $"que o estão a usar, e torne novamente a apagá-lo";
+
+
+            TempData["DbUpdateException"] = ex.Message;
+            TempData["DbUpdateInnerException"] = ex.InnerException;
+            TempData["DbUpdateInnerExceptionMessage"] = ex.InnerException.Message;
+
+            return RedirectToAction(nameof(Delete), new
+            {
+                id, saveChangesError = true,
+                title = $"{product.Name} provavelmente está a ser usado!!",
+                message = ex.Message
+            });
+
+
+            // return View("Error");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+
+            if (ex.InnerException == null ||
+                !ex.InnerException.Message.Contains("DELETE"))
+                return View("Error");
+
+            ViewBag.ErrorTitle =
+                $"{product.Name} provavelmente está a ser usado!!";
+
+            ViewBag.ErrorMessage =
+                $"{product.Name} não pode ser apagado visto " +
+                $"haverem encomendas que o usam.</br></br>" +
+                $"Experimente primeiro apagar todas as encomendas " +
+                $"que o estão a usar, e torne novamente a apagá-lo";
+
+            return View("Error");
+        }
 
 
         // await _repository.SaveAllAsync();

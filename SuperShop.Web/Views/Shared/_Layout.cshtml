@@ -25,6 +25,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet"/>
 
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          rel="stylesheet">
+
     <link href="~/css/site.css" rel="stylesheet"/>
 
 </head>
@@ -239,6 +243,11 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
 
+@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt.min.js"></script> *@
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-BR.min.js"></script> *@
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-PT.min.js"></script> *@
 
 <script src="~/js/site.js" asp-append-version="true"></script>
 
@@ -247,6 +256,56 @@
 
 
 <!-- --------------------------------------------------------------------------------------------------------------- -->
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- errorStaticBackdrop -->
+<!-- Modal -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<div class="modal fade" id="errorStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                @if (TempData["DbUpdateException"] != null)
+                {
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">@TempData["ErrorTitle"] </h1>
+                }
+                else
+                {
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                }
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                @if (TempData["DbUpdateException"] != null)
+                {
+                    <p>
+                        <strong>Request ID:</strong> <code>@Model.Id</code> |
+                        <strong>Product Name:</strong> <code>@Model.Name</code>
+                    </p>
+                    <p class="text-warning">@Html.Raw(TempData["ErrorMessage"])</p>
+                    @* <br/> *@
+                    <p class="text-warning">@Html.Raw(TempData["DbUpdateException"])</p>
+                    <p class="text-warning">@Html.Raw(TempData["DbUpdateInnerException"])</p>
+                    <p class="text-warning">@Html.Raw(TempData["DbUpdateInnerExceptionMessage"])</p>
+                }
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+
 
 </body>
 

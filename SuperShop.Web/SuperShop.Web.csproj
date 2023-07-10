@@ -2618,6 +2618,8 @@
         <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\jquery.slim.js" />
         <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\jquery.slim.min.js" />
         <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\jquery.slim.min.map" />
+        <_ContentIncludedByDefault Remove="Pages\Errors\Error403.cshtml" />
+        <_ContentIncludedByDefault Remove="Pages\Errors\Error404.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -2626,6 +2628,10 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Views\Errors\Error404.cshtml" />
     </ItemGroup>
 
 </Project>

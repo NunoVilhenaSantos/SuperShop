@@ -25,6 +25,12 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
     }
 
 
+    public async Task<Order> GetOrdersAsync(int id)
+    {
+        return await _dataContextMssql.Orders.FindAsync(id);
+    }
+
+
     public async Task<IQueryable<Order>> GetOrdersAsync(string userName)
     {
         var user = await _userHelper.GetUserByEmailAsync(userName);
@@ -173,6 +179,22 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         await CreateAsync(order);
 
         _dataContextMssql.OrderDetailTemps.RemoveRange(orderDetailsTemp);
+
+        await _dataContextMssql.SaveChangesAsync();
+
+        return true;
+    }
+
+
+    public async Task<bool> DeliverOrder(DeliveryViewModel model)
+    {
+        var order = await _dataContextMssql.Orders.FindAsync(model.Id);
+
+        if (order == null) return false;
+
+        order.DeliveryDate = model.DeliveryDate;
+
+        _dataContextMssql.Orders.Update(order);
 
         await _dataContextMssql.SaveChangesAsync();
 

@@ -49,7 +49,7 @@ public class Order : IEntity
 
 
     [DisplayName("Order Date")]
-    [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy HH:mm tt}",
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm tt}",
         ApplyFormatInEditMode = false)]
     public DateTime? OrderDateLocal => OrderDate.ToLocalTime();
 

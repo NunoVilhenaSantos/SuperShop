@@ -1,4 +1,37 @@
-﻿<div class="error-container">
+﻿@* @model dynamic *@
+
+
+@{
+    ViewData["Title"] = "HTTP Error 404";
+    // Layout = "_Layout";
+}
+
+
+@* <br/> *@
+@* <h1>@ViewData["Title"]</h1> *@
+@* <br/> *@
+
+
+@* <script> *@
+@*     document.addEventListener("DOMContentLoaded", function() { *@
+@*       const container = document.getElementById("containerError403"); *@
+@* *@
+@*       container.innerHTML = document.body.innerHTML; *@
+@* *@
+@*       document.body.innerHTML = ""; *@
+@*     }); *@
+@*   </script> *@
+
+
+@* <partial name="_Error404"/> *@
+@* <partial name="_Error403"/> *@
+
+<link rel="stylesheet" href="@Url.Content("~/css/Error404.css")">
+
+
+@* <h2>Ops... Page not found!!!</h2> *@
+
+<div class="error-container">
 
     <div id="containerError404">
 
@@ -101,7 +134,7 @@
             </g>
         </svg>
 
-        <h1 style="text-align: center">FORBIDDEN</h1>
+        <h1 >FORBIDDEN</h1>
         <div id="details">
             <ul>
                 <li>

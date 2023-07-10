@@ -91,6 +91,53 @@ $("#deleteStaticBackdrop").on("show.bs.modal", function (event) {
 });
 
 
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!--  -->
+<!-- popup geral para datas -->
+<!--  -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+
+$(function () {
+
+    let userLang = navigator.language || navigator.languages[0];
+
+    $('.date').datepicker(
+        {
+            format: "dd/mm/yyyy",
+            language: userLang,
+            autoclose: true,
+            todayHighlight: true
+        }
+    );
+
+    $('#datePicker').datepicker(
+        {
+            format: "dd/mm/yyyy",
+            language: userLang,
+            autoclose: true,
+            todayHighlight: true
+        });
+
+});
+
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- TODO: fix this -->
+<!-- popup geral para erros BD -->
+<!-- está com erros ainda não funciona -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+
+$(function () {
+    // debugger;
+
+    let error = $("#error").val();
+
+    if (error === "True") {
+        $('#errorStaticBackdrop').modal('show');
+    }
+});
+
+
 // ------------------------------------------------------------------------------------------------------------------ //
 //
 // Document Ready functions
