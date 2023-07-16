@@ -108,3 +108,17 @@ the current variable axes configuration to icons using CSS.
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40
 }
+
+
+dt {
+    font-weight: bold;
+}
+
+dl, dd {
+    font-size: 1.3rem;
+}
+
+dd {
+    margin-left: 2em;
+    margin-bottom: 1em;
+}

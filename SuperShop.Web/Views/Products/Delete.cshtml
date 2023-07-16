@@ -3,12 +3,27 @@
 
 @{
     ViewData["Title"] = "Delete";
+
+
+    var showErrorModal = TempData["showErrorModal"] != null && (bool) TempData["showErrorModal"];
+    var saveChangesError = TempData.ContainsKey("saveChangesError") && (bool) TempData["saveChangesError"];
+
+
+    var title = TempData["title"] as string;
+    var message = TempData["message"] as string;
+    var dbUpdateException = TempData["dbUpdateException"] as string;
+    var dbUpdateInnerException = TempData["dbUpdateInnerException"] as string;
+    var dbUpdateInnerExceptionMessage = TempData["dbUpdateInnerExceptionMessage"] as string;
+
 }
 
 
 <br/>
 <h1>@ViewData["Title"] </h1>
 
+<p>TempData["showErrorModal"] = @TempData["showErrorModal"] </p>
+
+<p>TempData["saveChangesError"] = @TempData["saveChangesError"] </p>
 
 <br/>
 <h4>Product</h4>
@@ -30,30 +45,24 @@
             <partial name="_ProductsDeleteDetails"/>
 
             <form asp-action="Delete">
+
                 <input type="hidden" asp-for="Id"/>
                 @* <input type="submit" value="Delete" class="btn btn-danger"/> *@
 
-                @* <button type="button" class="btn btn-danger"> *@
-                @*     <i class="material-symbols-outlined">delete</i> *@
-                @*     <input type="submit" value="Delete" class="btn btn-danger"/> *@
-                @* </button> *@
                 <button type="submit" value="Delete" class="btn btn-danger">
-                    @* <i class="material-symbols-outlined">delete</i> *@
-                    <span class="material-symbols-outlined">delete</span>Delete
+                    <span class="material-symbols-outlined">delete</span> Delete
                 </button>
 
                 <button type="submit" value="Delete" class="btn btn-outline-danger">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-trash" viewBox="0 0 24 24">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"></path>
-                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"></path>
-                    </svg>
-                    Delete
+                    <i class="bi bi-trash"></i>
+                    <i class="material-symbols-outlined">delete</i> Delete
                 </button>
 
 
                 <a asp-action="Index" class="btn btn-secondary">
                     <i class="material-symbols-outlined">chevron_left</i>Back to List
                 </a>
+
             </form>
 
         </div>
@@ -63,18 +72,79 @@
 </div>
 
 
-<!-- Script para chamar o modal geral de Erros de BD -->
-<!-- Modal -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
 
 @section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
     <script>
-        $(function () {
-            @if (TempData["DbUpdateException"] != null)
-            {
-                <text>
-                    $('#errorStaticBackdrop').modal('show');
-                </text>
-            }
+        function showDbUpdateExceptionModal() {
+            $('#DbUpdateExceptionStaticBackdrop').modal('show');
+        }
+
+        $(document).ready(function() {
+            showDbUpdateExceptionModal();
         });
     </script>
 }
+
+@if (showErrorModal || saveChangesError)
+{
+    <script>
+        showDbUpdateExceptionModal();
+    </script>
+}
+
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- DbUpdateExceptionStaticBackdrop -->
+<!-- Modal -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<div class="modal fade" id="TestDbUpdateExceptionStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="TestDbUpdateExceptionStaticBackdropLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                @if (TempData["DbUpdateException"] != null)
+                {
+                    <h1 class="modal-title fs-5" id="TestDbUpdateExceptionStaticBackdropLabel">@TempData["ErrorTitle"] </h1>
+                }
+                else
+                {
+                    <h1 class="modal-title fs-5" id="TestDbUpdateExceptionStaticBackdropLabel">Modal title</h1>
+                }
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                @if (TempData["DbUpdateException"] != null)
+                {
+                    <p>
+                        <strong>Request ID:</strong> <code>@Model.Id</code> |
+                        <strong>Product Name:</strong> <code>@Model.Name</code>
+                    </p>
+                    <p class="text-warning">@Html.Raw(TempData["ErrorMessage"])</p>
+                    @* <br/> *@
+                    <p class="text-warning">@Html.Raw(TempData["DbUpdateException"])</p>
+                    <p class="text-warning">@Html.Raw(TempData["DbUpdateInnerException"])</p>
+                    <p class="text-warning">@Html.Raw(TempData["DbUpdateInnerExceptionMessage"])</p>
+                }
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->

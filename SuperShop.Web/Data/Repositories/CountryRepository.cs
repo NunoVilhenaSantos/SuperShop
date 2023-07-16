@@ -17,6 +17,7 @@ public class CountryRepository : GenericRepository<Country>, ICountryRepository
     private readonly DataContextMySql _dataContextMySql;
     private readonly DataContextSqLite _dataContextSqLite;
 
+
     public CountryRepository(
         DataContextMsSql dataContextMsSql,
         DataContextMySql dataContextMySql,
@@ -27,6 +28,7 @@ public class CountryRepository : GenericRepository<Country>, ICountryRepository
         _dataContextMySql = dataContextMySql;
         _dataContextSqLite = dataContextSqLite;
     }
+
 
     public IQueryable<Country> GetCountriesWithCities()
     {
@@ -51,15 +53,61 @@ public class CountryRepository : GenericRepository<Country>, ICountryRepository
             .AsNoTracking().AsEnumerable();
     }
 
+
     public IEnumerable<SelectListItem> GetComboCountries()
     {
-        throw new NotImplementedException();
+        var countriesList = _dataContextMsSql.Countries
+            .Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            })
+            .OrderBy(c => c.Text)
+            .ToList();
+
+        countriesList.Insert(0, new SelectListItem
+        {
+            Text = "(Select a country...)",
+            Value = "0"
+        });
+
+        return countriesList;
     }
 
     public IEnumerable<SelectListItem> GetComboCities(int countryId)
     {
-        throw new NotImplementedException();
+        var country = _dataContextMsSql.Countries
+            .Include(c => c.Cities)
+            .FirstOrDefault(c => c.Id == countryId);
+
+        if (country == null) return null;
+
+        var citiesList = country.Cities
+            .Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            })
+            .OrderBy(c => c.Text)
+            .ToList();
+
+        citiesList.Insert(0, new SelectListItem
+        {
+            Text = "(Select a city...)",
+            Value = "0"
+        });
+
+        return citiesList;
     }
+
+    public async Task<Country> GetCountryAsync(City city)
+    {
+        return await _dataContextMsSql.Countries
+            .Include(c => c.Cities
+                .FirstOrDefault(ci => ci.Id == city.Id))
+            .FirstOrDefaultAsync();
+    }
+
 
     public async Task<Country> GetCountryWithCitiesAsync(int id)
     {
@@ -128,10 +176,17 @@ public class CountryRepository : GenericRepository<Country>, ICountryRepository
 
         var city = new City {Name = model.Name};
 
-        _dataContextMsSql.Cities.Add(city);
+
+        // assim funciona
+        //
+        // country.Cities.Add(city);
+        country.Cities.Add(new City {Name = model.Name});
+
+        _dataContextMsSql.Countries.Update(country);
 
         await _dataContextMsSql.SaveChangesAsync();
     }
+
 
     public async Task<int> UpdateCityAsync(City city)
     {

@@ -11,8 +11,13 @@
 
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create | Edit</a>
+    <a asp-action="Create" class="btn btn-primary">
+        <span class="material-symbols-outlined">add_circle</span> Create New
+        <i class="fa-solid fa-pipe"></i>
+        <span class="material-symbols-outlined">edit</span> Edit
+    </a>
 </p>
+
 
 <table class="table">
     <thead>
@@ -48,8 +53,8 @@
     <tbody>
     @if (Model == null || !Model.Any())
     {
-        <p>Não há encomendas disponíveis.</p>
-        <p>O tipo do modelo é: @Model?.GetType().FullName</p>
+        <p>Não existem encomendas disponíveis.</p>
+        @* <p>O tipo do modelo é: @Model?.GetType().FullName</p> *@
     }
     else
     {
@@ -87,7 +92,9 @@
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info" id="btnEdit">Edit</a>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info" id="btnDetails">Details</a>
                     <a asp-action="Deliver" asp-route-id="@item.Id" class="btn btn-info" id="btnDeliver">Deliver</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete">
+                        <span class="material-symbols-outlined">delete</span>Delete
+                    </a>
                 </td>
             </tr>
         }

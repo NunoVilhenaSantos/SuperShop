@@ -6,21 +6,13 @@
 // Write your JavaScript code.
 
 
-// ------------------------------------------------------------------------------------------------------------------ //
-//
-// Dark Mode
-// https://getbootstrap.com/docs/5.0/customize/color/#dark-mode
-//
-// ------------------------------------------------------------------------------------------------------------------ //
-
+// Dark Mode Switching
 function darkModeSwitching() {
-    let switchInput = document.getElementById("darkModeSwitch");
-    let htmlElement = document.documentElement;
+    const switchInput = document.getElementById("darkModeSwitch");
+    const htmlElement = document.documentElement;
 
-    // Set initial state based on data-bs-theme attribute
     switchInput.checked = htmlElement.getAttribute("data-bs-theme") === "dark";
 
-    // Toggle theme when switch is clicked
     switchInput.addEventListener("change", function () {
         if (this.checked) {
             htmlElement.setAttribute("data-bs-theme", "dark");
@@ -31,122 +23,86 @@ function darkModeSwitching() {
 }
 
 
-// ------------------------------------------------------------------------------------------------------------------ //
-//
-// Preview Image and preview Images
-//
-// ------------------------------------------------------------------------------------------------------------------ //
-
+// Preview Single Image
 function previewImage(event) {
-    let reader = new FileReader();
+    const reader = new FileReader();
+    const preview = document.getElementById('preview');
 
     reader.onload = function () {
-        let preview = document.getElementById('preview');
         preview.src = reader.result;
-    }
+    };
 
     reader.readAsDataURL(event.target.files[0]);
 }
 
 
+// Preview Multiple Images
 function previewImages(event) {
-    let reader = new FileReader();
+    const reader = new FileReader();
+    const previews = document.getElementsByClassName('preview');
 
     reader.onload = function () {
-        let previews = document.getElementsByClassName('preview');
-
         for (let i = 0; i < previews.length; i++) {
             previews[i].src = reader.result;
         }
-    }
+    };
 
     reader.readAsDataURL(event.target.files[0]);
 }
 
 
-<!-- --------------------------------------------------------------------------------------------------------------- -->
-<!-- -->
-<!-- popup de confirmação da eliminação de um item do carrinho de compras -->
-<!-- -->
-<!-- --------------------------------------------------------------------------------------------------------------- -->
+// Initialize Datepicker
+function initializeDatepicker() {
+    const userLang = navigator.language || navigator.languages[0];
+
+    $('.date').datepicker({
+        format: "dd/mm/yyyy", language: userLang, autoclose: true, todayHighlight: true
+    });
+
+    $('#datePicker').datepicker({
+        format: "dd/mm/yyyy", language: userLang, autoclose: true, todayHighlight: true
+    });
+}
 
 
-// Event handler for confirming the order
-$("#confirmOrderOk").click(function () {
-    window.location.href = "/Orders/ConfirmOrder";
-    debugger;
-});
+// Handle Delete Confirmation
+// Handle Database Update Exception Error
+function handleDbUpdateExceptionError() {
 
-// Event handler for deleting an item from the shopping list
-$("#deleteItemOk").click(function () {
-    window.location.href = "/Orders/DeleteItem/" + id;
-    debugger;
-});
+    let showErrorModal = '@(TempData["showErrorModal"] ?? false)'.toLowerCase();
 
-// Event handler for setting the ID when the delete modal is shown
-$("#deleteStaticBackdrop").on("show.bs.modal", function (event) {
-    let button = $(event.relatedTarget);
-    id = button.closest("td").attr("id");
-    debugger;
-});
-
-
-<!-- --------------------------------------------------------------------------------------------------------------- -->
-<!--  -->
-<!-- popup geral para datas -->
-<!--  -->
-<!-- --------------------------------------------------------------------------------------------------------------- -->
-
-$(function () {
-
-    let userLang = navigator.language || navigator.languages[0];
-
-    $('.date').datepicker(
-        {
-            format: "dd/mm/yyyy",
-            language: userLang,
-            autoclose: true,
-            todayHighlight: true
-        }
-    );
-
-    $('#datePicker').datepicker(
-        {
-            format: "dd/mm/yyyy",
-            language: userLang,
-            autoclose: true,
-            todayHighlight: true
-        });
-
-});
-
-
-<!-- --------------------------------------------------------------------------------------------------------------- -->
-<!-- TODO: fix this -->
-<!-- popup geral para erros BD -->
-<!-- está com erros ainda não funciona -->
-<!-- --------------------------------------------------------------------------------------------------------------- -->
-
-$(function () {
-    // debugger;
-
-    let error = $("#error").val();
-
-    if (error === "True") {
-        $('#errorStaticBackdrop').modal('show');
+    if (showErrorModal === "true") {
+        $('#DbUpdateExceptionStaticBackdrop').modal('show');
     }
-});
 
 
-// ------------------------------------------------------------------------------------------------------------------ //
-//
-// Document Ready functions
-//
-// ------------------------------------------------------------------------------------------------------------------ //
+    let saveChangesError = $("input[name='saveChangesError']").val();
+
+    if (saveChangesError === "True") {
+        $('#DbUpdateExceptionStaticBackdrop').modal('show');
+
+    }
+
+    // let dbUpdateException = $("input[name='dbUpdateException']").val();
+
+    // if (dbUpdateException === "True") {
+    //     $('#DbUpdateExceptionStaticBackdrop').modal('show');
+    // }
+}
 
 
+// Handle Document Ready Events
+// function handleDocumentReady() {
+//     // let id = -1;
+//     // debugger;
+//     darkModeSwitching();
+// }
+
+
+// Call the functions on document ready
 $(document).ready(function () {
-    let id = -1;
-    // debugger;
+    initializeDatepicker();
+    handleDbUpdateExceptionError();
+    // handleDocumentReady();
     darkModeSwitching();
 });

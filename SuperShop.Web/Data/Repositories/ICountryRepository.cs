@@ -21,6 +21,8 @@ public interface ICountryRepository : IGenericRepository<Country>
 
     IEnumerable<SelectListItem> GetComboCities(int countryId);
 
+    Task<Country> GetCountryAsync(City city);
+
 
     Task<Country> GetCountryWithCitiesAsync(int id);
 
@@ -32,13 +34,14 @@ public interface ICountryRepository : IGenericRepository<Country>
     Task<City> GetCityAsync(int id);
     Task<City> GetCityAsync(City city);
 
-    Task<IIncludableQueryable<Country, City>> GetCityWithCountryAsync(int id);
+    Task<IIncludableQueryable<Country, City>>
+        GetCityWithCountryAsync(int id);
 
-    Task<IIncludableQueryable<Country, City>> GetCityWithCountryAsync(
-        City city);
+    Task<IIncludableQueryable<Country, City>>
+        GetCityWithCountryAsync(City city);
 
-    Task<IIncludableQueryable<Country, City>> GetCityWithCountryAsync(
-        Country country);
+    Task<IIncludableQueryable<Country, City>>
+        GetCityWithCountryAsync(Country country);
 
 
     Task AddCityAsync(CityViewModel model);

@@ -3,15 +3,33 @@
 
 @{
     ViewData["Title"] = "Edit - City";
+    var countryId = ViewData["CountryId"];
+    var countryName = ViewData["CountryName"];
 }
 
+
+@* <h3>Country | @countryId - @countryName</h3> *@
+<br/>
 <h4>@ViewData["Title"]</h4>
 
 
 <hr/>
+<div>
+    <dl>
+        <dt>
+            Country
+        </dt>
+        <dd>
+            @* @countryId - @countryName *@
+            @countryName
+        </dd>
+    </dl>
+</div>
+<hr/>
 
 
 <div class="row">
+
     <div class="col-md-4">
 
         <form asp-action="EditCity">
@@ -26,11 +44,13 @@
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary"/>
-                <a asp-action="Index" class="btn btn-success">Back to List</a>
+                <a asp-action="Details" asp-route-id="@countryId" class="btn btn-success">Back to List</a>
             </div>
+
         </form>
 
     </div>
+
 </div>
 
 

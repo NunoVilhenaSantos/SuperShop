@@ -9,26 +9,32 @@
 <h2>@ViewData["Title"]</h2>
 
 <hr/>
-
 <div>
-    <h4>Country</h4>
-    <hr/>
-    <dl class="dl-horizontal">
+    <dl>
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
 </div>
+<hr/>
+
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-    <a asp-action="AddCity" asp-route-id="@Model.Id" class="btn btn-info">Add City</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit Country</a>
+
+    <a asp-action="AddCity" asp-route-id="@Model.Id" asp-route-method="1" class="btn btn-info"> Add City (1)</a>
+    <a asp-action="AddCity" asp-route-id="@Model.Id" asp-route-method="2" class="btn btn-info"> Add City (2)</a>
+
     <a asp-action="Index" class="btn btn-success">Back To list</a>
 </div>
+
+
+<br/>
+<hr/>
+<br/>
 
 
 <h4>Cities</h4>
@@ -52,12 +58,29 @@ else
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name);
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
 
                 <td id="@item.Id">
-                    <a asp-action="EditCity" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                    <a asp-action="DeleteCity" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete">Delete</a>
+                    <a asp-action="EditCity" asp-route-id="@item.Id"
+                       asp-route-countryId="@Model.Id" asp-route-countryName="@Model.Name"
+                       class="btn btn-warning">
+                        <i class="bi bi-pencil-fill"></i>
+                        <span class="material-symbols-outlined">edit</span>Edit
+                    </a>
+
+                    @* <a asp-action="EditCity" asp-route-id="@item.Id" class="btn btn-warning"> *@
+                    @*     <i class="bi bi-pencil-fill"></i> *@
+                    @*     <span class="material-symbols-outlined">edit</span>Edit *@
+                    @* </a> *@
+
+                    <a asp-action="DeleteCity" asp-route-id="@item.Id"
+                       class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCity">
+                        <span class="material-symbols-outlined">delete</span>Delete
+                    </a>
+
+                    @* <a asp-action="DeleteCity" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete">Delete</a> *@
+
                 </td>
             </tr>
         }
@@ -66,48 +89,15 @@ else
 }
 
 
-<div id="deleteDialog" class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    <i class="fa fa-window-close"></i>
-                </button>
-                <h4 class="modal-title">Delete</h4>
-            </div>
-            <div class="modal-body">
-                <p>Do you want to delete the city?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnYesDelete">Delete</button>
-                <button type="button" class="btn btn-success" id="btnNoDelete">No</button>
-            </div>
-        </div>
-    </div>
-</div>
+<partial name="_CountriesModal" model="Model"/>
 
 
-@section Scripts{
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+<script src="~/js/countries.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var id = 0;
-            $('a[id*=btnDelete]').click(function () {
-                debugger;
-                id = $(this).parent()[0].id;
-                $("#deleteDialog").modal('show');
-                return false;
-            });
-            $("#btnNoDelete").click(function () {
-                $("#deleteDialog").modal('hide');
-                return false;
-            });
-            $("#btnYesDelete").click(function () {
-                window.location.href = '/Countries/DeleteCity/' + id;
-            });
-        });
-    </script>
-}
+
+@* @section Scripts{ *@
+@*     @{ *@
+@*         await Html.RenderPartialAsync("_ValidationScriptsPartial"); *@
+@*     } *@
+@*      *@
+@* } *@

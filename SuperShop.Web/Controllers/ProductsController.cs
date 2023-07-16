@@ -213,7 +213,8 @@ public class ProductsController : Controller
     [Authorize]
     // GET: Products/Delete/5
     //public async Task<IActionResult> Delete(int? id)
-    public async Task<IActionResult> Delete(int? id)
+    public async Task<IActionResult> Delete(
+        int? id, bool showErrorModal = false)
     {
         if (id == null) return new NotFoundViewResult("ProductNotFound");
 
@@ -255,6 +256,8 @@ public class ProductsController : Controller
                 return View("Error");
 
 
+            TempData["saveChangesError"] = true;
+
             TempData["ErrorTitle"] =
                 "Provavelmente está a ser usado!!";
 
@@ -271,12 +274,12 @@ public class ProductsController : Controller
             TempData["DbUpdateInnerExceptionMessage"] =
                 ex.InnerException.Message;
 
-            return RedirectToAction(nameof(Delete), new
-            {
-                id, saveChangesError = true,
-                title = $"{product.Name} provavelmente está a ser usado!!",
-                message = ex.Message
-            });
+
+            return RedirectToAction(
+                nameof(Delete),
+                new {id = product.Id, showErrorModal = true});
+
+            // return RedirectToAction(nameof(Delete));
 
 
             // return View("Error");
@@ -289,10 +292,10 @@ public class ProductsController : Controller
                 !ex.InnerException.Message.Contains("DELETE"))
                 return View("Error");
 
-            ViewBag.ErrorTitle =
+            TempData["ErrorTitle"] =
                 $"{product.Name} provavelmente está a ser usado!!";
 
-            ViewBag.ErrorMessage =
+            TempData["ErrorMessage"] =
                 $"{product.Name} não pode ser apagado visto " +
                 $"haverem encomendas que o usam.</br></br>" +
                 $"Experimente primeiro apagar todas as encomendas " +

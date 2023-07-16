@@ -1,4 +1,6 @@
-﻿@model System.Linq.IQueryable<SuperShop.Web.Data.Entities.Country>
+﻿@* @model System.Linq.IQueryable<SuperShop.Web.Data.Entities.Country> *@
+@* @model System.Linq.EnumerableQuery<SuperShop.Web.Data.Entities.Country> *@
+@* @model System.Linq.IOrderedEnumerable<SuperShop.Web.Data.Entities.Country> *@
 @model IEnumerable<SuperShop.Web.Data.Entities.Country>
 
 
@@ -44,9 +46,17 @@
             </td>
 
             <td id="@item.Id">
+
                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+
+                <!-- Button trigger modal "#deleteCountry" -->
+                <a asp-action="Delete" asp-route-id="@item.Id"
+                   type="button" class="btn btn-danger" id="btnDeleteCountry"
+                   data-bs-toggle="modal" data-bs-target="#deleteCountry">
+                    Delete
+                </a>
+
             </td>
         </tr>
     }
@@ -54,29 +64,8 @@
 </table>
 
 
-<div id="deleteDialog" class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
 
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    <i class="fa fa-window-close"></i>
-                </button>
-                <h4 class="modal-title">Delete</h4>
-            </div>
-
-            <div class="modal-body">
-                <p>Do you want to delete the country?</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnYesDelete">Delete</button>
-                <button type="button" class="btn btn-success" id="btnNoDelete">No</button>
-            </div>
-
-        </div>
-    </div>
-</div>
+<partial name="_CountriesModal"/>
 
 
 @section Scripts{
@@ -84,22 +73,5 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            var id = 0;
-            $('a[id*=btnDelete]').click(function(){
-                debugger;
-                id = $(this).parent()[0].id;
-                $("#deleteDialog").modal('show');
-                return false;
-            });
-            $('#btnNoDelete').click(function () {
-                $("#deleteDialog").modal('hide');
-                return false;
-            });
-            $('#btnYesDelete').click(function () {
-                window.location.href = '/Countries/Delete/' + id;
-            });
-        });
-    </script>
+    <script src="~/js/Countries.js"></script>
 }
