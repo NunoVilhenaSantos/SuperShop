@@ -27,7 +27,7 @@
                     <div class="input-group date" id="datePicker">
                         <input type="text" asp-for="DeliveryDate" class="form-control"/>
                         <span class="input-group-addon d-block">
-                            <i class="fa fa-calendar"></i>
+                            @* <span class="fa fa-calendar"></span> *@
                             <i class="material-symbols-outlined">calendar_month</i>
                         </span>
                     </div>
@@ -45,6 +45,9 @@
     </div>
 </div>
 
+
+<!-- Scripts -->
+<script src="~/js/datePicker.js"></script>
 
 @section Scripts {
 

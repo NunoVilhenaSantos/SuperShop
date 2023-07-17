@@ -21,6 +21,8 @@ public interface ICountryRepository : IGenericRepository<Country>
 
     IEnumerable<SelectListItem> GetComboCities(int countryId);
 
+    Task<Country> GetCountryAsync(int modelCityId);
+
     Task<Country> GetCountryAsync(City city);
 
 
@@ -49,4 +51,6 @@ public interface ICountryRepository : IGenericRepository<Country>
     Task<int> UpdateCityAsync(City city);
 
     Task<int> DeleteCityAsync(City city);
+
+
 }

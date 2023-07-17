@@ -51,20 +51,6 @@ function previewImages(event) {
 }
 
 
-// Initialize Datepicker
-function initializeDatepicker() {
-    const userLang = navigator.language || navigator.languages[0];
-
-    $('.date').datepicker({
-        format: "dd/mm/yyyy", language: userLang, autoclose: true, todayHighlight: true
-    });
-
-    $('#datePicker').datepicker({
-        format: "dd/mm/yyyy", language: userLang, autoclose: true, todayHighlight: true
-    });
-}
-
-
 // Handle Delete Confirmation
 // Handle Database Update Exception Error
 function handleDbUpdateExceptionError() {
@@ -83,26 +69,12 @@ function handleDbUpdateExceptionError() {
 
     }
 
-    // let dbUpdateException = $("input[name='dbUpdateException']").val();
 
-    // if (dbUpdateException === "True") {
-    //     $('#DbUpdateExceptionStaticBackdrop').modal('show');
-    // }
 }
-
-
-// Handle Document Ready Events
-// function handleDocumentReady() {
-//     // let id = -1;
-//     // debugger;
-//     darkModeSwitching();
-// }
 
 
 // Call the functions on document ready
 $(document).ready(function () {
-    initializeDatepicker();
     handleDbUpdateExceptionError();
-    // handleDocumentReady();
     darkModeSwitching();
 });

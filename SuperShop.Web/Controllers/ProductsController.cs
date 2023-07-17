@@ -88,8 +88,8 @@ public class ProductsController : Controller
     public async Task<IActionResult> Create(
         ProductViewModel productViewModel)
     {
-        // TODO BUG Mariconsoft
-        // if (!ModelState.IsValid) return View(productViewModel);
+
+        if (!ModelState.IsValid) return View(productViewModel);
 
         var filePath = productViewModel.ImageUrl;
         var fileStorageId = productViewModel.ImageId;
@@ -163,8 +163,7 @@ public class ProductsController : Controller
             return new NotFoundViewResult("ProductNotFound");
 
 
-        // TODO BUG Mariconsoft
-        // if (!ModelState.IsValid) return View(productViewModel);
+        if (!ModelState.IsValid) return View(productViewModel);
 
 
         try
@@ -264,7 +263,7 @@ public class ProductsController : Controller
 
             TempData["ErrorMessage"] =
                 $"{product.Name} não pode ser apagado visto " +
-                $"haverem encomendas que o usam.</br></br>" +
+                $"existirem encomendas que o usam.</br></br>" +
                 $"Experimente primeiro apagar todas as encomendas " +
                 $"que o estão a usar, e torne novamente a apagá-lo";
 

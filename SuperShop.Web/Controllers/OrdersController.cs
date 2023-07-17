@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Google.Api.Gax;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SuperShop.Web.Data.Repositories;
@@ -56,7 +58,21 @@ public class OrdersController : Controller
             Products = _productsRepository.GetComboProducts()
         };
 
-        return View(model);
+        // return View(model);
+
+        return View(new AddItemViewModel());
+    }
+
+
+    // Aqui o utilizador obtem a lista de paises
+    [HttpPost]
+    // [Route("api/Account/GetCitiesAsync")]
+    [Route("Orders/GetProductsAsync")]
+    public Task<JsonResult> GetProductsAsync()
+    {
+        var products = _productsRepository.GetAll().ToList();
+
+        return Task.FromResult(Json(products.OrderBy(c => c.Name)));
     }
 
 

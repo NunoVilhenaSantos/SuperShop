@@ -100,6 +100,15 @@ public class CountryRepository : GenericRepository<Country>, ICountryRepository
         return citiesList;
     }
 
+    public async Task<Country> GetCountryAsync(int cityId)
+    {
+        return await _dataContextMsSql.Countries
+            .Include(c => c.Cities
+                .FirstOrDefault(ci => ci.Id == cityId))
+            .FirstOrDefaultAsync();
+    }
+
+
     public async Task<Country> GetCountryAsync(City city)
     {
         return await _dataContextMsSql.Countries

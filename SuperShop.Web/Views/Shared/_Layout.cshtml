@@ -148,18 +148,28 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" asp-area="" asp-controller="" asp-action="">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Index">
                                         <i class="bi bi-person-fill"></i>
                                         <span class="material-symbols-outlined">person</span>Users
                                     </a>
                                 </li>
+
                                 <li>
-                                    <a class="dropdown-item" asp-area="" asp-controller="" asp-action="">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Roles">
                                         <i class="bi bi-people-fill"></i>
                                         <i class="material-symbols-outlined">group</i>Roles
                                     </a>
                                 </li>
+
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Countries" asp-action="Index">
+                                        <i class="bi bi-people-fill"></i>
+                                        <i class="material-symbols-outlined">group</i>Countries
+                                    </a>
+                                </li>
+
                             </ul>
+
                         </div>
                     }
                 </div>
@@ -252,7 +262,7 @@
 </footer>
 
 
-<partial name="_DbUpdateException" />
+<partial name="_DbUpdateException"/>
 
 @* <partial name="_ValidationScriptsPartial" /> *@
 

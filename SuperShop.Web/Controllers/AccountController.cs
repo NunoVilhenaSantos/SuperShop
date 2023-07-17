@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SuperShop.Web.Data.Entities;
+using SuperShop.Web.Data.Repositories;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Models;
 
@@ -10,15 +11,20 @@ namespace SuperShop.Web.Controllers;
 public class AccountController : Controller
 {
     private readonly IUserHelper _userHelper;
+    private readonly ICountryRepository _countryRepository;
 
 
-    public AccountController(IUserHelper userHelper)
+    public AccountController(IUserHelper userHelper,
+        ICountryRepository countryRepository)
     {
         _userHelper = userHelper;
+        _countryRepository = countryRepository;
     }
 
 
     // Aqui o utilizador é reencaminhado para a view de Login
+    // caso não esteja autenticado
+    [HttpGet]
     public IActionResult Login()
     {
         if (User.Identity is {IsAuthenticated: true})
@@ -61,6 +67,9 @@ public class AccountController : Controller
     }
 
 
+    // Aqui o utilizador faz o logout da sua conta
+    // Aqui o utilizador é reencaminhado para a view Index do controlador Home
+    [HttpGet]
     public async Task<IActionResult> LogOut()
     {
         await _userHelper.LogOutAsync();
@@ -69,13 +78,21 @@ public class AccountController : Controller
 
 
     // aqui vai para a view RegisterNewUserViewModel
+    [HttpGet]
     public IActionResult Register()
     {
-        return View();
+        var model = new RegisterNewUserViewModel
+        {
+            Countries = _countryRepository.GetComboCountries(),
+            Cities = _countryRepository.GetComboCities(0)
+        };
+
+
+        return View(model);
     }
 
 
-    // Aqui é que se valida as informações do usuário
+    // Aqui é que se valida as informações do utilizador
     [HttpPost]
     public async Task<IActionResult> Register(RegisterNewUserViewModel model)
     {
@@ -85,12 +102,20 @@ public class AccountController : Controller
 
             if (user == null)
             {
+                var city = await _countryRepository.GetCityAsync(model.CityId);
+
                 user = new User
                 {
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Username,
-                    UserName = model.Username
+                    UserName = model.Username,
+                    Address = model.Address,
+                    PhoneNumber = model.PhoneNumber,
+                    City = city,
+                    // CityId = model.CityId,
+                    // Country = model.CountryId,
+                    CountryId = model.CountryId
                 };
 
 
@@ -121,17 +146,21 @@ public class AccountController : Controller
                 return View(model);
             }
 
-            ModelState.AddModelError(string.Empty, "User already exists.");
+            ModelState.AddModelError(
+                string.Empty, "User already exists.");
             return View(model);
             // return RedirectToAction("Login", "Account");
         }
 
         ModelState.AddModelError(
             string.Empty, "Tem de preencher os campos!");
+
+
         return View(model);
     }
 
 
+    // Aqui o utilizador faz as alterações aos seus dados da sua conta
     [HttpGet]
     public async Task<IActionResult> ChangeUser()
     {
@@ -142,17 +171,22 @@ public class AccountController : Controller
         var model = new ChangeUserViewModel
         {
             FirstName = user.FirstName,
-            LastName = user.LastName
-            // Address = user.Result.Address,
-            // PhoneNumber = user.Result.PhoneNumber,
-            // UserName = user.Result.UserName,
-            // Email = user.Result.Email,
+            LastName = user.LastName,
+            Address = user.Address,
+            PhoneNumber = user.PhoneNumber,
+            Username = user.UserName,
+            Cities = _countryRepository.GetComboCities(user.CountryId),
+            CityId = user.City.Id,
+            Countries = _countryRepository.GetComboCountries(),
+            CountryId = user.CountryId,
+            // Email = user.Email,
         };
 
         return View(model);
     }
 
 
+    // Aqui é que se alteram as informações do utilizador
     [HttpPost]
     public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
     {
@@ -165,10 +199,15 @@ public class AccountController : Controller
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
-            // user.Result.Address,
-            // user.Result.PhoneNumber,
-            // user.Result.UserName,
-            // user.Result.Email,
+            user.Address = model.Address;
+            user.PhoneNumber = model.PhoneNumber;
+            user.UserName = model.Username;
+            // user.City = _countryRepository.GetCityAsync(model.CityId).Result;
+            // user.CountryId =
+            //     _countryRepository.GetCountryAsync(user.City).Result.Id;
+            user.City = await _countryRepository.GetCityAsync(model.CityId);
+            user.CountryId = model.CountryId;
+            // user.Email = model.Username;
 
             var response = await _userHelper.UpdateUserAsync(user);
 
@@ -192,6 +231,7 @@ public class AccountController : Controller
 
         ModelState.AddModelError(
             string.Empty, "Failed to login!");
+
         return View();
     }
 
@@ -238,7 +278,50 @@ public class AccountController : Controller
     }
 
 
+    // Aqui o utilizador obtem a lista de cidades de um determinado pais
+    [HttpPost]
+    // [Route("api/Account/GetCitiesAsync")]
+    [Route("Account/GetCitiesAsync")]
+    public async Task<JsonResult> GetCitiesAsync(int countryId)
+    {
+        var country =
+            await _countryRepository.GetCountryWithCitiesAsync(countryId);
+
+        return Json(country.Cities.OrderBy(c => c.Name));
+    }
+
+
+    // Aqui o utilizador obtem a lista de paises
+    [HttpPost]
+    // [Route("api/Account/GetCitiesAsync")]
+    [Route("Account/GetCountriesAsync")]
+    public Task<JsonResult> GetCountriesAsync()
+    {
+        var country =
+            _countryRepository.GetCountriesWithCitiesEnumerable();
+
+        return Task.FromResult(Json(country.OrderBy(c => c.Name)));
+    }
+
+
+    // https://localhost:5001/Account/NotAuthorized
+    [HttpGet]
     public IActionResult NotAuthorized()
+    {
+        return View();
+    }
+
+
+    // https://localhost:5001/Account/AccessDenied
+    [HttpGet]
+    // public IActionResult AccessDenied()
+    // {
+    //     return View();
+    // }
+
+    // https://localhost:5001/Account/Error
+    [HttpGet]
+    public IActionResult Error()
     {
         return View();
     }

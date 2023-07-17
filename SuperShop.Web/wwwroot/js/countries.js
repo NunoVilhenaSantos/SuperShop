@@ -12,6 +12,8 @@
 <!-- popups para as paginas dos paises -->
 <!-- -->
 <!-- --------------------------------------------------------------------------------------------------------------- -->
+
+
 function handleDeleteCountryModal(event) {
     let button = $(event.relatedTarget);
     let id = button.closest("td").attr("id");

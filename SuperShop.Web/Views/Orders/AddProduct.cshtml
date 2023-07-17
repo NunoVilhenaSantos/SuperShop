@@ -10,6 +10,7 @@
 
 <h2>@ViewData["Title"]</h2>
 
+
 <h4>To Order</h4>
 
 
@@ -36,10 +37,14 @@
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary"/>
-                <a asp-action="Index" class="btn btn-success">Back To List</a>
+                @* <a asp-action="Index" class="btn btn-success">Back To List</a> *@
+                <a asp-action="Create" class="btn btn-success">Back To List</a>
             </div>
         </form>
 
     </div>
 
 </div>
+
+
+<script src="~/js/products.js"></script>
