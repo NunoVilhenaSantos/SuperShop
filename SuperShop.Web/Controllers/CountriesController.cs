@@ -140,7 +140,7 @@ public class CountriesController : Controller
                 model = new CityViewModel
                 {
                     CountryId = country.Id,
-                    CountryName = country.Name,
+                    CountryName = country.Name
                 };
                 break;
             default:

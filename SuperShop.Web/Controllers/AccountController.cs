@@ -10,8 +10,8 @@ namespace SuperShop.Web.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly IUserHelper _userHelper;
     private readonly ICountryRepository _countryRepository;
+    private readonly IUserHelper _userHelper;
 
 
     public AccountController(IUserHelper userHelper,
@@ -178,7 +178,7 @@ public class AccountController : Controller
             Cities = _countryRepository.GetComboCities(user.CountryId),
             CityId = user.City.Id,
             Countries = _countryRepository.GetComboCountries(),
-            CountryId = user.CountryId,
+            CountryId = user.CountryId
             // Email = user.Email,
         };
 

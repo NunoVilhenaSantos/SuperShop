@@ -88,7 +88,6 @@ public class ProductsController : Controller
     public async Task<IActionResult> Create(
         ProductViewModel productViewModel)
     {
-
         if (!ModelState.IsValid) return View(productViewModel);
 
         var filePath = productViewModel.ImageUrl;
