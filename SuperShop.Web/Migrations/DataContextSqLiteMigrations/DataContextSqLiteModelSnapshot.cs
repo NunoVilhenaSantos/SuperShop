@@ -15,7 +15,7 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.19");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.20");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {

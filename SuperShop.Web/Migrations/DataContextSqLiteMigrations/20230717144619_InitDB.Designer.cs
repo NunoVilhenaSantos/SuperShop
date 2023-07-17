@@ -11,13 +11,13 @@ using SuperShop.Web.Data.DataContext;
 namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
 {
     [DbContext(typeof(DataContextSqLite))]
-    [Migration("20230710111116_AddCountriesAndCitiesWithUsersUpdate")]
-    partial class AddCountriesAndCitiesWithUsersUpdate
+    [Migration("20230717144619_InitDB")]
+    partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.19");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.20");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {

@@ -11,13 +11,13 @@ using SuperShop.Web.Data.DataContext;
 namespace SuperShop.Web.Migrations
 {
     [DbContext(typeof(DataContextMsSql))]
-    partial class DataContextMssqlModelSnapshot : ModelSnapshot
+    partial class DataContextMsSqlModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.19")
+                .HasAnnotation("ProductVersion", "6.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);

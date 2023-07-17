@@ -1,10 +1,16 @@
+using System;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using SuperShop.Web.Data;
 using SuperShop.Web.Data.DataContext;
 using SuperShop.Web.Data.Entities;
@@ -51,11 +57,46 @@ public class Startup
             .AddEntityFrameworkStores<DataContextSqLite>();
 
 
-        // este é o por defeito, mas já está definido em cima
-        //services.AddDefaultIdentity<IdentityUser>(
-        //        options =>
-        //            options.SignIn.RequireConfirmedAccount = true)
-        //    .AddEntityFrameworkStores<DataContextMSSQL>();
+        // se estiverem ambos os AddIdentity e AddDefaultIdentity
+        // o AddIdentity sobrepõe o AddDefaultIdentity
+        // mas a aplicação não corre
+        //
+        // já esta no AddIdentity
+        //
+        // senão adicionar aqui
+        //
+        // services.AddDefaultIdentity<IdentityUser>(
+        //         options =>
+        //         {
+        //             options.SignIn.RequireConfirmedAccount = false;
+        //
+        //             // options.SignIn.RequireConfirmedAccount = true;
+        //         })
+        //     .AddEntityFrameworkStores<DataContextMsSql>()
+        //     .AddEntityFrameworkStores<DataContextMySql>()
+        //     .AddEntityFrameworkStores<DataContextSqLite>();
+
+
+        services.Configure<IdentityOptions>(options =>
+        {
+            // Password settings.
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequiredLength = 6;
+            options.Password.RequiredUniqueChars = 1;
+
+            // Lockout settings.
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            options.Lockout.MaxFailedAccessAttempts = 5;
+            options.Lockout.AllowedForNewUsers = true;
+
+            // User settings.
+            options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            options.User.RequireUniqueEmail = false;
+        });
 
 
         services.AddDbContext<DataContextMsSql>(
@@ -102,6 +143,29 @@ public class Startup
         services.AddRazorPages();
 
 
+        // Configurando a autenticação JWT
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters =
+                    new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        ValidIssuer = Configuration["Tokens:Issuer"],
+                        ValidAudience = Configuration["Tokens:Audience"],
+
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(
+                                Encoding.UTF8.GetBytes(
+                                    Configuration["Tokens:Key"]))
+                    };
+            });
+
+
         services
             .AddAuthentication("CookieAuth")
             .AddCookie("CookieAuth",
@@ -116,10 +180,25 @@ public class Startup
                     // config.AccessDeniedPath = "/Home/Authenticate";
                 });
 
+
+        // criado por nos, para configurar o tempo de expiração do cookie
+        // e redirecionar para a página de login
         services.ConfigureApplicationCookie(options =>
         {
             options.LoginPath = "/Account/NotAuthorized";
             options.AccessDeniedPath = "/Account/NotAuthorized";
+        });
+
+
+        services.ConfigureApplicationCookie(options =>
+        {
+            // Cookie settings
+            options.Cookie.HttpOnly = true;
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+            options.LoginPath = "/Identity/Account/Login";
+            options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            options.SlidingExpiration = true;
         });
 
 

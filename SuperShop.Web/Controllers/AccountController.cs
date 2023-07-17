@@ -1,23 +1,33 @@
+using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Data.Repositories;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Models;
 
+
 namespace SuperShop.Web.Controllers;
 
 public class AccountController : Controller
 {
+    private readonly IConfiguration _configuration;
     private readonly ICountryRepository _countryRepository;
     private readonly IUserHelper _userHelper;
 
 
     public AccountController(IUserHelper userHelper,
+        IConfiguration configuration,
         ICountryRepository countryRepository)
     {
         _userHelper = userHelper;
+        _configuration = configuration;
         _countryRepository = countryRepository;
     }
 
@@ -176,7 +186,7 @@ public class AccountController : Controller
             PhoneNumber = user.PhoneNumber,
             Username = user.UserName,
             Cities = _countryRepository.GetComboCities(user.CountryId),
-            CityId = user.City.Id,
+            CityId = user.City?.Id ?? 0,
             Countries = _countryRepository.GetComboCountries(),
             CountryId = user.CountryId
             // Email = user.Email,
@@ -324,5 +334,50 @@ public class AccountController : Controller
     public IActionResult Error()
     {
         return View();
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> CreateToken(
+        [FromBody] LoginViewModel model)
+    {
+        if (!ModelState.IsValid) return BadRequest();
+
+        var user = await _userHelper.GetUserByEmailAsync(model.Username);
+
+        if (user == null) return BadRequest();
+
+        var result = await _userHelper.ValidatePasswordAsync(
+            user, model.Password);
+
+        if (!result.Succeeded) return BadRequest();
+
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+            new Claim(JwtRegisteredClaimNames.Jti,
+                Guid.NewGuid().ToString())
+        };
+
+        var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+
+        var credentials = new SigningCredentials(key,
+            SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            _configuration["Tokens:Issuer"],
+            _configuration["Tokens:Audience"],
+            claims,
+            expires: DateTime.UtcNow.AddDays(15),
+            signingCredentials: credentials);
+
+        var results = new
+        {
+            token = new JwtSecurityTokenHandler().WriteToken(token),
+            expiration = token.ValidTo
+        };
+
+        return Created(string.Empty, results);
     }
 }
