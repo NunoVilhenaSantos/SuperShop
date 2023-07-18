@@ -8,33 +8,35 @@ using SuperShop.Web.Data.DataContext;
 
 #nullable disable
 
-namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
+namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
 {
-    [DbContext(typeof(DataContextSqLite))]
-    [Migration("20230717144619_InitDB")]
+    [DbContext(typeof(DataContextMySql))]
+    [Migration("20230718202038_InitDB")]
     partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.20");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "6.0.20")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
@@ -49,17 +51,17 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -72,17 +74,17 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -94,17 +96,17 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -116,10 +118,10 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -131,16 +133,16 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -151,18 +153,18 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int?>("CountryId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("WasDeleted")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -175,15 +177,15 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("WasDeleted")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -194,20 +196,20 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeliveryDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("OrderDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<bool>("WasDeleted")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -220,23 +222,23 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<double>("Quantity")
-                        .HasColumnType("REAL");
+                        .HasColumnType("double");
 
                     b.Property<bool>("WasDeleted")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -251,24 +253,24 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<double>("Quantity")
-                        .HasColumnType("REAL");
+                        .HasColumnType("double");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<bool>("WasDeleted")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -283,46 +285,40 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<Guid>("ImageId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ImageIdAws")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ImageIdGcp")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ImageUrl")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsAvailable")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("LastPurchase")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("LastSale")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<double>("Stock")
-                        .HasColumnType("REAL");
+                        .HasColumnType("double");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<bool>("WasDeleted")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -334,72 +330,72 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
             modelBuilder.Entity("SuperShop.Web.Data.Entities.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Address")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<int?>("CityId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("CountryId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 

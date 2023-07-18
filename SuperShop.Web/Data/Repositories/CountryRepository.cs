@@ -182,13 +182,21 @@ public class CountryRepository : GenericRepository<Country>, ICountryRepository
 
         if (country == null) return;
 
-        var city = new City {Name = model.Name};
+        var city = new City
+        {
+            Name = model.Name,
+            WasDeleted = false
+        };
 
 
         // assim funciona
         //
         // country.Cities.Add(city);
-        country.Cities.Add(new City {Name = model.Name});
+        country.Cities.Add(new City
+        {
+            Name = model.Name,
+            WasDeleted = false
+        });
 
         _dataContextMsSql.Countries.Update(country);
 

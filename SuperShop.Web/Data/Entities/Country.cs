@@ -9,7 +9,7 @@ public class Country : IEntity
     [Required]
     [DisplayName("Country")]
     [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters.")]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
 
     public ICollection<City> Cities { get; set; }
@@ -21,5 +21,5 @@ public class Country : IEntity
     [Key] [Required] public int Id { get; set; }
 
 
-    [Required] public bool WasDeleted { get; set; }
+    [Required] public required bool WasDeleted { get; set; }
 }

@@ -12,7 +12,7 @@ using SuperShop.Web.Data.DataContext;
 namespace SuperShop.Web.Migrations
 {
     [DbContext(typeof(DataContextMsSql))]
-    [Migration("20230717144600_InitDB")]
+    [Migration("20230718202029_InitDB")]
     partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -308,12 +308,6 @@ namespace SuperShop.Web.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<Guid>("ImageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ImageIdAws")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ImageIdGcp")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImageUrl")

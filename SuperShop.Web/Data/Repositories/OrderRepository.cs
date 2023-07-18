@@ -104,7 +104,8 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
                 Price = product.Price,
                 Product = product,
                 Quantity = model.Quantity,
-                User = user
+                User = user,
+                WasDeleted = false
             };
 
             _dataContextMsSql.OrderDetailTemps.Add(orderDetailTemp);
@@ -168,13 +169,16 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         var order = new Order
         {
             OrderDate = DateTime.UtcNow,
+            WasDeleted = false,
             User = user,
             Items = orderDetailsTemp.Select(odt => new OrderDetail
-            {
-                Price = odt.Product.Price,
-                Product = odt.Product,
-                Quantity = odt.Quantity
-            }).ToList()
+                {
+                    Price = odt.Product.Price,
+                    Product = odt.Product,
+                    Quantity = odt.Quantity,
+                    WasDeleted = false
+                })
+                .ToList(),
         };
 
         // _dataContextMsSql.Orders.Add(order);

@@ -17,12 +17,13 @@ namespace SuperShop.Web.Controllers;
 
 public class AccountController : Controller
 {
+    private readonly IUserHelper _userHelper;
     private readonly IConfiguration _configuration;
     private readonly ICountryRepository _countryRepository;
-    private readonly IUserHelper _userHelper;
 
 
-    public AccountController(IUserHelper userHelper,
+    public AccountController(
+        IUserHelper userHelper,
         IConfiguration configuration,
         ICountryRepository countryRepository)
     {

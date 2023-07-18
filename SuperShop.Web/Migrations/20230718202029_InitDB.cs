@@ -232,8 +232,6 @@ namespace SuperShop.Web.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ImageIdGcp = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ImageIdAws = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LastPurchase = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastSale = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),

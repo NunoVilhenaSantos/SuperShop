@@ -31,12 +31,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.ImageId)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageIdGcp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageIdAws)
-            </th>
 
             <th>
                 @Html.DisplayNameFor(model => model.LastPurchase)
@@ -75,15 +69,7 @@
                          class="img-thumbnail" width="150" height="150" alt="Image"/>
                 </td>
                 <td>
-                    <img src="@Url.Content(item.ImageFullIdUrl)"
-                         class="img-thumbnail" width="150" height="150" alt="Image"/>
-                </td>
-                <td>
-                    <img src="@Url.Content(item.ImageFullIdGcpUrl)"
-                         class="img-thumbnail" width="150" height="150" alt="Image"/>
-                </td>
-                <td>
-                    <img src="@Url.Content(item.ImageFullIdAwsUrl)"
+                    <img src="@Url.Content(item.ImageIdFullUrl)"
                          class="img-thumbnail" width="150" height="150" alt="Image"/>
                 </td>
 

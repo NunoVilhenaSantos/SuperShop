@@ -15,7 +15,7 @@ public class Order : IEntity
     [DataType(DataType.DateTime)]
     [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}",
         ApplyFormatInEditMode = false)]
-    public DateTime OrderDate { get; set; }
+    public required DateTime OrderDate { get; set; }
 
 
     [DisplayName("Delivery Date")]
@@ -25,7 +25,7 @@ public class Order : IEntity
     public DateTime? DeliveryDate { get; set; }
 
 
-    [Required] public User User { get; set; }
+    [Required] public required User User { get; set; }
 
 
     public IEnumerable<OrderDetail> Items { get; set; }
@@ -68,5 +68,5 @@ public class Order : IEntity
 
     [Required]
     [DisplayName("Was Deleted?")]
-    public bool WasDeleted { get; set; }
+    public required bool WasDeleted { get; set; }
 }

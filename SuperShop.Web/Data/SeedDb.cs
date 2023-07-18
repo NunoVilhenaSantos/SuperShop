@@ -15,12 +15,13 @@ public class SeedDb
     // private readonly UserManager<User> _userManager;
 
 
+    private readonly DataContextSqLite _dataContextSqLite;
     private readonly DataContextMsSql _dataContextMsSql;
     private readonly DataContextMySql _dataContextMySql;
-    private readonly DataContextSqLite _dataContextSqLite;
-    private readonly Random _random;
 
     private readonly IUserHelper _userHelper;
+
+    private readonly Random _random;
 
 
     // public SeedDb(DataContextMSSQL dataContextMssql, UserManager<User> userManager)
@@ -54,7 +55,12 @@ public class SeedDb
 
         // adiciona roles ao sistema
         await _userHelper.CheckRoleAsync("Admin");
+        await _userHelper.CheckRoleAsync("Employee");
         await _userHelper.CheckRoleAsync("Customer");
+        await _userHelper.CheckRoleAsync("Manager");
+        await _userHelper.CheckRoleAsync("Salesman");
+        await _userHelper.CheckRoleAsync("Warehouse");
+        await _dataContextMsSql.SaveChangesAsync();
 
 
         AddCitiesAndCountries();
@@ -340,43 +346,80 @@ public class SeedDb
 
 
         var cities = new List<City>();
-        cities.Add(new City {Name = "Luanda"});
-        cities.Add(new City {Name = "Lobito"});
-        cities.Add(new City {Name = "Benguela"});
+        cities.Add(new City
+        {
+            Name = "Luanda", WasDeleted = false
+        });
+        cities.Add(new City
+        {
+            Name = "Lobito", WasDeleted = false
+        });
+        cities.Add(new City
+        {
+            Name = "Benguela", WasDeleted = false
+        });
 
         _dataContextMsSql.Countries.Add(
-            new Country {Name = "Angola", Cities = cities});
+            new Country
+            {
+                Name = "Angola", Cities = cities, WasDeleted = false
+            });
 
 
         cities = new List<City>();
-        cities.Add(new City {Name = "Lisboa"});
-        cities.Add(new City {Name = "Porto"});
-        cities.Add(new City {Name = "Coimbra"});
+        cities.Add(new City
+        {
+            Name = "Lisboa", WasDeleted = false
+        });
+        cities.Add(new City
+        {
+            Name = "Porto", WasDeleted = false
+        });
+        cities.Add(new City
+        {
+            Name = "Coimbra", WasDeleted = false
+        });
 
 
         _dataContextMsSql.Countries.Add(
-            new Country {Name = "Portugal", Cities = cities});
+            new Country
+            {
+                Name = "Portugal", Cities = cities, WasDeleted = false
+            });
 
         cities = new List<City>();
-        cities.Add(new City {Name = "Madrid"});
-        cities.Add(new City {Name = "Salamanca"});
-        cities.Add(new City {Name = "Sevilha"});
+        cities.Add(new City
+        {
+            Name = "Madrid", WasDeleted = false
+        });
+        cities.Add(new City
+        {
+            Name = "Salamanca", WasDeleted = false
+        });
+        cities.Add(new City
+        {
+            Name = "Sevilha", WasDeleted = false
+        });
 
 
         _dataContextMsSql.Countries.Add(
-            new Country {Name = "Espanha", Cities = cities});
+            new Country
+            {
+                Name = "Espanha", Cities = cities, WasDeleted = false
+            });
+
+
+        _dataContextMsSql.SaveChanges();
     }
 
     private void AddProducts(string name, User user)
     {
         var currentDate = DateTime.Now;
 
-        var random = new Random();
-
         // Generate random TimeSpan for
         // LastPurchase and LastSale within a range of 30 days
-        var purchaseTimeSpan = TimeSpan.FromDays(random.Next(30));
-        var saleTimeSpan = TimeSpan.FromDays(random.Next(30));
+        var purchaseTimeSpan = TimeSpan.FromDays(_random.Next(30));
+        var saleTimeSpan = TimeSpan.FromDays(_random.Next(30));
 
         var randomPurchaseDate = currentDate.Subtract(purchaseTimeSpan);
         var randomSaleDate = currentDate.Subtract(saleTimeSpan);
@@ -389,27 +432,17 @@ public class SeedDb
                 Price = _random.Next(100),
 
                 ImageUrl = string.Empty,
-                // Property or indexer 'property'
-                // cannot be assigned to -- it is read only
-                // ImageFullUrl = string.Empty,
                 ImageId = Guid.Empty,
-                // Property or indexer 'property'
-                // cannot be assigned to -- it is read only
-                // ImageFullIdUrl = string.Empty,
-                ImageIdGcp = Guid.Empty,
-                // Property or indexer 'property'
-                // cannot be assigned to -- it is read only
-                // ImageFullIdGcpUrl = string.Empty,
-                ImageIdAws = Guid.Empty,
-                // Property or indexer 'property'
-                // cannot be assigned to -- it is read only
-                // ImageFullIdAwsUrl = string.Empty,
 
                 LastPurchase = randomPurchaseDate,
                 LastSale = randomSaleDate,
                 IsAvailable = true,
                 Stock = _random.Next(10000),
-                User = user
+                User = user,
+                WasDeleted = false
             });
+
+
+        _dataContextMsSql.SaveChanges();
     }
 }

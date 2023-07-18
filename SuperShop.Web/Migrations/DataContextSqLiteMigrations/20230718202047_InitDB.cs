@@ -1,57 +1,51 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
+namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
 {
     public partial class InitDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySQL:Charset", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    WasDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    WasDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Countries", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ClaimType = table.Column<string>(type: "longtext", nullable: true),
-                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false),
+                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
+                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,18 +56,17 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    WasDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    WasDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CountryId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,33 +77,32 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
-                    FirstName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    Address = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
-                    CountryId = table.Column<int>(type: "int", nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "longtext", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    Address = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    CountryId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CityId = table.Column<int>(type: "INTEGER", nullable: true),
+                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -121,18 +113,17 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "Cities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ClaimType = table.Column<string>(type: "longtext", nullable: true),
-                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
+                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -143,17 +134,16 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "longtext", nullable: true),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
+                    ProviderKey = table.Column<string>(type: "TEXT", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -164,15 +154,14 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -189,17 +178,16 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Value = table.Column<string>(type: "longtext", nullable: true)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Value = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -210,19 +198,18 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    OrderDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DeliveryDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    WasDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DeliveryDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    WasDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -233,27 +220,24 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "longtext", nullable: true),
-                    ImageId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    ImageIdGcp = table.Column<Guid>(type: "char(36)", nullable: false),
-                    ImageIdAws = table.Column<Guid>(type: "char(36)", nullable: false),
-                    LastPurchase = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastSale = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsAvailable = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Stock = table.Column<double>(type: "double", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    WasDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    ImageId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    LastPurchase = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    LastSale = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsAvailable = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Stock = table.Column<double>(type: "REAL", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    WasDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -264,20 +248,19 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "OrderDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Quantity = table.Column<double>(type: "double", nullable: false),
-                    WasDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    OrderId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProductId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Price = table.Column<decimal>(type: "TEXT", precision: 18, scale: 2, nullable: false),
+                    Quantity = table.Column<double>(type: "REAL", nullable: false),
+                    WasDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -294,20 +277,19 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "OrderDetailTemps",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Quantity = table.Column<double>(type: "double", nullable: false),
-                    WasDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    ProductId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Price = table.Column<decimal>(type: "TEXT", precision: 18, scale: 2, nullable: false),
+                    Quantity = table.Column<double>(type: "REAL", nullable: false),
+                    WasDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -324,8 +306,7 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -6,30 +6,31 @@ namespace SuperShop.Web.Data.Entities;
 
 public class OrderDetail : IEntity
 {
-    [Required] public Order Order { get; set; }
+    [Required] public  Order Order { get; set; }
 
 
-    [Required] public Product Product { get; set; }
+    [Required] public required Product Product { get; set; }
 
 
-    // [Required]
+    [Required]
     // [Column(TypeName = "decimal(18,2)")]
     [DataType(DataType.Currency)]
     [Precision(18, 2)]
     [DisplayFormat(DataFormatString = "{0:C2}")]
-    public decimal Price { get; set; }
+    public required decimal Price { get; set; }
 
 
-    // [Required]
+    [Required]
     // [DataType(DataType.Custom)]
     [DisplayFormat(DataFormatString = "{0:N2}")]
-    public double Quantity { get; set; }
+    public required double Quantity { get; set; }
 
 
     [DataType(DataType.Currency)]
     [Precision(18, 2)]
     [DisplayFormat(DataFormatString = "{0:C2}")]
     public decimal Value => (decimal) Quantity * Price;
+
 
     [Key]
     // [Required]
@@ -39,5 +40,5 @@ public class OrderDetail : IEntity
 
     [Required]
     [DisplayName("Was Deleted?")]
-    public bool WasDeleted { get; set; }
+    public required bool WasDeleted { get; set; }
 }

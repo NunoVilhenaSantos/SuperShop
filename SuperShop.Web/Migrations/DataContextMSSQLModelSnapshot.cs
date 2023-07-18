@@ -308,12 +308,6 @@ namespace SuperShop.Web.Migrations
                     b.Property<Guid>("ImageId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ImageIdAws")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ImageIdGcp")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 

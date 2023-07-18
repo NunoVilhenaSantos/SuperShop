@@ -288,12 +288,6 @@ namespace SuperShop.Web.Migrations.DataContextMySqlMigrations
                     b.Property<Guid>("ImageId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("ImageIdAws")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("ImageIdGcp")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("ImageUrl")
                         .HasColumnType("longtext");
 

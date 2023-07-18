@@ -286,12 +286,6 @@ namespace SuperShop.Web.Migrations.DataContextSqLiteMigrations
                     b.Property<Guid>("ImageId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ImageIdAws")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ImageIdGcp")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 

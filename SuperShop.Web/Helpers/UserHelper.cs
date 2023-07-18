@@ -19,8 +19,8 @@ public class UserHelper : IUserHelper
     )
     {
         _userManager = userManager;
-        _signInManager = signInManager;
         _roleManager = roleManager;
+        _signInManager = signInManager;
     }
 
 

@@ -39,8 +39,10 @@ public class Startup
         services.AddIdentity<User, IdentityRole>(
                 cfg =>
                 {
+                    // Email settings.
                     cfg.User.RequireUniqueEmail = true;
 
+                    // Password settings.
                     cfg.Password.RequireDigit = false;
                     cfg.Password.RequiredLength = 6;
                     cfg.Password.RequiredUniqueChars = 0;
@@ -48,9 +50,12 @@ public class Startup
                     cfg.Password.RequireLowercase = false;
                     cfg.Password.RequireNonAlphanumeric = false;
 
+                    // SignIn settings.
                     cfg.SignIn.RequireConfirmedEmail = false;
                     cfg.SignIn.RequireConfirmedAccount = false;
                     cfg.SignIn.RequireConfirmedPhoneNumber = false;
+
+                    // Lockout settings.
                 })
             .AddEntityFrameworkStores<DataContextMsSql>()
             .AddEntityFrameworkStores<DataContextMySql>()
@@ -77,26 +82,28 @@ public class Startup
         //     .AddEntityFrameworkStores<DataContextSqLite>();
 
 
-        services.Configure<IdentityOptions>(options =>
-        {
-            // Password settings.
-            options.Password.RequireDigit = true;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireNonAlphanumeric = true;
-            options.Password.RequireUppercase = true;
-            options.Password.RequiredLength = 6;
-            options.Password.RequiredUniqueChars = 1;
-
-            // Lockout settings.
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            options.Lockout.MaxFailedAccessAttempts = 5;
-            options.Lockout.AllowedForNewUsers = true;
-
-            // User settings.
-            options.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            options.User.RequireUniqueEmail = false;
-        });
+        // PRODUCTION
+        // Services for production.
+        // services.Configure<IdentityOptions>(options =>
+        // {
+        //     // Password settings.
+        //     options.Password.RequireDigit = true;
+        //     options.Password.RequireLowercase = true;
+        //     options.Password.RequireNonAlphanumeric = true;
+        //     options.Password.RequireUppercase = true;
+        //     options.Password.RequiredLength = 8;
+        //     options.Password.RequiredUniqueChars = 1;
+        //
+        //     // Lockout settings.
+        //     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        //     options.Lockout.MaxFailedAccessAttempts = 5;
+        //     options.Lockout.AllowedForNewUsers = true;
+        //
+        //     // User settings.
+        //     options.User.AllowedUserNameCharacters =
+        //         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+        //     options.User.RequireUniqueEmail = false;
+        // });
 
 
         services.AddDbContext<DataContextMsSql>(
@@ -245,11 +252,14 @@ public class Startup
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
+
+            // app.UseExceptionHandler("/Home/Error");
         }
         else
         {
             // app.UseExceptionHandler("/Home/Error");
             app.UseExceptionHandler("/Errors/Error");
+
             // The default HSTS value is 30 days.
             // You may want to change this for production scenarios,
             // see https://aka.ms/aspnetcore-hsts.

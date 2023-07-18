@@ -6,6 +6,7 @@
         <IsPackable>true</IsPackable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <EnablePreviewFeatures>true</EnablePreviewFeatures>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -43,6 +44,10 @@
         <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
         <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.13" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8" />
+        <PackageReference Include="RequiredMemberAttribute" Version="1.0.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Serilog" Version="3.0.1" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="Serilog.Sinks.AzureBlobStorage" Version="3.2.0" />
