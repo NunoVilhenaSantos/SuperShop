@@ -5,16 +5,16 @@ namespace SuperShop.Web.Models;
 
 public class LoginViewModel
 {
-    [Required] [EmailAddress] public string Username { get; set; }
+    [Required] [EmailAddress] public required string Username { get; set; }
 
 
     [Required]
     [MinLength(6)]
     [DataType(DataType.Password)]
-    public string Password { get; set; }
+    public required string Password { get; set; }
 
 
     [Required]
     [DisplayName("Remember Me?")]
-    public bool RememberMe { get; set; }
+    public required bool RememberMe { get; set; }
 }

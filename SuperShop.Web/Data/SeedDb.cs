@@ -12,39 +12,39 @@ namespace SuperShop.Web.Data;
 
 public class SeedDb
 {
-    // private readonly UserManager<User> _userManager;
-
-
     private readonly DataContextSqLite _dataContextSqLite;
     private readonly DataContextMsSql _dataContextMsSql;
     private readonly DataContextMySql _dataContextMySql;
 
-    private readonly IUserHelper _userHelper;
+    private readonly UserManager<User> _userManager;
 
+    private readonly IUserHelper _userHelper;
     private readonly Random _random;
 
 
-    // public SeedDb(DataContextMSSQL dataContextMssql, UserManager<User> userManager)
+    // public SeedDb(DataContextMSSQL dataContextMsSql, UserManager<User> userManager)
     public SeedDb(
+        IUserHelper userHelper,
         DataContextMsSql dataContextMsSql,
         DataContextMySql dataContextMySql,
-        DataContextSqLite dataContextSqLite,
-        IUserHelper userHelper)
+        DataContextSqLite dataContextSqLite
+    )
     {
         _random = new Random();
         _userHelper = userHelper;
 
+        // _userManager = userManager;
+
         _dataContextMsSql = dataContextMsSql;
         _dataContextMySql = dataContextMySql;
         _dataContextSqLite = dataContextSqLite;
-        // _userManager = userManager;
     }
 
 
     public async Task SeedAsync()
     {
-        // await _dataContextMssql.Database.EnsureCreatedAsync();
-        // await _dataContextMssql.Database.EnsureCreatedAsync();
+        // await _dataContextMsSql.Database.EnsureCreatedAsync();
+        // await _dataContextMySql.Database.EnsureCreatedAsync();
         // await _dataContextSqLite.Database.EnsureCreatedAsync();
 
 

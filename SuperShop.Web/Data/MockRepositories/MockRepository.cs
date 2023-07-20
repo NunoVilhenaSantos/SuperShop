@@ -12,13 +12,13 @@ namespace SuperShop.Web.Data.MockRepositories;
 
 public class MockRepository : IGenericRepository<Product>
 {
-    private readonly DataContextSqLite _dataContextSqLite;
     private readonly DataContextMsSql _dataContextMsSql;
     private readonly DataContextMySql _dataContextMySql;
-
-    private readonly IUserHelper _userHelper;
+    private readonly DataContextSqLite _dataContextSqLite;
 
     private readonly Random _random;
+
+    private readonly IUserHelper _userHelper;
 
     public MockRepository(
         Random random, IUserHelper userHelper,

@@ -45,7 +45,6 @@ public class Product : IEntity
             ImageId.ToString());
 
 
-
     // [Display(Name = "Thumbnail")]
     // public string ImageThumbnailUrl { get; set; }
     //
@@ -62,7 +61,8 @@ public class Product : IEntity
 
 
     [Required]
-    [Display(Name = "Is Available")] public required bool IsAvailable { get; set; }
+    [Display(Name = "Is Available")]
+    public required bool IsAvailable { get; set; }
 
 
     [Required]

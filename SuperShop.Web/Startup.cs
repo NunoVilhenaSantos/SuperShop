@@ -1,12 +1,13 @@
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,8 +40,12 @@ public class Startup
         services.AddIdentity<User, IdentityRole>(
                 cfg =>
                 {
-                    // Email settings.
+                    // User settings.
+                    //cfg.User.AllowedUserNameCharacters =
+                    //         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                    //cfg.User.RequireUniqueEmail = false;
                     cfg.User.RequireUniqueEmail = true;
+
 
                     // Password settings.
                     cfg.Password.RequireDigit = false;
@@ -50,12 +55,19 @@ public class Startup
                     cfg.Password.RequireLowercase = false;
                     cfg.Password.RequireNonAlphanumeric = false;
 
+
                     // SignIn settings.
                     cfg.SignIn.RequireConfirmedEmail = false;
                     cfg.SignIn.RequireConfirmedAccount = false;
                     cfg.SignIn.RequireConfirmedPhoneNumber = false;
 
                     // Lockout settings.
+                    // Lockout settings.
+                    //     cfg.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                    //     cfg.Lockout.MaxFailedAccessAttempts = 5;
+                    //     cfg.Lockout.AllowedForNewUsers = true;
+                    //
+
                 })
             .AddEntityFrameworkStores<DataContextMsSql>()
             .AddEntityFrameworkStores<DataContextMySql>()
@@ -150,8 +162,10 @@ public class Startup
         services.AddRazorPages();
 
 
+        //
         // Configurando a autenticação JWT
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddCookie()
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters =
@@ -170,7 +184,42 @@ public class Startup
                                 Encoding.UTF8.GetBytes(
                                     Configuration["Tokens:Key"]))
                     };
+
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+
+
+                // Atualize o evento OnAuthenticationFailed
+                //options.Events = new JwtBearerEvents
+                //{
+                //    OnAuthenticationFailed = context =>
+                //    {
+                //        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                //        {
+                //            // Obtenha a data de expiração do token
+                //            var expirationDate = context.SecurityToken.ValidTo;
+
+                //            // Calcule o tempo restante
+                //            var timeRemaining = GetTimeRemaining(expirationDate);
+
+                //            // Adicione um cabeçalho personalizado à resposta HTTP
+                //            context.Response.Headers.Add("Token-Remaining-Time", timeRemaining.TotalDays.ToString());
+                //        }
+                //        return Task.CompletedTask;
+                //    }
+                //};
             });
+
 
 
         services
@@ -192,21 +241,38 @@ public class Startup
         // e redirecionar para a página de login
         services.ConfigureApplicationCookie(options =>
         {
-            options.LoginPath = "/Account/NotAuthorized";
-            options.AccessDeniedPath = "/Account/NotAuthorized";
-        });
-
-
-        services.ConfigureApplicationCookie(options =>
-        {
             // Cookie settings
             options.Cookie.HttpOnly = true;
-            options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-            options.LoginPath = "/Identity/Account/Login";
-            options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            // ExpireTimeSpan settings
+            // options.ExpireTimeSpan = TimeSpan.FromTicks(5);
+            // options.ExpireTimeSpan = TimeSpan.FromMilliseconds(5);
+            // options.ExpireTimeSpan = TimeSpan.FromSeconds(5);
+            // options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+            // options.ExpireTimeSpan = TimeSpan.FromHours(5);
+            // options.ExpireTimeSpan = TimeSpan.FromDays(5);
+
+            options.ExpireTimeSpan = TimeSpan.FromDays(15);
+
+
+            // LoginPath and AccessDeniedPath settings
+            options.LoginPath = "/Account/NotAuthorized";
+            options.AccessDeniedPath = "/Account/NotAuthorized";
+
             options.SlidingExpiration = true;
         });
+
+
+        //services.ConfigureApplicationCookie(options =>
+        //{
+        //    // Cookie settings
+        //    options.Cookie.HttpOnly = true;
+        //    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+        //    options.LoginPath = "/Identity/Account/Login";
+        //    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+        //    options.SlidingExpiration = true;
+        //});
 
 
         //
@@ -227,9 +293,9 @@ public class Startup
 
         //
         // injecting real repositories
-        services.AddScoped<IProductsRepository, ProductRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<ICountryRepository, CountryRepository>();
+        services.AddScoped<IProductsRepository, ProductRepository>();
 
         //
         // injecting cloud repositories
@@ -240,6 +306,14 @@ public class Startup
 
         services.AddControllersWithViews();
     }
+
+
+    // Adicione um método para calcular o tempo restante de expiração do token
+    private TimeSpan GetTimeRemaining(DateTime expirationDate)
+    {
+        return expirationDate - DateTime.UtcNow;
+    }
+
 
 
     // This method gets called by the runtime.

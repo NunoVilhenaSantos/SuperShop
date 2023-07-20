@@ -178,7 +178,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
                     Quantity = odt.Quantity,
                     WasDeleted = false
                 })
-                .ToList(),
+                .ToList()
         };
 
         // _dataContextMsSql.Orders.Add(order);

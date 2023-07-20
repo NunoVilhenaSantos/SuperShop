@@ -24,21 +24,25 @@ public class Program
         var urls =
             $"{urlHttps};{urlHttp}";
 
+
         // CreateHostBuilder(args).Build().Run();
 
-        // var host = CreateHostBuilder(args).Build();
-        var host =
-            CreateHostBuilder(
-                    args, urlHttp, urlHttps, portHttp, portHttps, urls)
-                .Build();
+
+        var host = CreateHostBuilder(args).Build();
+        //var host =
+        //    CreateHostBuilder(
+        //            args, urlHttp, urlHttps, portHttp, portHttps, urls)
+        //        .Build();
+
 
         RunSeeding(host);
 
-        // OpenBrowser(urlHttp);
+
+        OpenBrowser(urlHttp);
         OpenBrowser(urlHttps);
 
-        // host.Run();
 
+        // host.Run();
         host.RunAsync().Wait();
     }
 
@@ -88,6 +92,14 @@ public class Program
                 webBuilder.UseUrls(urls);
             });
     }
+
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
 
 
     private static int GetAvailablePort()

@@ -12,14 +12,13 @@ using SuperShop.Web.Data.Repositories;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Models;
 
-
 namespace SuperShop.Web.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly IUserHelper _userHelper;
-    private readonly IConfiguration _configuration;
     private readonly ICountryRepository _countryRepository;
+    private readonly IConfiguration _configuration;
+    private readonly IUserHelper _userHelper;
 
 
     public AccountController(
@@ -324,11 +323,12 @@ public class AccountController : Controller
 
 
     // https://localhost:5001/Account/AccessDenied
-    [HttpGet]
+    // [HttpGet]
     // public IActionResult AccessDenied()
     // {
     //     return View();
     // }
+
 
     // https://localhost:5001/Account/Error
     [HttpGet]
@@ -338,20 +338,25 @@ public class AccountController : Controller
     }
 
 
+    // https://localhost:5001/Account/CreateToken
+    // [Route("Account/CreateToken")]
     [HttpPost]
     public async Task<IActionResult> CreateToken(
         [FromBody] LoginViewModel model)
     {
         if (!ModelState.IsValid) return BadRequest();
 
+
         var user = await _userHelper.GetUserByEmailAsync(model.Username);
 
         if (user == null) return BadRequest();
+
 
         var result = await _userHelper.ValidatePasswordAsync(
             user, model.Password);
 
         if (!result.Succeeded) return BadRequest();
+
 
         var claims = new[]
         {
@@ -381,4 +386,12 @@ public class AccountController : Controller
 
         return Created(string.Empty, results);
     }
+
+
+    // Adicione um método para calcular o tempo restante de expiração do token
+    private TimeSpan GetTimeRemaining(DateTime expirationDate)
+    {
+        return expirationDate - DateTime.UtcNow;
+    }
+
 }

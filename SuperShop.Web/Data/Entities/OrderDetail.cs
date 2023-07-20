@@ -6,7 +6,7 @@ namespace SuperShop.Web.Data.Entities;
 
 public class OrderDetail : IEntity
 {
-    [Required] public  Order Order { get; set; }
+    [Required] public Order Order { get; set; }
 
 
     [Required] public required Product Product { get; set; }
