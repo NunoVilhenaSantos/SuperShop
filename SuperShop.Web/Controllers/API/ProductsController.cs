@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SuperShop.Web.Data.Repositories;
 using SuperShop.Web.Helpers;
 
-
 namespace SuperShop.Web.Controllers.API;
-
 
 [Route("api/[controller]")]
 [ApiController]

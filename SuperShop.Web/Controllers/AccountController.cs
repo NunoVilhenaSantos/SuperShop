@@ -16,8 +16,8 @@ namespace SuperShop.Web.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly ICountryRepository _countryRepository;
     private readonly IConfiguration _configuration;
+    private readonly ICountryRepository _countryRepository;
     private readonly IUserHelper _userHelper;
 
 
@@ -393,5 +393,4 @@ public class AccountController : Controller
     {
         return expirationDate - DateTime.UtcNow;
     }
-
 }

@@ -1,8 +1,6 @@
 using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +41,6 @@ public class Startup
                     // User settings.
                     //cfg.User.AllowedUserNameCharacters =
                     //         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                    //cfg.User.RequireUniqueEmail = false;
                     cfg.User.RequireUniqueEmail = true;
 
 
@@ -57,18 +54,21 @@ public class Startup
 
 
                     // SignIn settings.
-                    cfg.SignIn.RequireConfirmedEmail = false;
+                    cfg.SignIn.RequireConfirmedEmail = true;
                     cfg.SignIn.RequireConfirmedAccount = false;
                     cfg.SignIn.RequireConfirmedPhoneNumber = false;
 
-                    // Lockout settings.
                     // Lockout settings.
                     //     cfg.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                     //     cfg.Lockout.MaxFailedAccessAttempts = 5;
                     //     cfg.Lockout.AllowedForNewUsers = true;
                     //
 
+                    // Token settings.
+                    cfg.Tokens.AuthenticatorTokenProvider =
+                        TokenOptions.DefaultAuthenticatorProvider;
                 })
+            .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<DataContextMsSql>()
             .AddEntityFrameworkStores<DataContextMySql>()
             .AddEntityFrameworkStores<DataContextSqLite>();
@@ -190,10 +190,11 @@ public class Startup
                 {
                     OnAuthenticationFailed = context =>
                     {
-                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                        {
-                            context.Response.Headers.Add("Token-Expired", "true");
-                        }
+                        if (context.Exception.GetType() ==
+                            typeof(SecurityTokenExpiredException))
+                            context.Response.Headers.Add("Token-Expired",
+                                "true");
+
                         return Task.CompletedTask;
                     }
                 };
@@ -219,7 +220,6 @@ public class Startup
                 //    }
                 //};
             });
-
 
 
         services
@@ -313,7 +313,6 @@ public class Startup
     {
         return expirationDate - DateTime.UtcNow;
     }
-
 
 
     // This method gets called by the runtime.

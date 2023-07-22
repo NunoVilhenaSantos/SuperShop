@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "mssql2": {
+    "mssql1": {
       "serviceConnectorResourceId": "",
       "secretStore": "LocalSecretsFile",
       "type": "mssql.onprem",

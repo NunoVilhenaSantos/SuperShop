@@ -12,14 +12,14 @@ namespace SuperShop.Web.Data;
 
 public class SeedDb
 {
-    private readonly DataContextSqLite _dataContextSqLite;
     private readonly DataContextMsSql _dataContextMsSql;
     private readonly DataContextMySql _dataContextMySql;
-
-    private readonly UserManager<User> _userManager;
+    private readonly DataContextSqLite _dataContextSqLite;
+    private readonly Random _random;
 
     private readonly IUserHelper _userHelper;
-    private readonly Random _random;
+
+    private readonly UserManager<User> _userManager;
 
 
     // public SeedDb(DataContextMSSQL dataContextMsSql, UserManager<User> userManager)
