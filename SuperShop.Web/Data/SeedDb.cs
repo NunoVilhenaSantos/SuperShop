@@ -411,6 +411,8 @@ public class SeedDb
 
         _dataContextMsSql.SaveChanges();
     }
+	
+	
 
     private void AddProducts(string name, User user)
     {
