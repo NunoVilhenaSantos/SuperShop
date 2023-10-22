@@ -29,29 +29,18 @@ public class Product : IEntity
     [Display(Name = "Image")] public string ImageUrl { get; set; }
 
     public string ImageFullUrl => string.IsNullOrEmpty(ImageUrl)
-        ? "https://supershopweb.blob.core.windows.net/noimage/noimage.png"
+        ? "https://supershop.blob.core.windows.net/placeholders/noimage.png"
         : Regex.Replace(ImageUrl, @"^~/products/images/",
-            "https://myleasingnunostorage.blob.core.windows.net/owners/");
+         "https://supershop.blob.core.windows.net/products/");
 
 
     [Display(Name = "Image ID")] public Guid ImageId { get; set; }
 
     public string ImageIdFullUrl => ImageId == Guid.Empty
-        // ? "https://supershopweb.blob.core.windows.net/noimage/noimage.png"
-        // : "https://storage.googleapis.com/storage-ruben/" +
-        //   "/products/" + ImageId;
-        ? "https://supershopcet77.azurewebsites.net/images/noimage.png"
-        : Path.Combine(StorageHelper.GcpStoragePublicUrl, "products",
+        ? "https://supershop.blob.core.windows.net/placeholders/noimage.png"
+        : Path.Combine("https://supershop.blob.core.windows.net/", "products",
             ImageId.ToString());
 
-
-    // [Display(Name = "Thumbnail")]
-    // public string ImageThumbnailUrl { get; set; }
-    //
-    // public string ImageThumbnailFullUrl =>
-    //     string.IsNullOrEmpty(ImageThumbnailUrl)
-    //         ? null
-    //         : $"https://supermarketapi.azurewebsites.net{ImageThumbnailUrl[1..]}";
 
 
     [Display(Name = "Last Purchase")]

@@ -54,7 +54,7 @@ public class Startup
 
 
                     // SignIn settings.
-                    cfg.SignIn.RequireConfirmedEmail = true;
+                    cfg.SignIn.RequireConfirmedEmail = false;
                     cfg.SignIn.RequireConfirmedAccount = false;
                     cfg.SignIn.RequireConfirmedPhoneNumber = false;
 
